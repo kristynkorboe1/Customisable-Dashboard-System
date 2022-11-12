@@ -29,4 +29,8 @@ export default {
         color: var(--light);
         transition: 0.2s ease-out;
     }
+
+    .widget, .widget .material-symbols-outlined {
+            cursor: move;
+    }
 </style>

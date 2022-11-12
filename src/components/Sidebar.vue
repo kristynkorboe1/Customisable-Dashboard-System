@@ -24,51 +24,39 @@
                 </Widget>
 
                 <Widget id="widget2" draggable="true">
-                    <button class="moveable-widget">
-                        <span class="material-symbols-outlined">
-                            bar_chart
-                        </span>
-                    </button>
+                    <span class="material-symbols-outlined">
+                        bar_chart
+                    </span>
                 </Widget>
 
                 <Widget id="widget3" draggable="true">
-                    <button class="moveable-widget">
-                        <span class="material-symbols-outlined">
-                            analytics
-                        </span>
-                    </button>
+                    <span class="material-symbols-outlined">
+                        analytics
+                    </span>
                 </Widget>
 
                 <Widget id="widget4" draggable="true">
-                    <button class="moveable-widget">
-                        <span class="material-symbols-outlined">
-                            insights
-                        </span>
-                    </button>
+                    <span class="material-symbols-outlined">
+                        insights
+                    </span>
                 </Widget>
 
                 <Widget id="widget5" draggable="true">
-                    <button class="moveable-widget">
-                        <span class="material-symbols-outlined">
-                            pie_chart
-                        </span>
-                    </button>
+                    <span class="material-symbols-outlined">
+                        pie_chart
+                    </span>
                 </Widget>
 
                 <Widget id="widget6" draggable="true">
-                    <button class="moveable-widget">
-                        <span class="material-symbols-outlined">
-                            box
-                        </span>
-                    </button>
+                    <span class="material-symbols-outlined">
+                        box
+                    </span>
                 </Widget>
 
                 <Widget id="widget7" draggable="true">
-                    <button class="moveable-widget">
-                        <span class="material-symbols-outlined">
-                            star
-                        </span>
-                    </button>
+                    <span class="material-symbols-outlined">
+                        star
+                    </span>
                 </Widget>
 
             </Board>
@@ -171,6 +159,10 @@ aside {
         
         h2, .board {
             opacity: 1;
+        }
+
+        .widget, .widget .material-symbols-outlined {
+            cursor: move;
         }
     }
 
