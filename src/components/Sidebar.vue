@@ -1,9 +1,12 @@
 <template>
     <aside :class="`${is_expanded && 'is-expanded'}`">
-        <div class="menu-icon">
-            <span class="material-symbols-outlined">
-                menu
-            </span>
+        <div class="home-icon">
+            <router-link to="/" class="button">
+                <span class="material-symbols-outlined">
+                    home
+                </span>
+            </router-link>
+
         </div>
 
         <div class="menu-toggle-wrap">
@@ -84,6 +87,7 @@ const ToggleMenu = () => {
 aside {
 	display: flex;
 	flex-direction: column;
+    min-width: 5rem;
     width: 5rem;
 	min-height: 100vh;
     max-height: 100vh;
@@ -96,14 +100,22 @@ aside {
     transition: 0.2s ease-out;
 
 
-    .menu-icon {
+    .home-icon {
         display: flex;
 
-        .material-symbols-outlined {
+        .button {
+            .material-symbols-outlined {
                 font-size: 2rem;
                 color: var(--light);
                 position: relative;
             }
+
+            &.router-link-exact-active {
+                .material-symbols-outlined {
+                    color: var(--primary);
+                }
+            }
+        }
     }
 
 

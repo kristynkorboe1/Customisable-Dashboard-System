@@ -1,13 +1,16 @@
 <template>
 	<div class="app">
 		<Sidebar />
-
-		<router-view />
+		<div>
+			<Tabs />
+			<keep-alive><router-view /></keep-alive>
+		</div>
 	</div>
 </template>
 
 <script setup>
 import Sidebar from './components/Sidebar.vue'
+import Tabs from './components/Tabs.vue'
 </script>
 
 <style lang="scss">
