@@ -115,6 +115,11 @@ aside {
                     color: var(--primary);
                 }
             }
+            &:hover {
+                .material-symbols-outlined {
+                    color: var(--primary);
+                }
+            }
         }
     }
 
@@ -138,11 +143,11 @@ aside {
         
 
             &:hover {
-                    .material-symbols-outlined {
-                        color: var(--primary);
-                        transform: translateX(0.3rem);
-                    }
+                .material-symbols-outlined {
+                    color: var(--primary);
+                    transform: translateX(0.3rem);
                 }
+            }
         }
     }
 
@@ -158,7 +163,6 @@ aside {
         overflow-y: auto;
 
         .menu-toggle-wrap {
-            top: -2.25rem;
             .menu-toggle {
                 transform: rotate(-180deg);
             }
