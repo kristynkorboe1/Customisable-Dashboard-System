@@ -1,27 +1,28 @@
 <template>
     <div>
-        <h1>Welcome to Your Glucose Board!</h1>
+        <h1>Welcome to Your Meal Board!</h1>
         <p>Drag widgets from the sidebar into the boxes below.</p>
         <p>To move them back into the sidebar, scroll to the bottom and drag them below the last widget.</p>
 
         <main class="flexbox">
-                <Board id="board1">
-                </Board>
+            
+            <Board id="board1">
+            </Board>
 
-                <Board id="board2">
-                </Board>
+            <Board id="board2">
+            </Board>
 
-                <Board id="board3">
-                </Board>
+            <Board id="board3">
+            </Board>
 
-                <Board id="board4">
-                </Board>
-                
-                <Board id="board5">
-                </Board>
+            <Board id="board4">
+            </Board>
+            
+            <Board id="board5">
+            </Board>
 
-                <Board id="board6">
-                </Board>
+            <Board id="board6">
+            </Board>
         </main> 
     </div>
     
@@ -33,7 +34,7 @@ import Widget from '../components/Widget.vue'
 import BarChart from '../components/BarChart.vue'
 
 export default {
-    name: "Tab1",
+    name: "Tab2",
     components: {
         Board,
         Widget,

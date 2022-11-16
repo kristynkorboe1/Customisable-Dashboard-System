@@ -1,5 +1,5 @@
 <template>
-    <div id="home">
+    <div>
         <h1>Welcome to Your Exercise Board!</h1>
         <p>Drag widgets from the sidebar into the boxes below.</p>
         <p>To move them back into the sidebar, scroll to the bottom and drag them below the last widget.</p>
@@ -34,7 +34,7 @@ import Widget from '../components/Widget.vue'
 import BarChart from '../components/BarChart.vue'
 
 export default {
-    name: 'tab2',
+    name: "Tab2",
     components: {
         Board,
         Widget,

@@ -3,7 +3,9 @@
 		<Sidebar />
 		<div>
 			<Tabs />
-			<keep-alive><router-view /></keep-alive>
+			<!-- <keep-alive>
+				<router-view />
+			</keep-alive> -->
 		</div>
 	</div>
 </template>
@@ -38,6 +40,9 @@ button {
 	background: none;
 }
 .app {
+	overflow-y: hidden;
+	min-height: 100vh;
+    max-height: 100vh;
 	display: flex;
 	main {
 		flex: 1 1 0;

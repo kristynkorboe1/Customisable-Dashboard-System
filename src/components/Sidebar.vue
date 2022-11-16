@@ -1,13 +1,12 @@
 <template>
     <aside :class="`${is_expanded && 'is-expanded'}`">
-        <div class="home-icon">
+        <!-- <div class="home-icon">
             <router-link to="/" class="button">
                 <span class="material-symbols-outlined">
                     home
                 </span>
             </router-link>
-
-        </div>
+        </div> -->
 
         <div class="menu-toggle-wrap">
             <button class="menu-toggle" @click="ToggleMenu">
@@ -92,7 +91,7 @@ aside {
 	min-height: 100vh;
     max-height: 100vh;
     padding: 1.5rem;
-    overflow: hidden;
+    // overflow: hidden;
 
 	background-color: var(--dark-alt);
 	color: var(--light);
@@ -100,28 +99,28 @@ aside {
     transition: 0.2s ease-out;
 
 
-    .home-icon {
-        display: flex;
+    // .home-icon {
+    //     display: flex;
 
-        .button {
-            .material-symbols-outlined {
-                font-size: 2rem;
-                color: var(--light);
-                position: relative;
-            }
+    //     .button {
+    //         .material-symbols-outlined {
+    //             font-size: 2rem;
+    //             color: var(--light);
+    //             position: relative;
+    //         }
 
-            &.router-link-exact-active {
-                .material-symbols-outlined {
-                    color: var(--primary);
-                }
-            }
-            &:hover {
-                .material-symbols-outlined {
-                    color: var(--primary);
-                }
-            }
-        }
-    }
+    //         &.router-link-exact-active {
+    //             .material-symbols-outlined {
+    //                 color: var(--primary);
+    //             }
+    //         }
+    //         &:hover {
+    //             .material-symbols-outlined {
+    //                 color: var(--primary);
+    //             }
+    //         }
+    //     }
+    // }
 
 
     .menu-toggle-wrap {
