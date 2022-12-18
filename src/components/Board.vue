@@ -3,8 +3,7 @@
         :id="id"
         class="board"
         @dragover.prevent
-        @drop.prevent="drop"
-    >
+        @drop.prevent="drop">
         <slot />
     </div>
 </template>
@@ -31,6 +30,7 @@ export default {
     }
 
     .widget, .widget .material-symbols-outlined {
-            cursor: move;
+        cursor: move;
     }
+
 </style>

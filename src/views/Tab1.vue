@@ -1,26 +1,52 @@
 <template>
-    <div>
-        <h1>Welcome to Your Glucose Board!</h1>
+    <div class="tab">
+        <h2>Welcome to Your {{ tabNameP }}!</h2>
         <p>Drag widgets from the sidebar into the boxes below.</p>
         <p>To move them back into the sidebar, scroll to the bottom and drag them below the last widget.</p>
 
         <main class="flexbox">
                 <Board id="board1">
+                    <widget id="widget1" draggable="true">
+                        <textarea
+                            v-model="value"
+                            ref="textarea"
+                            rows="17"
+                            cols="37"
+                            @focus="resize"
+                            @keyup="resize"
+                            placeholder=" Add notes here...">
+                        </textarea>
+                    </widget>
                 </Board>
 
                 <Board id="board2">
+                    <Widget id="widget2" draggable="true">
+                        <BarChart />
+                    </Widget>
                 </Board>
 
                 <Board id="board3">
+                    <Widget id="widget2" draggable="true">
+                        <BarChart />
+                    </Widget>
                 </Board>
 
                 <Board id="board4">
+                    <Widget id="widget2" draggable="true">
+                        <BarChart />
+                    </Widget>
                 </Board>
                 
                 <Board id="board5">
+                    <Widget id="widget2" draggable="true">
+                        <BarChart />
+                    </Widget>
                 </Board>
 
                 <Board id="board6">
+                    <Widget id="widget2" draggable="true">
+                        <BarChart />
+                    </Widget>
                 </Board>
         </main> 
     </div>
@@ -34,11 +60,17 @@ import BarChart from '../components/BarChart.vue'
 
 export default {
     name: "Tab1",
+    props: {
+        tabNameP: {
+            type: String,
+            default: 'Glucose Board'
+            }
+    },
     components: {
         Board,
         Widget,
         BarChart
-    }
+    },
 }
 </script>
 
@@ -62,22 +94,25 @@ export default {
     .flexbox .board {
        width: 390px;
        height: 390px;
-       background-color: var(--dark);
+       background-color: var(--dark-alt);
        padding: 15px;
+       overflow: auto;
+       resize: both;
     }
 
     .flexbox .board .widget {
        padding: 15px 25px;
        background-color: var(--dark-alt);
        margin-bottom: 15px;
-
     }
 
     .flexbox .board .widget .material-symbols-outlined {
         font-size: 12rem;
         color: var(--light);
-        transition: 0.2s ease-out;
-        cursor: pointer;
+    }
+
+    .flexbox .board .widget .textarea {
+        color: var(--dark-alt);
     }
 
     h1, p {

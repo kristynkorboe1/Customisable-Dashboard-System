@@ -1,12 +1,5 @@
 <template>
     <aside :class="`${is_expanded && 'is-expanded'}`">
-        <!-- <div class="home-icon">
-            <router-link to="/" class="button">
-                <span class="material-symbols-outlined">
-                    home
-                </span>
-            </router-link>
-        </div> -->
 
         <div class="menu-toggle-wrap">
             <button class="menu-toggle" @click="ToggleMenu">
@@ -21,41 +14,52 @@
         <div class="menu">
 
             <Board id="main-board">
-                <Widget id="widget1" draggable="true">
+            
+                <widget id="widget1" draggable="true">
+                    <textarea
+                        v-model="value"
+                        ref="textarea"
+                        rows="2"
+                        @focus="resize"
+                        @keyup="resize">
+                    </textarea>
+                </widget>
+
+                <Widget id="widget2" draggable="true">
                     <BarChart />
                 </Widget>
 
-                <Widget id="widget2" draggable="true">
+                <Widget id="widget3" draggable="true">
                     <span class="material-symbols-outlined">
                         bar_chart
                     </span>
                 </Widget>
 
-                <Widget id="widget3" draggable="true">
+                <Widget id="widget4" draggable="true">
                     <span class="material-symbols-outlined">
                         analytics
                     </span>
                 </Widget>
 
-                <Widget id="widget4" draggable="true">
+                <Widget id="widget5" draggable="true">
                     <span class="material-symbols-outlined">
                         insights
                     </span>
                 </Widget>
 
-                <Widget id="widget5" draggable="true">
+                <Widget id="widget6" draggable="true">
                     <span class="material-symbols-outlined">
                         pie_chart
                     </span>
                 </Widget>
 
-                <Widget id="widget6" draggable="true">
+                <Widget id="widget7" draggable="true">
                     <span class="material-symbols-outlined">
                         box
                     </span>
                 </Widget>
 
-                <Widget id="widget7" draggable="true">
+                <Widget id="widget8" draggable="true">
                     <span class="material-symbols-outlined">
                         star
                     </span>
@@ -79,8 +83,28 @@ const is_expanded = ref(false)
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
 }
-
 </script>
+
+<script>
+  export default {
+    props: {
+      value: {
+        type: String,
+        required: true,
+      }
+    },
+    mounted() {
+      this.resize();
+    },
+    methods: {
+      resize() {
+        const { textarea } = this.$refs;
+        textarea.style.height = textarea.scrollHeight - 4 + 'px';
+      }
+    }
+  }
+</script>
+
 
 <style lang="scss" scoped>
 aside {
@@ -91,37 +115,10 @@ aside {
 	min-height: 100vh;
     max-height: 100vh;
     padding: 1.5rem;
-    // overflow: hidden;
-
 	background-color: var(--dark-alt);
 	color: var(--light);
 	
     transition: 0.2s ease-out;
-
-
-    // .home-icon {
-    //     display: flex;
-
-    //     .button {
-    //         .material-symbols-outlined {
-    //             font-size: 2rem;
-    //             color: var(--light);
-    //             position: relative;
-    //         }
-
-    //         &.router-link-exact-active {
-    //             .material-symbols-outlined {
-    //                 color: var(--primary);
-    //             }
-    //         }
-    //         &:hover {
-    //             .material-symbols-outlined {
-    //                 color: var(--primary);
-    //             }
-    //         }
-    //     }
-    // }
-
 
     .menu-toggle-wrap {
         display: flex;
@@ -152,7 +149,6 @@ aside {
 
     h2, .board {
         opacity: 0;
-        transition: 0.3s ease-in-out;
         text-align: center;
     }
 
@@ -179,6 +175,7 @@ aside {
         .widget, .widget .material-symbols-outlined {
             cursor: move;
         }
+
     }
 
     .menu {

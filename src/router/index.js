@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Tab1 from '../views/Tab1.vue'
-import Tab2 from '../views/Tab2.vue'
+import Tabs from '../components/Tabs.vue'
 import Home from '../views/Home.vue'
 
 const router = createRouter({
@@ -8,17 +7,13 @@ const router = createRouter({
     mode: "history",
     routes: [
         {
-            path: '/',
+            path: '/addTab',
             component: Home
             },
         {
-            path: '/Tab1',
-            component: Tab1
+            path: '/Tabs',
+            component: Tabs
             },
-        {
-            path: '/Tab2',
-            component: Tab2
-            }
     ]
 })
 

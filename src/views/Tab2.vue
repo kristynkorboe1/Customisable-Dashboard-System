@@ -1,27 +1,18 @@
 <template>
     <div>
-        <h1>Welcome to Your Exercise Board!</h1>
-        <p>Drag widgets from the sidebar into the boxes below.</p>
-        <p>To move them back into the sidebar, scroll to the bottom and drag them below the last widget.</p>
+        <h2>Welcome to Your Exercise Board!</h2>
+        <!-- <p>Drag widgets from the sidebar into the boxes below.</p>
+        <p>To move them back into the sidebar, scroll to the bottom and drag them below the last widget.</p> -->
+
+        <button @click="addBoard">
+            Add new dropzone
+        </button>
 
         <main class="flexbox">
-            
-            <Board id="board1">
-            </Board>
-
-            <Board id="board2">
-            </Board>
-
-            <Board id="board3">
-            </Board>
-
-            <Board id="board4">
-            </Board>
-            
-            <Board id="board5">
-            </Board>
-
-            <Board id="board6">
+            <Board 
+                v-for="(board, index) in boards"
+                :key="index"
+                id=index>
             </Board>
         </main> 
     </div>
@@ -39,7 +30,22 @@ export default {
         Board,
         Widget,
         BarChart
-    }
+    },
+    data() {
+		return {
+			boards: [
+				{id: 1},
+                {id: 2},
+                {id: 3},
+                
+			]
+		}
+	},
+    methods: {
+		addBoard (){ 
+			this.boards.push({id: this.boards.length+1});
+		},
+	},
 }
 </script>
 
@@ -63,15 +69,16 @@ export default {
     .flexbox .board {
        width: 390px;
        height: 390px;
-       background-color: var(--dark);
+       background-color: var(--dark-alt);
        padding: 15px;
+       overflow: auto;
+       resize: both;
     }
 
     .flexbox .board .widget {
        padding: 15px 25px;
        background-color: var(--dark-alt);
        margin-bottom: 15px;
-
     }
 
     .flexbox .board .widget .material-symbols-outlined {
@@ -83,5 +90,13 @@ export default {
 
     h1, p {
         color: var(--dark);
+    }
+    button {
+        background-color: var(--light);
+        border: 2px solid var(--dark-alt);
+        border-radius: 4px;
+        padding: 0.3rem 0.3rem;
+        color: var(--dark);
+        font-size: 0.7rem;
     }
 </style>
