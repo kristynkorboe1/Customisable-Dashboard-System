@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Welcome to Board4!</h2>
+        <h2>Welcome to Board 4!</h2>
         
         <button class="newBoard" @click="addBoard">
             Add new dropzone

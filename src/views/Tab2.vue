@@ -1,10 +1,8 @@
 <template>
     <div>
         <h2>Welcome to Your Exercise Board!</h2>
-        <!-- <p>Drag widgets from the sidebar into the boxes below.</p>
-        <p>To move them back into the sidebar, scroll to the bottom and drag them below the last widget.</p> -->
-
-        <button @click="addBoard">
+        
+        <button class="newBoard" @click="addBoard">
             Add new dropzone
         </button>
 
