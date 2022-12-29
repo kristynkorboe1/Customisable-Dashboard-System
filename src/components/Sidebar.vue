@@ -14,8 +14,17 @@
         <div class="menu">
 
             <Board id="main-board">
+                
+                <select>
+                    <option value="" disabled selected>Select widget to add to sidebar</option>
+                    <option value="basal" @click="addWidget('basal')">Basal insulin chart</option>
+                    <option value="bolus" @click="addWidget('bolus')">Bolus insulin chart</option>
+                    <option value="carb" @click="addWidget('carb')">Carbohydrate chart</option>
+                    <option value="glucose" @click="addWidget('glucose')">Glucose chart</option>
+                    <option value="physical" @click="addWidget('physical')">Physical activity chart</option>
+                </select>
             
-                <widget id="widgeta" draggable="true">
+                <!-- <widget id="widgeta" draggable="true">
                     <textarea
                         v-model="value"
                         ref="textarea"
@@ -23,7 +32,7 @@
                         @focus="resize"
                         @keyup="resize">
                     </textarea>
-                </widget>
+                </widget> -->
 
                 <Widget id="widgetb" draggable="true">
                     <BarChart />
@@ -46,6 +55,45 @@
                 </Widget>
 
                 <Widget id="widgetg" draggable="true">
+                    <PhysicalActivityChart />
+                </Widget>
+
+                <Widget
+                    v-if="widgets.indexOf('basal') !== -1" 
+                    id="widgets.indexOf('basal')"
+                    :draggable="true">
+                    <BasalInsulinChart />
+                </Widget>
+
+                <Widget
+                    v-if="widgets.indexOf('bolus') !== -1" 
+                    :key="index"
+                    id="widgets.indexOf('bolus')"
+                    :draggable="true">
+                    <BolusInsulinChart />
+                </Widget>
+
+                <Widget
+                    v-if="widgets.indexOf('carb') !== -1" 
+                    :key="index"
+                    id="widgets.indexOf('carb')"
+                    :draggable="true">
+                    <CarbohydrateChart />
+                </Widget>
+
+                <Widget
+                    v-if="widgets.indexOf('glucose') !== -1"
+                    :key="index"
+                    id="widgets.indexOf('glucose')"
+                    :draggable="true">
+                    <GlucoseChart />
+                </Widget>
+
+                <Widget
+                    v-if="widgets.indexOf('physical') !== -1" 
+                    :key="index"
+                    id="widgets.indexOf('physical')"
+                    :draggable="true">
                     <PhysicalActivityChart />
                 </Widget>
 
@@ -88,25 +136,21 @@ const ToggleMenu = () => {
     },
     data() {
 		return {
-			charts: [
-                GlucoseChart,
-                BasalInsulinChart,
-                BolusInsulinChart,
-                CarbohydrateChart,
-                PhysicalActivityChart,
-                // TIRChart,
-                // KPIVue
-			]
+			widgets: [
+			] 
 		}
 	},
-    mounted() {
-      this.resize();
-    },
+    // mounted() {
+    //   this.resize();
+    // },
     methods: {
-      resize() {
-        const { textarea } = this.$refs;
-        textarea.style.height = textarea.scrollHeight - 4 + 'px';
-      }
+    //   resize() {
+    //     const { textarea } = this.$refs;
+    //     textarea.style.height = textarea.scrollHeight - 4 + 'px';
+    //   },
+      addWidget (inpWidget){ 
+            this.widgets.push(inpWidget);
+		},
     }
   }
 </script>

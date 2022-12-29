@@ -4,8 +4,7 @@
         class="widget"
         :draggable="draggable"
         @dragstart="dragStart"
-        @dragover.stop
-    >
+        @dragover.stop>
         <slot />
     </div>
 </template>

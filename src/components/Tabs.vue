@@ -41,6 +41,7 @@ import Tab7 from '../views/Tab7.vue'
 import Tab8 from '../views/Tab8.vue'
 import Tab9 from '../views/Tab9.vue'
 import Tab10 from '../views/Tab10.vue'
+
 export default {
 	name: "Tabs",
 	components: {

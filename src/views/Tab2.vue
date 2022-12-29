@@ -3,7 +3,7 @@
         :id="id">
         <slot />
         
-        <p class="desc" contenteditable="true" placeholder="Type tab description here..."></p>
+        <p class="desc" contenteditable="true" placeholder="Type notes here..."></p>
         
         <button class="newBoard" @click="addBoard">
             Add new dropzone
@@ -115,6 +115,7 @@ export default {
             width: 500px;
             height: 70px;
             background: var(--light);
+            overflow:scroll;
         }
 
         .desc[placeholder]:empty:before {

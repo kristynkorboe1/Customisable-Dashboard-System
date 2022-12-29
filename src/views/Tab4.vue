@@ -1,7 +1,6 @@
 <template>
     <div>
-        <p class="desc" contenteditable="true" placeholder="Type tab description here..."></p>
-        
+        <p class="desc" contenteditable="true" placeholder="Type notes here..."></p>
         
         <button class="newBoard" @click="addBoard">
             Add new dropzone

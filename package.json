@@ -10,19 +10,25 @@
   },
   "dependencies": {
     "@types/chart.js": "^2.9.37",
+    "b-dropdown": "^0.1.2",
     "bootstrap": "^5.2.3",
+    "bootstrap-vue": "^2.23.1",
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "date-fns": "^2.29.3",
+    "exports-loader": "^4.0.0",
     "html": "^1.0.0",
+    "jquery": "^3.6.3",
+    "popper.js": "^1.16.1",
     "postgres": "^3.3.2",
-    "vue": "^3.2.41",
+    "vue": "^3.2.45",
     "vue-autosize-input": "^0.1.1",
     "vue-chartjs": "^4.1.2",
     "vue-input-autowidth": "^1.0.11",
     "vue-material-design-icons": "^5.1.2",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vue-simple-search-dropdown": "^1.0.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",

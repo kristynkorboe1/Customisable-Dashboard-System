@@ -10,29 +10,25 @@
 
         <main class="flexbox">
             <Board id="board1">
-                <widget id="widget1" draggable="true">
-                    <textarea
-                        v-model="value"
-                        ref="textarea"
-                        rows="17"
-                        cols="37"
-                        @focus="resize"
-                        @keyup="resize"
-                        placeholder=" Add notes here...">
-                    </textarea>
-                </widget>
+                <BasalInsulinChart />
             </Board>
 
             <Board id="board2">
-                <Widget id="widget2" draggable="true">
-                    <BarChart />
-                </Widget>
+                <!-- <Widget id="widget2" draggable="true"> -->
+                    <BolusInsulinChart />
+                <!-- </Widget> -->
             </Board>
 
             <Board id="board3">
-                <Widget id="widget3" draggable="true">
-                    <BarChart />
-                </Widget>
+                <!-- <Widget id="widget3" draggable="true"> -->
+                    <CarbohydrateChart />
+                <!-- </Widget> -->
+            </Board>
+
+            <Board id="board4">
+                <!-- <Widget id="widget4" draggable="true"> -->
+                    <GlucoseChart />
+                <!-- </Widget> -->
             </Board>
 
             <Board 
@@ -49,6 +45,10 @@
 import Board from '../components/Board.vue'
 import Widget from '../components/Widget.vue'
 import BarChart from '../components/BarChart.vue'
+import BasalInsulinChart from '../components/BasalInsulinChart.vue'
+import BolusInsulinChart from '../components/BolusInsulinChart.vue'
+import CarbohydrateChart from '../components/CarbohydrateChart.vue'
+import GlucoseChart from '../components/GlucoseChart.vue'
 
 export default {
     name: "Tab1",
@@ -61,14 +61,14 @@ export default {
     components: {
         Board,
         Widget,
-        BarChart
+        GlucoseChart,
+        BasalInsulinChart,
+        BolusInsulinChart,
+        CarbohydrateChart,
     },
     data() {
 		return {
-			boards: [
-				{id: 1},
-                {id: 2},
-                {id: 3},  
+			boards: [ 
 			]
 		}
 	},
@@ -98,7 +98,7 @@ export default {
     }
 
     .flexbox .board {
-       width: 390px;
+       width: 1170px;
        height: 390px;
        background-color: var(--dark-alt);
        padding: 15px;
@@ -111,11 +111,6 @@ export default {
        background-color: var(--dark-alt);
        margin-bottom: 15px;
     }
-
-    /* .flexbox .board .widget .material-symbols-outlined {
-        font-size: 12rem;
-        color: var(--light);
-    } */
 
     h1, p {
         color: var(--dark);
