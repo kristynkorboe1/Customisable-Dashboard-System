@@ -15,7 +15,7 @@
 
             <Board id="main-board">
             
-                <widget id="widget1" draggable="true">
+                <widget id="widgeta" draggable="true">
                     <textarea
                         v-model="value"
                         ref="textarea"
@@ -25,44 +25,28 @@
                     </textarea>
                 </widget>
 
-                <Widget id="widget2" draggable="true">
+                <Widget id="widgetb" draggable="true">
                     <BarChart />
                 </Widget>
 
-                <Widget id="widget3" draggable="true">
-                    <span class="material-symbols-outlined">
-                        bar_chart
-                    </span>
+                <Widget id="widgetc" draggable="true">
+                    <BasalInsulinChart />
+                </Widget>
+                
+                <Widget id="widgetd" draggable="true">
+                    <BolusInsulinChart />
                 </Widget>
 
-                <Widget id="widget4" draggable="true">
-                    <span class="material-symbols-outlined">
-                        analytics
-                    </span>
+                <Widget id="widgete" draggable="true">
+                    <CarbohydrateChart />
                 </Widget>
 
-                <Widget id="widget5" draggable="true">
-                    <span class="material-symbols-outlined">
-                        insights
-                    </span>
+                <Widget id="widgetf" draggable="true">
+                    <GlucoseChart />
                 </Widget>
 
-                <Widget id="widget6" draggable="true">
-                    <span class="material-symbols-outlined">
-                        pie_chart
-                    </span>
-                </Widget>
-
-                <Widget id="widget7" draggable="true">
-                    <span class="material-symbols-outlined">
-                        box
-                    </span>
-                </Widget>
-
-                <Widget id="widget8" draggable="true">
-                    <span class="material-symbols-outlined">
-                        star
-                    </span>
+                <Widget id="widgetg" draggable="true">
+                    <PhysicalActivityChart />
                 </Widget>
 
             </Board>
@@ -76,6 +60,14 @@ import { ref } from 'vue'
 import Board from '../components/Board.vue'
 import Widget from '../components/Widget.vue'
 import BarChart from '../components/BarChart.vue'
+import BasalInsulinChart from '../components/BasalInsulinChart.vue'
+import BolusInsulinChart from '../components/BolusInsulinChart.vue'
+import CarbohydrateChart from '../components/CarbohydrateChart.vue'
+import GlucoseChart from '../components/GlucoseChart.vue'
+import PhysicalActivityChart from '../components/PhysicalActivityChart.vue'
+import TIRChart from '../components/TIRChart.vue'
+import KPIVue from '../components/KPI.vue'
+import IntervalModal from '../components/IntervalModal.vue'
 
 
 const is_expanded = ref(false)
@@ -87,12 +79,26 @@ const ToggleMenu = () => {
 
 <script>
   export default {
+    components: { Board, Widget, BarChart, GlucoseChart, BasalInsulinChart, BolusInsulinChart, CarbohydrateChart, PhysicalActivityChart, TIRChart, KPIVue, IntervalModal },
     props: {
       value: {
         type: String,
         required: true,
       }
     },
+    data() {
+		return {
+			charts: [
+                GlucoseChart,
+                BasalInsulinChart,
+                BolusInsulinChart,
+                CarbohydrateChart,
+                PhysicalActivityChart,
+                // TIRChart,
+                // KPIVue
+			]
+		}
+	},
     mounted() {
       this.resize();
     },
@@ -172,8 +178,9 @@ aside {
             opacity: 1;
         }
 
-        .widget, .widget .material-symbols-outlined {
+        .widget {
             cursor: move;
+            padding-top: 2rem;
         }
 
     }

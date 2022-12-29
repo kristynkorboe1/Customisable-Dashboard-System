@@ -1,4 +1,4 @@
-<template>
+    <template>
     <div class="tab">
         <h2>Welcome to Your {{ tabNameP }}!</h2>
         <p>Drag widgets from the sidebar into the boxes below.</p>
@@ -30,25 +30,7 @@
             </Board>
 
             <Board id="board3">
-                <Widget id="widget2" draggable="true">
-                    <BarChart />
-                </Widget>
-            </Board>
-
-            <Board id="board4">
-                <Widget id="widget2" draggable="true">
-                    <BarChart />
-                </Widget>
-            </Board>
-            
-            <Board id="board5">
-                <Widget id="widget2" draggable="true">
-                    <BarChart />
-                </Widget>
-            </Board>
-
-            <Board id="board6">
-                <Widget id="widget2" draggable="true">
+                <Widget id="widget3" draggable="true">
                     <BarChart />
                 </Widget>
             </Board>
@@ -73,7 +55,7 @@ export default {
     props: {
         tabNameP: {
             type: String,
-            default: 'Glucose Board'
+            default: 'Dashboard'
             }
     },
     components: {
@@ -84,6 +66,9 @@ export default {
     data() {
 		return {
 			boards: [
+				{id: 1},
+                {id: 2},
+                {id: 3},  
 			]
 		}
 	},
@@ -127,10 +112,10 @@ export default {
        margin-bottom: 15px;
     }
 
-    .flexbox .board .widget .material-symbols-outlined {
+    /* .flexbox .board .widget .material-symbols-outlined {
         font-size: 12rem;
         color: var(--light);
-    }
+    } */
 
     h1, p {
         color: var(--dark);

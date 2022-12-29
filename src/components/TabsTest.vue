@@ -4,7 +4,7 @@
 			<button
 				v-for="(tab, index) in tabConfigs" 
 				:key="index"
-				@click="activeTab = tab.config">
+				@click=setActiveTab(index,tab.name)>
 				{{ tab.name }}
 			</button>
 		</div>
@@ -22,64 +22,87 @@
 				</button>
 		</div>
 
-		<keep-alive>
+		<Tab2 
+			v-for="(activeTab, index) in active"
+			:key=index
+			:tabNameP=activeName
+			id=index+1>
+		</Tab2>
+
+		<!-- <Tab2 
+			:id=activeID
+			:tabNameP=activeID>
+		</Tab2> -->
+
+		<!-- <keep-alive>
 			<component :is="activeTab">
 			</component>
-		</keep-alive>
+		</keep-alive> -->
     </div>
 
 </template>
 
 <script>
-import Tab1 from '../views/Tab1.vue'
+// import Tab1 from '../views/Tab1.vue'
 import Tab2 from '../views/Tab2.vue'
-import Tab3 from '../views/Tab3.vue'
-import Tab4 from '../views/Tab4.vue'
-import Tab5 from '../views/Tab5.vue'
-import Tab6 from '../views/Tab6.vue'
-import Tab7 from '../views/Tab7.vue'
-import Tab8 from '../views/Tab8.vue'
-import Tab9 from '../views/Tab9.vue'
-import Tab10 from '../views/Tab10.vue'
+// import Tab3 from '../views/Tab3.vue'
+// import Tab4 from '../views/Tab4.vue'
+// import Tab5 from '../views/Tab5.vue'
+// import Tab6 from '../views/Tab6.vue'
+// import Tab7 from '../views/Tab7.vue'
+// import Tab8 from '../views/Tab8.vue'
+// import Tab9 from '../views/Tab9.vue'
+// import Tab10 from '../views/Tab10.vue'
+
 export default {
 	name: "Tabs",
 	components: {
-		Tab1,
+	// 	Tab1,
 		Tab2,
-		Tab3,
-		Tab4,
-		Tab5,
-		Tab6,
-		Tab7,
-		Tab8,
-		Tab9,
-		Tab10
+	// 	Tab3,
+	// 	Tab4,
+	// 	Tab5,
+	// 	Tab6,
+	// 	Tab7,
+	// 	Tab8,
+	// 	Tab9,
+	// 	Tab10
 	},
 	data() {
 		return {
-			activeTab: 'Tab1',
-			tabs: [
-				Tab1,
-				Tab2,
-				Tab3,
-				Tab4,
-				Tab5,
-				Tab6,
-				Tab7,
-				Tab8,
-				Tab9,
-				Tab10
-			],
+			activeID: 1,
+			activeName:'Glucose Board',
+			active: [],
+			// activeTab: 'Tab1',
+			// tabName: "",
+			// tabs: [
+			// 	Tab1,
+			// 	Tab2,
+			// 	Tab3,
+			// 	Tab4,
+			// 	Tab5,
+			// 	Tab6,
+			// 	Tab7,
+			// 	Tab8,
+			// 	Tab9,
+			// 	Tab10
+			// ],
 			tabConfigs: [
-				{name: 'Glucose Board', config: Tab1},
-				{name: 'Exercise Board', config: Tab2},
+				{id: 1, name: 'Glucose Board'},
+				{id: 2, name: 'Exercise Board'},
 			]
 		}
 	},
 	methods: {
 		addTab(tname) { 
-			this.tabConfigs.push({name: tname, config: this.tabs[this.tabConfigs.length]});
+			this.tabConfigs.push({id: this.tabConfigs.length+1, name: tname});
+			this.tabName=""
 		},
+		setActiveTab(id, name) {
+			this.activeID=id+1;
+			this.activeName=name;
+			this.active=[{id: this.activeID, name: this.activeName}];
+		}
 	},
 }
 </script>
@@ -89,14 +112,17 @@ export default {
 		margin-bottom: 1.5rem;
 		display: flex;
 		flex-direction: column;
+
 		.tabs {
 			display: flex;
 			flex-direction: column;
 		}
+
 		.addForm {
 			position: absolute;
 			right: 0;
 		}
+
 		.newTab{
 			background-color: var(--light);
 			padding: 0rem 0rem;
@@ -112,6 +138,7 @@ export default {
 				border-bottom: 0px;
 			}
 		}
+
 		button {
             background-color: var(--dark-alt);
             border: 5px solid var(--dark-alt);

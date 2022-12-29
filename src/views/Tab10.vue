@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Welcome to Board 10!</h2>
+        <p class="desc" contenteditable="true" placeholder="Type tab description here..."></p>
         
         <button class="newBoard" @click="addBoard">
             Add new dropzone

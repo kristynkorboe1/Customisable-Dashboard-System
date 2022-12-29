@@ -1,6 +1,9 @@
 <template>
-    <div>
-        <h2>Welcome to Your Exercise Board!</h2>
+    <div 
+        :id="id">
+        <slot />
+        
+        <p class="desc" contenteditable="true" placeholder="Type tab description here..."></p>
         
         <button class="newBoard" @click="addBoard">
             Add new dropzone
@@ -24,6 +27,15 @@ import BarChart from '../components/BarChart.vue'
 
 export default {
     name: "Tab2",
+    props: {
+        id: {
+            type: Number,
+        },
+        tabNameP: {
+            type: String,
+            default: 'Board 2'
+        }
+    },
     components: {
         Board,
         Widget,
@@ -34,8 +46,7 @@ export default {
 			boards: [
 				{id: 1},
                 {id: 2},
-                {id: 3},
-                
+                {id: 3},  
 			]
 		}
 	},
@@ -60,7 +71,7 @@ export default {
         justify-content: left;
         max-width: 1250px;
         padding: 15px;
-        max-height: calc(100vh - 9rem);
+        max-height: calc(100vh - 11rem);
         overflow-y: scroll;
     }
 
@@ -97,4 +108,17 @@ export default {
         color: var(--dark);
         font-size: 0.7rem;
     }
+</style>
+
+<style>
+    .desc {
+            width: 500px;
+            height: 70px;
+            background: var(--light);
+        }
+
+        .desc[placeholder]:empty:before {
+            content: attr(placeholder);
+            color: var(--dark); 
+        }
 </style>
