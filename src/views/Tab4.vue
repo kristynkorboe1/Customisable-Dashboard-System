@@ -23,7 +23,7 @@ import Widget from '../components/Widget.vue'
 import BarChart from '../components/BarChart.vue'
 
 export default {
-    name: "Tab2",
+    name: "Tab4",
     components: {
         Board,
         Widget,

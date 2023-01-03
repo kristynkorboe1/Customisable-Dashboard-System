@@ -112,10 +112,14 @@ export default {
 
 <style>
     .desc {
-            width: 500px;
-            height: 70px;
+            width: 1200px;
+            height: 40px;
+            max-height: 200px;
             background: var(--light);
-            overflow:scroll;
+            word-break: break-word;
+            overflow-y: scroll;
+            overflow: auto;
+            resize: vertical;
         }
 
         .desc[placeholder]:empty:before {

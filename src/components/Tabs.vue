@@ -1,20 +1,38 @@
 <template>
     <div class="menu">		
 		<div>
-			<button
-				v-for="(tab, index) in tabConfigs" 
-				:key="index"
-				@click="activeTab = tab.config">
-				{{ tab.name }}
+			<div class=tabButtons>
+				<button
+					class="tabs"
+					v-for="(tab, index) in tabConfigs" 
+					:key="index"
+					@click="activeTab = tab.config">
+					{{ tab.name }}
+				</button>
+			</div>
+			
+			<select
+				v-model="selectedTab">
+				<option value="" disabled selected>Select tab to delete</option>
+				<option 
+					v-for="(tab, index) in tabOptions"
+					:key="index">
+					{{ tab.name }}
+				</option>
+			</select>
+			
+			<button class="removeTab" @click="deleteTab(selectedTab)">
+				Delete
 			</button>
 		</div>
 
 		<div class="addForm">
-			<h2>Add up to 8 new tabs </h2>
+			<h2>Add up to 9 new tabs </h2>
 				<form>
 					<label>Tab name: </label>
 					<input type="text" required v-model="tabName">
 				</form>
+
 				<button class="newTab" @click="addTab(tabName)">
 					<span class="material-symbols-outlined">
 						add_box
@@ -59,6 +77,7 @@ export default {
 	data() {
 		return {
 			activeTab: 'Tab1',
+			tabName: "",
 			tabs: [
 				Tab1,
 				Tab2,
@@ -72,14 +91,49 @@ export default {
 				Tab10
 			],
 			tabConfigs: [
-				{name: 'Glucose Board', config: Tab1},
-				{name: 'Exercise Board', config: Tab2},
-			]
+				{name: 'Insulin Timeseries', config: Tab1},
+			],
+			tabOptions:[],
+			availableTabs:
+			[
+				Tab2,
+				Tab3,
+				Tab4,
+				Tab5,
+				Tab6,
+				Tab7,
+				Tab8,
+				Tab9,
+				Tab10
+			],
+			
 		}
 	},
 	methods: {
 		addTab(tname) { 
-			this.tabConfigs.push({name: tname, config: this.tabs[this.tabConfigs.length]});
+			if(this.tabConfigs.length>=10){
+				alert("Tab limit has been reached");
+			}
+			else if(tname==null || tname=="" || tname==" "){
+				alert("Tab name cannot be empty");
+			}
+			else if(tname!==null && tname!=="") {
+				this.tabConfigs.push({name: tname, config: this.availableTabs[0]});
+				this.tabOptions.push({name: tname, config: this.availableTabs[0]});
+				this.tabName=""
+				this.availableTabs.shift();
+			}
+		},
+
+		deleteTab(selectedTab) { 
+			let tabsPostDel = this.tabConfigs.filter(tab => tab.name !== selectedTab);
+			let tab = this.tabConfigs.filter(tab => tab.name === selectedTab);
+			let config = tab[0].config;
+			this.availableTabs.push(config);
+			console.log(this.availableTabs);
+			this.tabConfigs=tabsPostDel;
+			this.tabOptions=this.tabOptions.filter(tab => tab.name !== selectedTab);
+			this.activeTab=Tab1
 		},
 	},
 }
@@ -113,7 +167,18 @@ export default {
 				border-bottom: 0px;
 			}
 		}
-		button {
+		
+		.removeTab{
+			background-color: var(--light);
+			border: 2px solid var(--dark);
+			border-radius: 4px;
+			color: var(--dark);
+			font-size: 0.8rem;
+			padding: 2px;
+			margin-left: 5px;
+		}
+		
+		.tabs {
             background-color: var(--dark-alt);
             border: 5px solid var(--dark-alt);
 			padding: 0.5rem 0.5rem;
@@ -130,6 +195,20 @@ export default {
 					color: var(--primary);
 				}
 			}
+		}
+		
+		.tabButtons {
+			display: flex;
+			flex-direction: row;
+		}
+
+		select {
+			background-color: var(--light);
+			border-color: var(--dark);
+			border-radius: 4px;
+			padding: 2px;
+			margin-top: 5px;
+			margin-left: 5px;
 		}
 	}
 </style>

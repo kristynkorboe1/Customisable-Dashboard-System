@@ -1,8 +1,9 @@
     <template>
     <div class="tab">
-        <h2>Welcome to Your {{ tabNameP }}!</h2>
-        <p>Drag widgets from the sidebar into the boxes below.</p>
-        <p>To move them back into the sidebar, scroll to the bottom and drag them below the last widget.</p>
+
+        <!-- <h2>Welcome to Your {{ tabNameP }}!</h2> -->
+        <h4>You can add new dropzones below and drag in widgets from the sidebar. To move widgets back into the sidebar, scroll to the bottom and drag them below the last widget.</h4>
+        <p class="desc" contenteditable="true" placeholder="Type notes here..."></p>
         
         <button class="newBoard" @click="addBoard">
             Add new dropzone
@@ -10,31 +11,39 @@
 
         <main class="flexbox">
             <Board id="board1">
-                <BasalInsulinChart />
+                <Widget id="widget1" draggable="true">
+                    <BasalInsulinChart />
+                </Widget>
             </Board>
 
             <Board id="board2">
-                <!-- <Widget id="widget2" draggable="true"> -->
+                <Widget id="widget2" draggable="true">
                     <BolusInsulinChart />
-                <!-- </Widget> -->
+                </Widget>
             </Board>
 
-            <Board id="board3">
-                <!-- <Widget id="widget3" draggable="true"> -->
+            <!-- <Board id="board3">
+                <Widget id="widget3" draggable="true">
                     <CarbohydrateChart />
-                <!-- </Widget> -->
+                </Widget>
             </Board>
 
             <Board id="board4">
-                <!-- <Widget id="widget4" draggable="true"> -->
+                <Widget id="widget4" draggable="true">
                     <GlucoseChart />
-                <!-- </Widget> -->
-            </Board>
+                </Widget>
+            </Board> -->
 
             <Board 
                 v-for="(board, index) in boards"
                 :key="index"
                 id=index>
+                <!-- <Widget 
+                    id='boards[index].id'
+                    draggable="true">
+                    <component :is=boards[index].content>
+                    </component>
+                </Widget> -->
             </Board>
         </main> 
     </div>
@@ -69,6 +78,9 @@ export default {
     data() {
 		return {
 			boards: [ 
+                // {id: 1, content: BasalInsulinChart},
+                // {id: 2, content: BolusInsulinChart},
+                // {id: 3, content: GlucoseChart},
 			]
 		}
 	},
@@ -93,13 +105,13 @@ export default {
         justify-content: left;
         max-width: 1250px;
         padding: 15px;
-        max-height: calc(100vh - 11rem);
+        max-height: calc(100vh - 13rem);
         overflow-y: scroll;
     }
 
     .flexbox .board {
-       width: 1170px;
-       height: 390px;
+       width: 1120px;
+       height: 470px;
        background-color: var(--dark-alt);
        padding: 15px;
        overflow: auto;
@@ -116,13 +128,29 @@ export default {
         color: var(--dark);
     }
 
-     button {
+    button {
         background-color: var(--light);
         border: 2px solid var(--dark-alt);
         border-radius: 4px;
         padding: 0.3rem 0.3rem;
         color: var(--dark);
         font-size: 0.7rem;
+    }
+
+    .desc {
+        width: 1200px;
+        height: 40px;
+        max-height: 60px;
+        background: var(--light);
+        word-break: break-word;
+        overflow-y: scroll;
+        overflow: auto;
+        resize: vertical;
+    }
+
+    .desc[placeholder]:empty:before {
+        content: attr(placeholder);
+        color: var(--dark); 
     }
 
 </style>

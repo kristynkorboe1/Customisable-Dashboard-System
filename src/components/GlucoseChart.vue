@@ -226,6 +226,7 @@ import { enUS } from 'date-fns/locale';
       return{
         responsive: true,
         maintainAspectRatio: true,
+        aspectRatio: 2.7,
         scales: {
     x: {
       type: 'time',      

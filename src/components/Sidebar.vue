@@ -34,9 +34,9 @@
                     </textarea>
                 </widget> -->
 
-                <Widget id="widgetb" draggable="true">
+                <!-- <Widget id="widgetb" draggable="true">
                     <BarChart />
-                </Widget>
+                </Widget> -->
 
                 <Widget id="widgetc" draggable="true">
                     <BasalInsulinChart />
@@ -140,14 +140,7 @@ const ToggleMenu = () => {
 			] 
 		}
 	},
-    // mounted() {
-    //   this.resize();
-    // },
     methods: {
-    //   resize() {
-    //     const { textarea } = this.$refs;
-    //     textarea.style.height = textarea.scrollHeight - 4 + 'px';
-    //   },
       addWidget (inpWidget){ 
             this.widgets.push(inpWidget);
 		},
@@ -240,6 +233,12 @@ aside {
                 transition: 0.2s ease-out;
                 cursor: pointer;
         }
+    }
+
+    select {
+        background-color: var(--light);
+        border-radius: 4px;
+        padding: 2px;
     }
 }
 </style>
