@@ -17,6 +17,7 @@ import { Bar } from 'vue-chartjs'
 <script>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import json from "../Data/BarChartData.json";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -53,12 +54,13 @@ export default {
       default: () => {}
     }
   },
+
   data() {
     return {
       chartData: {
-        labels: [ 'January', 'February', 'March', 'April' ],
+        labels: json.avgDailyEx.map(item => item.month),
         datasets: [ { 
-          data: [40, 20, 12,51],
+          data: json.avgDailyEx.map(item => item.avgEx),
           label: 'Average Daily Exercise Time (min)',
         } ]
       },
@@ -66,6 +68,6 @@ export default {
         responsive: true
       }
     }
-  }
+  },
 }
 </script>

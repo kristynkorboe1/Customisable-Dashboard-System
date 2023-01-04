@@ -34,9 +34,9 @@
                     </textarea>
                 </widget> -->
 
-                <!-- <Widget id="widgetb" draggable="true">
+                <Widget id="widgetb" draggable="true">
                     <BarChart />
-                </Widget> -->
+                </Widget>
 
                 <Widget id="widgetc" draggable="true">
                     <BasalInsulinChart />
