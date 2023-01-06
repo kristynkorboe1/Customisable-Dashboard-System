@@ -15,14 +15,14 @@
 
             <Board id="main-board">
                 
-                <select>
+                <!-- <select>
                     <option value="" disabled selected>Select widget to add to sidebar</option>
                     <option value="basal" @click="addWidget('basal')">Basal insulin chart</option>
                     <option value="bolus" @click="addWidget('bolus')">Bolus insulin chart</option>
                     <option value="carb" @click="addWidget('carb')">Carbohydrate chart</option>
                     <option value="glucose" @click="addWidget('glucose')">Glucose chart</option>
                     <option value="physical" @click="addWidget('physical')">Physical activity chart</option>
-                </select>
+                </select> -->
             
                 <!-- <widget id="widgeta" draggable="true">
                     <textarea
@@ -38,7 +38,7 @@
                     <BarChart />
                 </Widget>
 
-                <Widget id="widgetc" draggable="true">
+                <!-- <Widget id="widgetc" draggable="true">
                     <BasalInsulinChart />
                 </Widget>
                 
@@ -95,7 +95,7 @@
                     id="widgets.indexOf('physical')"
                     :draggable="true">
                     <PhysicalActivityChart />
-                </Widget>
+                </Widget> -->
 
             </Board>
 
@@ -108,14 +108,14 @@ import { ref } from 'vue'
 import Board from '../components/Board.vue'
 import Widget from '../components/Widget.vue'
 import BarChart from '../components/BarChart.vue'
-import BasalInsulinChart from '../components/BasalInsulinChart.vue'
-import BolusInsulinChart from '../components/BolusInsulinChart.vue'
-import CarbohydrateChart from '../components/CarbohydrateChart.vue'
-import GlucoseChart from '../components/GlucoseChart.vue'
-import PhysicalActivityChart from '../components/PhysicalActivityChart.vue'
-import TIRChart from '../components/TIRChart.vue'
-import KPIVue from '../components/KPI.vue'
-import IntervalModal from '../components/IntervalModal.vue'
+// import BasalInsulinChart from '../components/BasalInsulinChart.vue'
+// import BolusInsulinChart from '../components/BolusInsulinChart.vue'
+// import CarbohydrateChart from '../components/CarbohydrateChart.vue'
+// import GlucoseChart from '../components/GlucoseChart.vue'
+// import PhysicalActivityChart from '../components/PhysicalActivityChart.vue'
+// import TIRChart from '../components/TIRChart.vue'
+// import KPIVue from '../components/KPI.vue'
+// import IntervalModal from '../components/IntervalModal.vue'
 
 
 const is_expanded = ref(false)
@@ -127,11 +127,12 @@ const ToggleMenu = () => {
 
 <script>
   export default {
-    components: { Board, Widget, BarChart, GlucoseChart, BasalInsulinChart, BolusInsulinChart, CarbohydrateChart, PhysicalActivityChart, TIRChart, KPIVue, IntervalModal },
+    // components: { Board, Widget, BarChart, GlucoseChart, BasalInsulinChart, BolusInsulinChart, CarbohydrateChart, PhysicalActivityChart, TIRChart, KPIVue, IntervalModal },
     props: {
       value: {
         type: String,
         required: true,
+        default: ""
       }
     },
     data() {

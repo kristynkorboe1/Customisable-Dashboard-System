@@ -1,0 +1,36 @@
+{
+  "tabs": [
+    {
+      "id": "1",
+      "tabName": "Insulin Timeseries",
+      "boards": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        },
+        {
+          "id": 3
+        }
+      ],
+      "selected": true
+    },
+    {
+      "id": "2",
+      "tabName": "Glucose Timeseries",
+      "boards": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        },
+        {
+          "id": 3
+        }
+      ],
+      "selected": false
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Tabs from '../components/Tabs.vue'
+import TabsTest from '../components/TabsTest.vue'
 import Home from '../views/Home.vue'
 
 const router = createRouter({
@@ -12,7 +12,7 @@ const router = createRouter({
             },
         {
             path: '/Tabs',
-            component: Tabs
+            component: TabsTest
             },
     ]
 })
