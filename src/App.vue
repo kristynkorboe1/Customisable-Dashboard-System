@@ -100,11 +100,31 @@ export default {
 			this.activeTab.selected=true
 		},
 
-		addBoard(tName) {
-			index = this.tabs.findIndex((tab => tab.tabName === tName))
-			console.log(tName)
-			this.tabs[index].boards.push({id: this.tabs[index].boards.length+1})
-			console.log(index)
+		async addBoard(tName) {
+			
+			const index = this.tabs.findIndex(tab => tab.tabName === tName)
+			// console.log(index)
+			const updatedTab = this.tabs[index]
+			updatedTab.boards.push({ "id": updatedTab.boards.length+1})
+			const id = updatedTab.id
+
+			const res = await fetch(`http://localhost:5000/tabs/${id}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(updatedTab),
+				})
+
+			const data = await res.json()
+
+			this.tabs = this.tabs.map((tab) => tab.id === id 
+				? { ...tab, boards: data.boards}
+				: tab
+			)
+
+			this.tabs = await this.fetchTabs()
 		},
 
 		async fetchTabs() {
@@ -114,9 +134,10 @@ export default {
 		},
 
 		async fetchTab(tabName) {
-			const tab = this.tabs.find(tab => tab.tabName === dTab)
+			const tab = this.tabs.find(tab => tab.tabName === tabName)
 			const id = tab.id
-			const res = await fetch(`http://localhost:5000/tabs/{id}`)
+
+			const res = await fetch(`http://localhost:5000/tabs/${id}`)
 			const data = await res.json()
 			return data
 		}
