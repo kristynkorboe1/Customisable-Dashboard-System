@@ -22,7 +22,7 @@
 			</select>
 			
 			<button class="removeTab" @click="$emit('delete-tab', dTab)">
-				Delete
+				Delete tab
 			</button>
 		</div>
 
@@ -45,8 +45,8 @@
 			:key="index"
 			:tabName="tab.tabName"
 			:boards="tab.boards"
-			@add-board-click="$emit('add-board', tab.tabName)"
-			@delete-board-click-tab="$emit('delete-board', boardId, tabName)">
+			:widgets="widgets"
+			@add-board-click="$emit('add-board', widget, tab.tabName)">
 		</tab>
 	</div>
 </template>
@@ -63,7 +63,11 @@ export default {
 		activeTab: {
             type: Object,
             default: {}
-            }
+            },
+		widgets: {
+            type: Array,
+            default: []
+            },
 	},
 	components: {
 		Tab

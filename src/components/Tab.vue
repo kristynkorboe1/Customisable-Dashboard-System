@@ -2,15 +2,31 @@
     <div class="tab">
 
         <h2>{{ tabName }}</h2>
-        <button class="newBoard" @click="$emit('add-board-click', tabName)">
-            Add new dropzone
+        <p class="desc" contenteditable="true" placeholder="Type notes here..."></p>
+
+        <select
+            v-model="newWidget">
+            <option value="" disabled selected>Select widget</option>
+            <option 
+                v-for="(widget, index) in widgets"
+                :key="index">
+                {{ widget.name }}
+            </option>
+        </select>
+            
+        <button 
+            class="newBoard" 
+            @click="$emit('add-board-click', newWidget)">
+            Add new widget
         </button>
 
         <main class="flexbox">
             <Board 
                 v-for="(board, index) in boards"
                 :key="index"
-                @delete-board="deleteBoard(board.id)">
+                :widget="boards[index].widget"
+                @delete-board="deleteBoard(board.id)"
+                @add-widget="addWidget(board.widget, board.id)">
             </Board>
         </main> 
     </div>
@@ -19,18 +35,13 @@
 
 <script>
 import Board from '../components/Board.vue'
-import Widget from '../components/Widget.vue'
-import BarChart from '../components/BarChart.vue'
-import BasalInsulinChart from '../components/BasalInsulinChart.vue'
-import BolusInsulinChart from '../components/BolusInsulinChart.vue'
-import CarbohydrateChart from '../components/CarbohydrateChart.vue'
-import GlucoseChart from '../components/GlucoseChart.vue'
 
 export default {
     name: "Tab",
     props: {
         tabName: '',
         boards: [],
+        widgets: []
     },
     components: {
         Board,
@@ -40,12 +51,12 @@ export default {
             const result = await fetch('http://localhost:5000/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.tabName)
-		    const id = tab.id
-            const index = tab.boards.findIndex(board => board.id === boardID)
-            tab.boards.splice(index, 1)
-            this.boards.splice(index, 1)
+		    const tabID = tab.id
+            const boardIndex = tab.boards.findIndex(board => board.id === boardID)
+            tab.boards.splice(boardIndex, 1)
+            this.boards.splice(boardIndex, 1)
 
-			const res = await fetch(`http://localhost:5000/tabs/${id}`, 
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
 				{
 					method: 'PUT',
 					headers: {
@@ -53,10 +64,37 @@ export default {
 					},
 					body: JSON.stringify(tab),
 				})
-
+            console.log(this.widgets)
             return data
-
 		},
+
+        // async addWidget(widget, boardID) {	
+        //     const result = await fetch('http://localhost:5000/tabs')
+        //     const data = await result.json()
+        //     const tab = data.find(tab => tab.tabName === this.tabName)
+		//     const tabID = tab.id
+        //     const boardIndex = tab.boards.findIndex(board => board.id === boardID)
+        //     tab.boards[boardIndex].widget = widget
+        //     console.log(tab.boards[boardIndex].widget)
+        //     this.boards[boardIndex].widget = widget
+
+        //     console.log(widget)
+
+        //     const index = tab.boards.findIndex(board => board.id === boardID)
+        //     console.log(tab.boards.widgets)
+        //     this.boards.splice(index, 1)
+
+		// 	const res = await fetch(`http://localhost:5000/tabs/${id}`, 
+		// 		{
+		// 			method: 'PUT',
+		// 			headers: {
+		// 			'Content-type': 'application/json',
+		// 			},
+		// 			body: JSON.stringify(tab),
+		// 		})
+
+        //     return data
+		// },
     },
     emits: ['add-board-click']
 }
@@ -100,11 +138,12 @@ export default {
 
     button {
         background-color: var(--light);
-        border: 2px solid var(--dark-alt);
-        border-radius: 4px;
-        padding: 0.3rem 0.3rem;
-        color: var(--dark);
-        font-size: 0.7rem;
+			border: 2px solid var(--dark);
+			border-radius: 4px;
+			color: var(--dark);
+			font-size: 0.8rem;
+			padding: 2px;
+			margin-left: 0px;
     }
 
     .desc {
@@ -123,4 +162,12 @@ export default {
         color: var(--dark); 
     }
 
+    select {
+			background-color: var(--light);
+			border-color: var(--dark);
+			border-radius: 4px;
+			padding: 2px;
+			margin-top: 5px;
+			margin-left: 5px;
+		}
 </style>

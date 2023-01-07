@@ -1,10 +1,12 @@
 <template>
 	<div class="app">
-		<Sidebar />
+		<Sidebar 
+			:widgets="widgets"/>
 		<div>
 			<TabsTest 
 				:tabs="tabs"
 				:activeTab="activeTab"
+				:widgets="widgets"
 				@select-tab="selectTab"
 				@delete-tab="deleteTab"
 				@add-tab="addTab"
@@ -20,6 +22,7 @@
 <script>
 import Sidebar from './components/Sidebar.vue'
 import TabsTest from './components/TabsTest.vue'
+import WidgetVue from './components/Widget.vue'
 
 export default {
 	name: 'App',
@@ -30,6 +33,7 @@ export default {
 	data() {
 		return {
 			tabs: [],
+			widgets: [],
 			activeTab: {}
 		}
 	},
@@ -101,11 +105,22 @@ export default {
 			this.activeTab.selected=true
 		},
 
-		async addBoard(tName) {
+		async addBoard(widget, tName) {
+			console.log(widget)
+
+			this.tabs = await this.fetchTabs()
 
 			const index = this.tabs.findIndex(tab => tab.tabName === tName)
 			const updatedTab = this.tabs[index]
-			updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, widgets:[]})
+
+			if (updatedTab.boards.length === 0) {
+				updatedTab.boards.push({ "id": 1, "widget": WidgetVue})
+			}
+
+			else {
+				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": widget})
+			}
+
 			const id = updatedTab.id
 
 			const res = await fetch(`http://localhost:5000/tabs/${id}`, 
@@ -124,7 +139,9 @@ export default {
 				: tab
 			)
 
-			this.tabs = await this.fetchTabs()
+			res.status === 200
+				? alert ('Board added sucessfully. Please refresh the page if it doesn\'t show up')
+				: alert ('Error adding board. Please try again')
 		},
 
 		async fetchTabs() {
@@ -140,13 +157,20 @@ export default {
 			const res = await fetch(`http://localhost:5000/tabs/${id}`)
 			const data = await res.json()
 			return data
-		}
+		},
+
+		async fetchWidgets(tabName) {
+			const res = await fetch(`http://localhost:5000/widgets`)
+			const data = await res.json()
+			return data
+        },
 	},
 
 	async created() {	
 		this.tabs = await this.fetchTabs()
-		this.activeTab = this.tabs[0];
+		this.activeTab = this.tabs[0]
 		this.activeTab.selected = true
+		this.widgets = await this.fetchWidgets()
 	},
 }
 </script>

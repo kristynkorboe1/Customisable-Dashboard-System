@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    props:['id', 'draggable'],
+    props:['name', 'id', 'draggable'],
     methods: {
         dragStart: e => {
             const target = e.target;
