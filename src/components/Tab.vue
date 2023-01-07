@@ -10,7 +10,7 @@
             <Board 
                 v-for="(board, index) in boards"
                 :key="index"
-                id=index>
+                @delete-board="deleteBoard(board.id)">
             </Board>
         </main> 
     </div>
@@ -34,6 +34,29 @@ export default {
     },
     components: {
         Board,
+    },
+    methods: {
+        async deleteBoard(boardID) {	
+            const result = await fetch('http://localhost:5000/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.tabName)
+		    const id = tab.id
+            const index = tab.boards.findIndex(board => board.id === boardID)
+            tab.boards.splice(index, 1)
+            this.boards.splice(index, 1)
+
+			const res = await fetch(`http://localhost:5000/tabs/${id}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(tab),
+				})
+
+            return data
+
+		},
     },
     emits: ['add-board-click']
 }

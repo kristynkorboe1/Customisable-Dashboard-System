@@ -45,7 +45,8 @@
 			:key="index"
 			:tabName="tab.tabName"
 			:boards="tab.boards"
-			@add-board-click="$emit('add-board', tab.tabName)">
+			@add-board-click="$emit('add-board', tab.tabName)"
+			@delete-board-click-tab="$emit('delete-board', boardId, tabName)">
 		</tab>
 	</div>
 </template>
@@ -67,7 +68,7 @@ export default {
 	components: {
 		Tab
 	},
-	emits: ['select-tab', 'delete-tab', 'add-tab', 'add-board-click'],
+	emits: ['select-tab', 'delete-tab', 'add-tab', 'add-board'],
 }	
 </script>
 

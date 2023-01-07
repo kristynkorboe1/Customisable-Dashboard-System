@@ -78,9 +78,11 @@ export default {
 			}
 
 			else if (confirm ('Tab name cannot be changed after tab is created.')){
+				this.tabs.map((tab) => tab.selected = false)
+
 				const newTab = {
 					tabName: tName,
-					boards: [{"id": 1}]
+					boards: [{"id": 1, widgets: []}]
 				}
 
 				const res = await fetch('http://localhost:5000/tabs', 
@@ -95,17 +97,15 @@ export default {
 			}
 
 			this.tabs = await this.fetchTabs()
-			this.tabs[0].selected=false
 			this.activeTab=this.tabs[this.tabs.length - 1]
 			this.activeTab.selected=true
 		},
 
 		async addBoard(tName) {
-			
+
 			const index = this.tabs.findIndex(tab => tab.tabName === tName)
-			// console.log(index)
 			const updatedTab = this.tabs[index]
-			updatedTab.boards.push({ "id": updatedTab.boards.length+1})
+			updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, widgets:[]})
 			const id = updatedTab.id
 
 			const res = await fetch(`http://localhost:5000/tabs/${id}`, 
@@ -146,6 +146,7 @@ export default {
 	async created() {	
 		this.tabs = await this.fetchTabs()
 		this.activeTab = this.tabs[0];
+		this.activeTab.selected = true
 	},
 }
 </script>
