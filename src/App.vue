@@ -10,6 +10,7 @@
 				@delete-tab="deleteTab"
 				@add-tab="addTab"
 				@add-board="addBoard"
+				@reload-tabs="reLoadTabs"
 				/>
 			<!-- <keep-alive>
 				<router-view />
@@ -132,8 +133,6 @@ export default {
 
 		async addBoard(tName) {
 
-			this.tabs = await this.fetchTabs()
-
 			const index = this.tabs.findIndex(tab => tab.tabName === tName)
 			const updatedTab = this.tabs[index]
 
@@ -160,6 +159,10 @@ export default {
 				? alert ('Board added sucessfully. Please refresh the page if it doesn\'t show up')
 				: alert ('Error adding board. Please try again')
 
+			this.tabs = await this.fetchTabs()
+		},
+
+		async reLoadTabs() {
 			this.tabs = await this.fetchTabs()
 		},
 

@@ -49,7 +49,8 @@
 			:notes="tab.notes"
 			:boards="tab.boards"
 			:widgets="widgets"
-			@add-board-click="$emit('add-board', tab.tabName)">
+			@add-board-click="$emit('add-board', tab.tabName)"
+			@reload-tab="$emit('reload-tabs')">
 		</tab>
 	</div>
 </template>
@@ -78,8 +79,7 @@ export default {
 	emits: ['select-tab', 
 			'delete-tab', 
 			'add-tab', 
-			'add-board', 
-			'save-notes'],
+			'add-board'],
 }	
 </script>
 

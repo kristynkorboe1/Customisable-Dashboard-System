@@ -2,10 +2,6 @@
     <div class="tab">
 
         <h2>{{ tabName }}</h2>
-        <!-- <textarea 
-            v-bind="notes" 
-            placeholder="add multiple lines">
-        </textarea> -->
         <div>
             <p 
                 class="desc" 
@@ -19,19 +15,6 @@
                 Save notes
             </button>
         </div>
-
-        <!-- <select
-            v-model="newWidget">
-            <option 
-                value="" disabled selected>
-                Select widget
-            </option>
-            <option 
-                v-for="(widget, index) in widgets"
-                :key="index">
-                {{ widget.name }}
-            </option>
-        </select> -->
             
         <button 
             class="newBoard" 
@@ -47,7 +30,7 @@
                 :widget="boards[index].widget"
                 :parentTab="tabName"
                 @delete-board="deleteBoard(board.id)"
-                @add-widget="addWidget(board.widget, board.id)">
+                @reload-board="$emit('reload-tab')">
             </Board>
         </main> 
     </div>
@@ -83,7 +66,7 @@ export default {
             tab.boards.splice(boardIndex, 1)
             this.boards.splice(boardIndex, 1)
 
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+			await fetch(`http://localhost:5000/tabs/${tabID}`, 
 				{
 					method: 'PUT',
 					headers: {
@@ -92,7 +75,7 @@ export default {
 					body: JSON.stringify(tab),
 				})
         
-            return data
+            $emit('reload-tab')
 		},
 
         onInput(e) {
@@ -119,7 +102,7 @@ export default {
         }
 
     },
-    emits: ['add-board-click', 'edit-notes']
+    emits: ['add-board-click', 'reload-tab']
 }
 </script>
 

@@ -83,11 +83,16 @@ export default {
 					},
 					body: JSON.stringify(tab),
 				})
+
+            res.status === 200
+				? alert ('Widget sucessfully. Please refresh the page if it doesn\'t show up')
+				: alert ('Error adding widget. Please try again')
+
         
-            return data
+            $emit('reload-board')
         }
     },
-    emits: ['delete-board', 'add-widget']
+    emits: ['delete-board', 'reload-board']
 }
 </script>
 
