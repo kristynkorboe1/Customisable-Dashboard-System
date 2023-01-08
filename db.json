@@ -3,17 +3,14 @@
     {
       "id": 1,
       "tabName": "Insulin Timeseries",
+      "notes": "This board contains your insulin data. You can add your notes here...",
       "boards": [
         {
           "id": 1,
-          "widget": "ExerciseChart"
-        },
-        {
-          "id": 2,
           "widget": "BasalInsulinChart"
         },
         {
-          "id": 3,
+          "id": 2,
           "widget": "BolusInsulinChart"
         }
       ],
@@ -22,6 +19,7 @@
     {
       "id": 2,
       "tabName": "Glucose Timeseries",
+      "notes": "",
       "boards": [
         {
           "id": 1,
