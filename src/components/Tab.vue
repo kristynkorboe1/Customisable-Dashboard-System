@@ -35,8 +35,8 @@
             
         <button 
             class="newBoard" 
-            @click="$emit('add-board-click', newWidget)">
-            Add new widget
+            @click="$emit('add-board-click')">
+            Add new board
         </button>
 
         <main class="flexbox">

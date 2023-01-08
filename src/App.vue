@@ -21,7 +21,6 @@
 <script>
 import Sidebar from './components/Sidebar.vue'
 import TabsTest from './components/TabsTest.vue'
-import WidgetVue from './components/Widget.vue'
 
 export default {
 	name: 'App',
@@ -37,10 +36,36 @@ export default {
 		}
 	},
 	methods: {
-		selectTab(selectedTab) {
-			this.activeTab.selected=false
+		async selectTab(selectedTab) {
+			
+			const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
+
+			this.activeTab.selected = false
+
+			await fetch(`http://localhost:5000/tabs/${pSelectedTabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(this.activeTab),
+				})
+			
 			this.activeTab=selectedTab
 			this.activeTab.selected=true
+
+			const selectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
+
+			await fetch(`http://localhost:5000/tabs/${selectedTabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(this.activeTab),
+				})
+			
+			this.tabs = await this.fetchTabs()
 		},
 
 		async deleteTab(dTab) {
@@ -61,8 +86,7 @@ export default {
 					? (this.tab = this.tabs.filter(tab => tab.tabName !== dTab))
 					: alert ('Error deleting tab. Please try again')
 
-
-				this.tabs = this.tabs.filter((tab) => tab.tabName !== dTab)
+				this.tabs = await this.fetchTabs()
 				this.activeTab.selected=false
 				this.activeTab=this.tabs[0]
 				this.activeTab.selected=true
@@ -70,6 +94,13 @@ export default {
 		},
 
 		async addTab(tName) {
+			const newTab = {
+				tabName: tName,
+				boards: [{"id": 1, widget: null}],
+				notes: "",
+				selected: true
+			}
+
 			if (tName==null || !tName.replace(/\s/g, '').length) {
 				alert("Tab name cannot be empty");
 				return
@@ -83,12 +114,6 @@ export default {
 			else if (confirm ('Tab name cannot be changed after tab is created.')){
 				this.tabs.map((tab) => tab.selected = false)
 
-				const newTab = {
-					tabName: tName,
-					boards: [{"id": 1, widget: null}],
-					notes: ""
-				}
-
 				const res = await fetch('http://localhost:5000/tabs', 
 				{
 					method: 'POST',
@@ -101,12 +126,11 @@ export default {
 			}
 
 			this.tabs = await this.fetchTabs()
-			this.activeTab=this.tabs[this.tabs.length - 1]
-			this.activeTab.selected=true
+			this.selectTab(newTab)
+			this.activeTab = newTab
 		},
 
-		async addBoard(widget, tName) {
-			console.log(widget)
+		async addBoard(tName) {
 
 			this.tabs = await this.fetchTabs()
 
@@ -114,16 +138,16 @@ export default {
 			const updatedTab = this.tabs[index]
 
 			if (updatedTab.boards.length === 0) {
-				updatedTab.boards.push({ "id": 1, "widget": WidgetVue})
+				updatedTab.boards.push({ "id": 1, "widget": null})
 			}
 
 			else {
-				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": widget})
+				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null})
 			}
 
-			const id = updatedTab.id
+			const tabID = updatedTab.id
 
-			const res = await fetch(`http://localhost:5000/tabs/${id}`, 
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
 				{
 					method: 'PUT',
 					headers: {
@@ -132,16 +156,11 @@ export default {
 					body: JSON.stringify(updatedTab),
 				})
 
-			const data = await res.json()
-
-			this.tabs = this.tabs.map((tab) => tab.id === id 
-				? { ...tab, boards: data.boards}
-				: tab
-			)
-
 			res.status === 200
 				? alert ('Board added sucessfully. Please refresh the page if it doesn\'t show up')
 				: alert ('Error adding board. Please try again')
+
+			this.tabs = await this.fetchTabs()
 		},
 
 		async fetchTabs() {
@@ -168,8 +187,7 @@ export default {
 
 	async created() {	
 		this.tabs = await this.fetchTabs()
-		this.activeTab = this.tabs[0]
-		this.activeTab.selected = true
+		this.activeTab = this.tabs.find((tab) => tab.selected === true)
 		this.widgets = await this.fetchWidgets()
 	},
 }

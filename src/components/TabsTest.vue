@@ -49,7 +49,7 @@
 			:notes="tab.notes"
 			:boards="tab.boards"
 			:widgets="widgets"
-			@add-board-click="$emit('add-board', widget, tab.tabName)">
+			@add-board-click="$emit('add-board', tab.tabName)">
 		</tab>
 	</div>
 </template>
