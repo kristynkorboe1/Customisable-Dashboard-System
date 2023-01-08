@@ -1,6 +1,7 @@
 <template>
     <div
         :id="id"
+        :name="name"
         class="widget"
         :draggable="draggable"
         @dragstart="dragStart"
@@ -13,9 +14,9 @@
 export default {
     props:['name', 'id', 'draggable'],
     methods: {
-        dragStart: e => {
+        dragStart(e) {
             const target = e.target;
-            e.dataTransfer.setData('widget_id', target.id);
+            e.dataTransfer.setData('widget_name', this.name.name);
         }
     }
 }

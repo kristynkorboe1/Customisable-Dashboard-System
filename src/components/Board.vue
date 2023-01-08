@@ -16,7 +16,7 @@
         <Widget
             v-if="this.widget === 'ExerciseChart'"
             :draggable="true">
-            <BarChart />
+            <ExerciseChart />
         </Widget>
 
         <Widget
@@ -31,41 +31,61 @@
             <BolusInsulinChart />
         </Widget>
 
-        <!-- <slot /> -->
-
     </div>
 </template>
 
 <script>
 import Widget from '../components/Widget.vue'
-import BarChart from '../components/BarChart.vue'
+import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
-import CarbohydrateChart from '../components/CarbohydrateChart.vue'
-import GlucoseChart from '../components/GlucoseChart.vue'
 
 export default {
     props: {
-        widget: ""
+        widget: "",
+        parentTab: "",
+        id: 0
     },
 
+    data() {
+		return {
+			newWidget:""
+		}
+	},
+
     components: {
-        Widget, BarChart, BasalInsulinChart, BolusInsulinChart
+        Widget, 
+        ExerciseChart, 
+        BasalInsulinChart, 
+        BolusInsulinChart
     },
 
     methods: {
-        drop: e => {
-            const widget_id = e.dataTransfer.getData('widget_id');
-            const widget = document.getElementById(widget_id);
-            // this.$emit('add-widget', widget)
-            widget.style.display = "block";
-            e.target.appendChild(widget);
+        drop(e) {
+            const widget_name = e.dataTransfer.getData('widget_name');
+            this.newWidget = widget_name
+            this.setWidget()
         },
+        async setWidget(){
+            const result = await fetch('http://localhost:5000/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.parentTab)
+		    const tabID = tab.id
+            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
+            tab.boards[boardIndex].widget = this.newWidget
+            console.log(tab.boards[boardIndex].widget)
 
-        // setWidget(widgetName) {
-        //     this.widget = widgetName
-        //     $emit('add-widget', widgetName)
-        // },
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(tab),
+				})
+        
+            return data
+        }
     },
     emits: ['delete-board', 'add-widget']
 }

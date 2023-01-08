@@ -22,7 +22,7 @@ import json from "../Data/BarChartData.json";
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-  name: 'BarChart',
+  name: 'ExerciseChart',
   components: { Bar },
   props: {
     chartId: {
@@ -65,7 +65,8 @@ export default {
         } ]
       },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        maintainAspectRatio: false,
       }
     }
   },

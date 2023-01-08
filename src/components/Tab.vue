@@ -2,17 +2,36 @@
     <div class="tab">
 
         <h2>{{ tabName }}</h2>
-        <p class="desc" contenteditable="true" placeholder="Type notes here..."></p>
+        <!-- <textarea 
+            v-bind="notes" 
+            placeholder="add multiple lines">
+        </textarea> -->
+        <div>
+            <p 
+                class="desc" 
+                contenteditable="true"
+                placeholder="You can add your notes here..."
+                @input="onInput">
+                {{ notes }}
+            </p>
+            <button 
+                @click="saveNotes">
+                Save notes
+            </button>
+        </div>
 
-        <select
+        <!-- <select
             v-model="newWidget">
-            <option value="" disabled selected>Select widget</option>
+            <option 
+                value="" disabled selected>
+                Select widget
+            </option>
             <option 
                 v-for="(widget, index) in widgets"
                 :key="index">
                 {{ widget.name }}
             </option>
-        </select>
+        </select> -->
             
         <button 
             class="newBoard" 
@@ -23,8 +42,10 @@
         <main class="flexbox">
             <Board 
                 v-for="(board, index) in boards"
+                :id="board.id"
                 :key="index"
                 :widget="boards[index].widget"
+                :parentTab="tabName"
                 @delete-board="deleteBoard(board.id)"
                 @add-widget="addWidget(board.widget, board.id)">
             </Board>
@@ -41,8 +62,14 @@ export default {
     props: {
         tabName: '',
         boards: [],
-        widgets: []
+        widgets: [],
+        notes: ''
     },
+    data() {
+		return {
+			newNotes:""
+		}
+	},
     components: {
         Board,
     },
@@ -64,39 +91,35 @@ export default {
 					},
 					body: JSON.stringify(tab),
 				})
-            console.log(this.widgets)
+        
             return data
 		},
 
-        // async addWidget(widget, boardID) {	
-        //     const result = await fetch('http://localhost:5000/tabs')
-        //     const data = await result.json()
-        //     const tab = data.find(tab => tab.tabName === this.tabName)
-		//     const tabID = tab.id
-        //     const boardIndex = tab.boards.findIndex(board => board.id === boardID)
-        //     tab.boards[boardIndex].widget = widget
-        //     console.log(tab.boards[boardIndex].widget)
-        //     this.boards[boardIndex].widget = widget
+        onInput(e) {
+            this.newNotes=e.target.innerText
+        },
 
-        //     console.log(widget)
+        async saveNotes() {
+            const result = await fetch('http://localhost:5000/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.tabName)
+		    const tabID = tab.id
+            tab.notes = this.newNotes
 
-        //     const index = tab.boards.findIndex(board => board.id === boardID)
-        //     console.log(tab.boards.widgets)
-        //     this.boards.splice(index, 1)
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(tab),
+				})
+        
+            return data
+        }
 
-		// 	const res = await fetch(`http://localhost:5000/tabs/${id}`, 
-		// 		{
-		// 			method: 'PUT',
-		// 			headers: {
-		// 			'Content-type': 'application/json',
-		// 			},
-		// 			body: JSON.stringify(tab),
-		// 		})
-
-        //     return data
-		// },
     },
-    emits: ['add-board-click']
+    emits: ['add-board-click', 'edit-notes']
 }
 </script>
 
@@ -136,6 +159,10 @@ export default {
         color: var(--dark);
     }
 
+    p {
+        margin-left: 0px;
+    }
+
     button {
         background-color: var(--light);
 			border: 2px solid var(--dark);
@@ -148,7 +175,7 @@ export default {
 
     .desc {
         width: 1200px;
-        height: 40px;
+        height: 20px;
         max-height: 60px;
         background: var(--light);
         word-break: break-word;

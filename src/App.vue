@@ -1,7 +1,6 @@
 <template>
 	<div class="app">
-		<Sidebar 
-			:widgets="widgets"/>
+		<Sidebar />
 		<div>
 			<TabsTest 
 				:tabs="tabs"
@@ -86,7 +85,8 @@ export default {
 
 				const newTab = {
 					tabName: tName,
-					boards: [{"id": 1, widgets: []}]
+					boards: [{"id": 1, widget: null}],
+					notes: ""
 				}
 
 				const res = await fetch('http://localhost:5000/tabs', 

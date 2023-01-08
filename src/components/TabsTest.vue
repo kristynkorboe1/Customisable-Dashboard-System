@@ -21,7 +21,9 @@
 				</option>
 			</select>
 			
-			<button class="removeTab" @click="$emit('delete-tab', dTab)">
+			<button 
+				class="removeTab" 
+				@click="$emit('delete-tab', dTab)">
 				Delete tab
 			</button>
 		</div>
@@ -44,6 +46,7 @@
 			v-for="(tab, index) in [activeTab]" 
 			:key="index"
 			:tabName="tab.tabName"
+			:notes="tab.notes"
 			:boards="tab.boards"
 			:widgets="widgets"
 			@add-board-click="$emit('add-board', widget, tab.tabName)">
@@ -72,7 +75,11 @@ export default {
 	components: {
 		Tab
 	},
-	emits: ['select-tab', 'delete-tab', 'add-tab', 'add-board'],
+	emits: ['select-tab', 
+			'delete-tab', 
+			'add-tab', 
+			'add-board', 
+			'save-notes'],
 }	
 </script>
 

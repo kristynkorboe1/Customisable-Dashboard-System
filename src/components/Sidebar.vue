@@ -17,7 +17,7 @@
                     :id=1
                     :draggable="true"
                     :name="ExerciseChart">
-                    <BarChart />
+                    <ExerciseChart />
                 </Widget>
 
                 <Widget
@@ -42,7 +42,7 @@
 import { ref } from 'vue'
 import Board from '../components/Board.vue'
 import Widget from '../components/Widget.vue'
-import BarChart from '../components/BarChart.vue'
+import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
 
@@ -55,14 +55,14 @@ const ToggleMenu = () => {
 
 <script>
   export default {
-    components: { Board, Widget, BarChart, BasalInsulinChart, BolusInsulinChart },
+    components: { Board, Widget, ExerciseChart, BasalInsulinChart, BolusInsulinChart },
     props: {
         value: {
             type: String,
             required: true,
             default: ""
         },
-        widgets: []
+        // widgets: []
     }
   }
 </script>
@@ -148,6 +148,10 @@ aside {
         background-color: var(--light);
         border-radius: 4px;
         padding: 2px;
+    }
+
+    .barChart {
+        max-height: 70px
     }
 }
 </style>
