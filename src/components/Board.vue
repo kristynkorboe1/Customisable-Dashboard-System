@@ -14,19 +14,19 @@
         </button>
 
         <Widget
-            v-if="this.widget === 'Exercise Chart'"
+            v-if="this.widget === 'ExerciseChart'"
             :draggable="true">
             <BarChart />
         </Widget>
 
         <Widget
-            v-if="this.widget === 'Basal Insulin Chart'"
+            v-if="this.widget === 'BasalInsulinChart'"
             :draggable="true">
             <BasalInsulinChart />
         </Widget>
 
         <Widget
-            v-if="this.widget === 'Bolus Insulin Chart'"
+            v-if="this.widget === 'BolusInsulinChart'"
             :draggable="true">
             <BolusInsulinChart />
         </Widget>
