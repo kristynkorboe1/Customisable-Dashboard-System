@@ -1,36 +1,48 @@
 {
   "tabs": [
     {
-      "id": "1",
+      "id": 1,
       "tabName": "Insulin Timeseries",
       "boards": [
         {
-          "id": 1
+          "id": 1,
+          "widget": "ExerciseChart"
         },
         {
-          "id": 2
+          "id": 2,
+          "widget": "BasalInsulinChart"
         },
         {
-          "id": 3
-        }
-      ],
-      "selected": true
-    },
-    {
-      "id": "2",
-      "tabName": "Glucose Timeseries",
-      "boards": [
-        {
-          "id": 1
-        },
-        {
-          "id": 2
-        },
-        {
-          "id": 3
+          "id": 3,
+          "widget": "BolusInsulinChart"
         }
       ],
       "selected": false
+    },
+    {
+      "id": 2,
+      "tabName": "Glucose Timeseries",
+      "boards": [
+        {
+          "id": 1,
+          "widget": ""
+        }
+      ],
+      "selected": false
+    }
+  ],
+  "widgets": [
+    {
+      "id": 1,
+      "name": "ExerciseChart"
+    },
+    {
+      "id": 2,
+      "name": "BasalInsulinChart"
+    },
+    {
+      "id": 3,
+      "name": "BolusInsulinChart"
     }
   ]
 }

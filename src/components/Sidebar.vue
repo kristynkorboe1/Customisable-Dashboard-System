@@ -13,39 +13,26 @@
 
         <div class="menu">
 
-            <!-- <Board id="main-board"> -->
-
-                <Widget id="widgetb" draggable="true">
-                    <BarChart />
-                </Widget>
-
-                <!-- <Widget
-                    v-if="this.widget === 'Exercise Chart'"
-                    :draggable="true">
+                <Widget
+                    :id=1
+                    :draggable="true"
+                    :name="ExerciseChart">
                     <BarChart />
                 </Widget>
 
                 <Widget
-                    v-if="this.widget === 'Basal Insulin Chart'"
-                    :draggable="true">
+                    :id=2
+                    :draggable="true"
+                    :name="BasalInsulinChart">
                     <BasalInsulinChart />
                 </Widget>
 
                 <Widget
-                    v-if="this.widget === 'Bolus Insulin Chart'"
-                    :draggable="true">
+                    :id=3
+                    :draggable="true"
+                    :name="BolusInsulinChart">
                     <BolusInsulinChart />
                 </Widget>
-
-                <Widget 
-                    v-for="(widget, index) in widgetComponents"
-                    :key="index"
-                    :widget="boards[index].widget"
-                    @delete-board="deleteBoard(board.id)"
-                    @add-widget="addWidget(board.widget, board.id)">
-                </Widget> -->
-
-            <!-- </Board> -->
 
         </div>
     </aside>
@@ -75,19 +62,7 @@ const ToggleMenu = () => {
             required: true,
             default: ""
         },
-        widgets: [],
-        widgetComponents: [BarChart, BasalInsulinChart, BolusInsulinChart]
-    },
-    data() {
-		return {
-			widgets: [
-			] 
-		}
-	},
-    methods: {
-      addWidget (inpWidget){ 
-            this.widgets.push(inpWidget);
-		},
+        widgets: []
     }
   }
 </script>
