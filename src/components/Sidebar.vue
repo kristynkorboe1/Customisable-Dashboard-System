@@ -61,8 +61,7 @@ const ToggleMenu = () => {
             type: String,
             required: true,
             default: ""
-        },
-        // widgets: []
+        }
     }
   }
 </script>

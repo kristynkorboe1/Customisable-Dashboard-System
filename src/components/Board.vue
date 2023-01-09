@@ -28,7 +28,7 @@
             v-if="this.widget === 'ExerciseChart'"
             :name="ExerciseChart"
             :draggable="true">
-            <ExerciseChart />
+            <ExerciseChart :showButtons="true"/>
         </Widget>
 
         <Widget
