@@ -4,30 +4,47 @@
         @dragover.prevent
         @drop.prevent="drop">
 
-        <button
-            class="closeButton"
-            @click="$emit('delete-board', id)">
-            <span class="material-symbols-outlined">
-                close   
-            </span>
+        <div
+            class=buttons>
 
-        </button>
+            <button
+                class="saveSize"
+                @click="setBoardSize">
+                Save new board size
+            </button>
+
+            <button
+                class="closeButton"
+                @click="$emit('delete-board', id)">
+                <span class="material-symbols-outlined">
+                    close   
+                </span>
+            </button>
+
+        </div>
 
         <Widget
+            :showButton="true"
             v-if="this.widget === 'ExerciseChart'"
+            :name="ExerciseChart"
             :draggable="true">
             <ExerciseChart />
         </Widget>
 
         <Widget
+            :showButton="true"
             v-if="this.widget === 'BasalInsulinChart'"
+            :name="BasalInsulinChart"
             :draggable="true">
             <BasalInsulinChart />
         </Widget>
 
         <Widget
+            :showButton="true"
             v-if="this.widget === 'BolusInsulinChart'"
-            :draggable="true">
+            :name="BolusInsulinChart"
+            :draggable="true"
+            >
             <BolusInsulinChart />
         </Widget>
 
@@ -44,12 +61,14 @@ export default {
     props: {
         widget: "",
         parentTab: "",
-        id: 0
+        id: 0,
+        width: 1120,
+        height: 470
     },
 
     data() {
 		return {
-			newWidget:""
+			newWidget: ""
 		}
 	},
 
@@ -66,6 +85,7 @@ export default {
             this.newWidget = widget_name
             this.setWidget()
         },
+
         async setWidget(){
             const result = await fetch('http://localhost:5000/tabs')
             const data = await result.json()
@@ -73,7 +93,6 @@ export default {
 		    const tabID = tab.id
             const boardIndex = tab.boards.findIndex(board => board.id === this.id)
             tab.boards[boardIndex].widget = this.newWidget
-            console.log(tab.boards[boardIndex].widget)
 
 			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
 				{
@@ -85,10 +104,35 @@ export default {
 				})
 
             res.status === 200
-				? alert ('Widget sucessfully. Please refresh the page if it doesn\'t show up')
+				? alert ('Widget added sucessfully. Please refresh the page if it doesn\'t show up')
 				: alert ('Error adding widget. Please try again')
 
-        
+            $emit('reload-board')
+        },
+
+        async setBoardSize() {
+
+            const result = await fetch('http://localhost:5000/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.parentTab)
+		    const tabID = tab.id
+            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
+            tab.boards[boardIndex].height = document.activeElement.parentElement.parentElement.clientHeight
+            tab.boards[boardIndex].width = document.activeElement.parentElement.parentElement.clientWidth
+
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(tab),
+				})
+
+            res.status === 200
+				? alert ('Please refresh the page to store new size.')
+				: alert ('Error saving new board size. Please try again.')
+
             $emit('reload-board')
         }
     },
@@ -101,6 +145,33 @@ export default {
         font-size: 2rem;
         right: 20px;
         color: var(--primary);
+    }
+
+    .closeButton {
+        position: relative;
+        margin-left: 90%;
+    }
+
+    .board {
+       width: v-bind(width)px;
+       height: v-bind(height)px;
+       background-color: var(--dark-alt);
+       padding: 15px;
+       overflow: auto;
+       resize: both;
+    }
+
+    .saveSize {
+        background-color: var(--dark-alt);
+        border: 2px solid var(--dark);
+        border-radius: 4px;
+        color: var(--primary);
+        font-size: 0.8rem;
+        padding: 2px;
+    }
+
+    .buttons {
+        display: flex;
     }
 
 </style>
