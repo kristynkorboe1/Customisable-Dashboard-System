@@ -29,6 +29,7 @@
                 :key="index"
                 :widget="boards[index].widget"
                 :parentTab="tabName"
+                :exerciseData="exerciseData"
                 :style="{ height: `${board.height}px`, width: `${board.width}px`}"
                 @delete-board="deleteBoard(board.id)"
                 @reload-board="$emit('reload-tab')">
@@ -47,6 +48,7 @@ export default {
         tabName: '',
         boards: [],
         widgets: [],
+        exerciseData: [],
         notes: ''
     },
     data() {

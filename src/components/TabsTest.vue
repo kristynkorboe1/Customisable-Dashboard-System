@@ -49,6 +49,7 @@
 			:notes="tab.notes"
 			:boards="tab.boards"
 			:widgets="widgets"
+			:exerciseData="exerciseData"
 			@add-board-click="$emit('add-board', tab.tabName)"
 			@reload-tab="$emit('reload-tabs')">
 		</tab>
@@ -72,6 +73,10 @@ export default {
             type: Array,
             default: []
             },
+		exerciseData: {
+            type: Array,
+            default: []
+            }
 	},
 	components: {
 		Tab

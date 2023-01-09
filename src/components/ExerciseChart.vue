@@ -15,15 +15,15 @@ import { Bar } from 'vue-chartjs'
       Show all available data
     </button>
 
-    <button
-      class="saveSize"
+    <!-- <button
+      @click="toggleShowAverage"
       >
       Show average for the week
-    </button>
+    </button> -->
   </div>
 
   <Bar
-    v-if="showWeek"
+    v-if="showWeek && showGraphs"
     :chart-options="chartOptions"
     :chart-data="chartDataWeek"
     :chart-id="chartId"
@@ -36,7 +36,8 @@ import { Bar } from 'vue-chartjs'
   />
 
   <Bar
-    v-if="!showWeek"
+    v-if="!showWeek && showGraphs"
+    :exerciseData="exerciseData"
     :chart-options="chartOptions"
     :chart-data="chartDataAll"
     :chart-id="chartId"
@@ -47,12 +48,17 @@ import { Bar } from 'vue-chartjs'
     :width="width"
     :height="height"
   />
+
+  <h1
+    v-if="showAverage" >
+    <span>You average exercise time in minutes is... {{average}} for the week</span>
+  </h1>
+
 </template>
 
 <script>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import json from "../Data/BarChartData.json"
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -61,10 +67,24 @@ const showWeek = false
 export default {
   name: 'ExerciseChart',
 
-  components: { Bar },
+  components: { 
+    Bar
+  },
 
   props: {
+    exerciseData: {
+      type: Array,
+      default: [1]
+    },
+    // average: {
+    //   type: Number,
+    //   default: this.exerciseData.slice(-7).average
+    // },
     showButtons: {
+      type: Boolean,
+      default: false
+    },
+    showAverage: {
       type: Boolean,
       default: false
     },
@@ -101,18 +121,21 @@ export default {
   data() {
     return {
       showWeek: false, 
+      showGraphs: true,
+      // showAverage: false,
+      // average:this.exerciseData.map(item => item.ex).slice(-7).average,
       chartDataWeek: {
-        labels: json.avgDailyEx.map(item => item.date).slice(-7),
+        labels: this.exerciseData.map(item => item.date).slice(-7),
         datasets: [ { 
-          data: json.avgDailyEx.map(item => item.ex).slice(-7),
+          data: this.exerciseData.map(item => item.ex).slice(-7),
           label: 'Daily Exercise Time (min)',
         } ]
       },
       chartDataAll: {
-          labels: json.avgDailyEx.map(item => item.date),
+          labels: this.exerciseData.map(item => item.date),
           datasets: [ { 
-            data: json.avgDailyEx.map(item => item.ex),
-            label: 'Average Daily Exercise Time (min)',
+            data: this.exerciseData.map(item => item.ex),
+            label: 'Daily Exercise Time (min)',
           } ]
         },
       chartOptions: {
@@ -126,8 +149,13 @@ export default {
 
   methods: {
     toggleShowWeek() {
+      // this.showAverage = false
+      this.showGraphs = true
       this.showWeek = !this.showWeek
-      console.log(this.showWeek)
+    },
+    toggleShowAverage() {
+      this.showGraphs = false
+      // this.showAverage = true
     }
   }
 }
@@ -141,5 +169,11 @@ export default {
     color: var(--primary);
     font-size: 0.8rem;
     padding: 2px;
-    }
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 4rem;
+    color: var(--primary);
+  }
 </style>

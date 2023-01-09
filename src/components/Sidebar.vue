@@ -17,21 +17,30 @@
                     :id=1
                     :draggable="true"
                     :name="ExerciseChart">
-                    <ExerciseChart />
+                    <span class="material-symbols-outlined">
+                        fitness_center
+                    </span>
+                    <h3>Exercise Data</h3>
                 </Widget>
 
                 <Widget
                     :id=2
                     :draggable="true"
                     :name="BasalInsulinChart">
-                    <BasalInsulinChart />
+                    <span class="material-symbols-outlined">
+                        show_chart
+                    </span>
+                    <h4>Basal Insulin Timeseries</h4>
                 </Widget>
 
                 <Widget
                     :id=3
                     :draggable="true"
                     :name="BolusInsulinChart">
-                    <BolusInsulinChart />
+                    <span class="material-symbols-outlined">
+                        show_chart
+                    </span>
+                    <h4>Bolus Insulin Timeseries</h4>
                 </Widget>
 
         </div>

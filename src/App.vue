@@ -6,6 +6,7 @@
 				:tabs="tabs"
 				:activeTab="activeTab"
 				:widgets="widgets"
+				:exerciseData="exerciseData"
 				@select-tab="selectTab"
 				@delete-tab="deleteTab"
 				@add-tab="addTab"
@@ -33,7 +34,8 @@ export default {
 		return {
 			tabs: [],
 			widgets: [],
-			activeTab: {}
+			activeTab: {},
+			exerciseData: []
 		}
 	},
 	methods: {
@@ -185,8 +187,14 @@ export default {
 			return data
 		},
 
-		async fetchWidgets(tabName) {
-			const res = await fetch(`http://localhost:5000/widgets`)
+		async fetchWidgets() {
+			const res = await fetch('http://localhost:5000/widgets')
+			const data = await res.json()
+			return data
+        },
+
+		async fetchExerciseData() {
+			const res = await fetch('http://localhost:5000/dailyEx')
 			const data = await res.json()
 			return data
         },
@@ -204,6 +212,10 @@ export default {
 		}
 
 		this.widgets = await this.fetchWidgets()
+
+		this.exerciseData = await this.fetchExerciseData()
+
+		console.log(this.exerciseData)
 	},
 }
 </script>

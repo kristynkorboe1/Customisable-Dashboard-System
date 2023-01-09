@@ -28,7 +28,9 @@
             v-if="this.widget === 'ExerciseChart'"
             :name="ExerciseChart"
             :draggable="true">
-            <ExerciseChart :showButtons="true"/>
+            <ExerciseChart 
+                :showButtons="true"
+                :exerciseData="exerciseData"/>
         </Widget>
 
         <Widget
@@ -63,7 +65,8 @@ export default {
         parentTab: "",
         id: 0,
         width: 1120,
-        height: 470
+        height: 470,
+        exerciseData: []
     },
 
     data() {
