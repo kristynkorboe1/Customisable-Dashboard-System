@@ -107,10 +107,10 @@ export default {
 				})
 
             res.status === 200
-				? alert ('Widget added sucessfully. Please refresh the page if it doesn\'t show up')
+				? location.reload()
 				: alert ('Error adding widget. Please try again')
 
-            $emit('reload-board')
+            // $emit('reload-board')
         },
 
         async setBoardSize() {
@@ -133,10 +133,10 @@ export default {
 				})
 
             res.status === 200
-				? alert ('Please refresh the page to store new size.')
+				? location.reload()
 				: alert ('Error saving new board size. Please try again.')
 
-            $emit('reload-board')
+            // $emit('reload-board')
         }
     },
     emits: ['delete-board', 'reload-board']

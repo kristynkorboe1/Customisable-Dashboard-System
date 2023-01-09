@@ -152,6 +152,7 @@ export default {
       // this.showAverage = false
       this.showGraphs = true
       this.showWeek = !this.showWeek
+      console.log(this.chartDataWeek)
     },
     toggleShowAverage() {
       this.showGraphs = false

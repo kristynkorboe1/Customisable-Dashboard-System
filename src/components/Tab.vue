@@ -100,8 +100,10 @@ export default {
 					},
 					body: JSON.stringify(tab),
 				})
-        
-            return data
+
+            location.reload()
+
+            // $emit('reload-tab')
         }
 
     },

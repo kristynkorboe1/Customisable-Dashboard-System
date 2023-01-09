@@ -84,7 +84,8 @@ export default {
 	emits: ['select-tab', 
 			'delete-tab', 
 			'add-tab', 
-			'add-board'],
+			'add-board',
+			'reload-tabs'],
 }	
 </script>
 
