@@ -132,6 +132,8 @@ export default {
 		},
 
 		async addBoard(tName) {
+			
+			this.tabs = await this.fetchTabs()
 
 			const index = this.tabs.findIndex(tab => tab.tabName === tName)
 			const updatedTab = this.tabs[index]
