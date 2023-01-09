@@ -30,12 +30,19 @@
         {
           "id": 1,
           "widget": "ExerciseChart",
-          "height": 490,
-          "width": 1210,
+          "height": 518,
+          "width": 552,
+          "showWeek": false
+        },
+        {
+          "id": 2,
+          "widget": "ExerciseChart",
+          "height": 520,
+          "width": 597,
           "showWeek": false
         }
       ],
-      "selected": false
+      "selected": true
     }
   ],
   "widgets": [
