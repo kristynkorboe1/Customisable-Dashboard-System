@@ -38,6 +38,8 @@ export default {
 	},
 	methods: {
 		async selectTab(selectedTab) {
+
+			this.tabs = await this.fetchTabs()
 			
 			const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
 
@@ -97,7 +99,7 @@ export default {
 		async addTab(tName) {
 			const newTab = {
 				tabName: tName,
-				boards: [{"id": 1, widget: null}],
+				boards: [{"id": 1, widget: null, "height": 470, "width": 1120}],
 				notes: "",
 				selected: true
 			}
@@ -139,11 +141,11 @@ export default {
 			const updatedTab = this.tabs[index]
 
 			if (updatedTab.boards.length === 0) {
-				updatedTab.boards.push({ "id": 1, "widget": null})
+				updatedTab.boards.push({ "id": 1, "widget": null, "height": 470, "width": 1120})
 			}
 
 			else {
-				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null})
+				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null, "height": 470, "width": 1120})
 			}
 
 			const tabID = updatedTab.id
@@ -192,7 +194,15 @@ export default {
 
 	async created() {	
 		this.tabs = await this.fetchTabs()
-		this.activeTab = this.tabs.find((tab) => tab.selected === true)
+	
+		if(this.tabs.find((tab) => tab.selected === true) === undefined) {
+			this.selectTab(this.tabs[0])
+		}
+
+		else {
+			this.activeTab = this.tabs.find((tab) => tab.selected === true)
+		}
+
 		this.widgets = await this.fetchWidgets()
 	},
 }
