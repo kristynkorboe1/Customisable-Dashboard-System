@@ -7,6 +7,7 @@
 				:activeTab="activeTab"
 				:widgets="widgets"
 				:exerciseData="exerciseData"
+				:isFetchingED="isFetchingED"
 				@select-tab="selectTab"
 				@delete-tab="deleteTab"
 				@add-tab="addTab"
@@ -35,7 +36,8 @@ export default {
 			tabs: [],
 			widgets: [],
 			activeTab: {},
-			exerciseData: []
+			exerciseData: [],
+			isFetchingED: true
 		}
 	},
 	methods: {
@@ -236,6 +238,7 @@ export default {
 		this.widgets = await this.fetchWidgets()
 
 		this.exerciseData = await this.fetchExerciseData()
+		this.isFetchingED = false
 	},
 }
 </script>

@@ -50,6 +50,7 @@
 			:boards="tab.boards"
 			:widgets="widgets"
 			:exerciseData="exerciseData"
+			:isFetchingED="isFetchingED"
 			@add-board-click="$emit('add-board', tab.tabName)"
 			@reload-tab="$emit('reload-tabs')">
 		</tab>
@@ -61,22 +62,11 @@ import Tab from './Tab.vue'
 export default {
 	name: 'Tabs',
 	props: {
-		tabs: {
-            type: Array,
-            default: []
-            },
-		activeTab: {
-            type: Object,
-            default: {}
-            },
-		widgets: {
-            type: Array,
-            default: []
-            },
-		exerciseData: {
-            type: Array,
-            default: []
-            }
+		tabs: [],
+		activeTab: {},
+		widgets: [],
+		exerciseData: [],
+		isFetchingED: true
 	},
 	components: {
 		Tab

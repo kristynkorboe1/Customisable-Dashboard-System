@@ -30,6 +30,7 @@
                 :widget="boards[index].widget"
                 :parentTab="tabName"
                 :exerciseData="exerciseData"
+                :isFetchingED="isFetchingED"
                 :showWeek="board.showWeek"
                 :style="{ height: `${board.height}px`, width: `${board.width}px`}"
                 @delete-board="deleteBoard(board.id)"
@@ -50,7 +51,8 @@ export default {
         boards: [],
         widgets: [],
         exerciseData: [],
-        notes: ''
+        notes: '',
+        isFetchingED: true
     },
     data() {
 		return {

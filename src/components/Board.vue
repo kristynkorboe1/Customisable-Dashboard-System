@@ -32,6 +32,7 @@
                 :showButtons="true"
                 :exerciseData="exerciseData"
                 :showWeek="showWeek"
+                :isFetchingED="isFetchingED"
                 @toggle-show-week="toggleShowWeek"/>
         </Widget>
 
@@ -69,7 +70,8 @@ export default {
         width: 1120,
         height: 470,
         exerciseData: [],
-        showWeek: false
+        showWeek: false,
+        isFetchingED: true
     },
 
     data() {
@@ -99,6 +101,10 @@ export default {
 		    const tabID = tab.id
             const boardIndex = tab.boards.findIndex(board => board.id === this.id)
             tab.boards[boardIndex].widget = this.newWidget
+
+            if(this.newWidget === "ExerciseChart") {
+                
+            }
 
 			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
 				{

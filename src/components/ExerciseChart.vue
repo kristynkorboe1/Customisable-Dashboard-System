@@ -1,59 +1,48 @@
 import { Bar } from 'vue-chartjs'
 
 <template>
-  <div
-    v-if="showButtons">
-    <button
-      v-if="!showWeek"
-      @click="toggleShowWeek">
-      Show past week only
-    </button>
+  <div v-if="dataAvailable">
+    <div
+      v-if="showButtons">
+      <button
+        v-if="!showWeek"
+        @click="toggleShowWeek">
+        Show past week only
+      </button>
 
-    <button
+      <button
+        v-if="showWeek"
+        @click="toggleShowWeek">
+        Show all available data
+      </button>
+    </div>
+
+    <Bar
       v-if="showWeek"
-      @click="toggleShowWeek">
-      Show all available data
-    </button>
+      :chart-options="chartOptions"
+      :chart-data="chartDataWeek"
+      :chart-id="chartId"
+      :dataset-id-key="datasetIdKey"
+      :plugins="plugins"
+      :css-classes="cssClasses"
+      :styles="styles"
+      :width="width"
+      :height="height"
+    />
 
-    <!-- <button
-      @click="toggleShowAverage"
-      >
-      Show average for the week
-    </button> -->
+    <Bar
+      v-if="!showWeek"
+      :chart-options="chartOptions"
+      :chart-data="chartDataAll"
+      :chart-id="chartId"
+      :dataset-id-key="datasetIdKey"
+      :plugins="plugins"
+      :css-classes="cssClasses"
+      :styles="styles"
+      :width="width"
+      :height="height"
+    />
   </div>
-
-  <Bar
-    v-if="showWeek"
-    :chart-options="chartOptions"
-    :chart-data="chartDataWeek"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-  />
-
-  <Bar
-    v-if="!showWeek"
-    :exerciseData="exerciseData"
-    :chart-options="chartOptions"
-    :chart-data="chartDataAll"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-  />
-
-  <h1
-    v-if="showAverage" >
-    <span>You average exercise time in minutes is... {{average}} for the week</span>
-  </h1>
-
 </template>
 
 <script>
@@ -72,7 +61,7 @@ export default {
   props: {
     exerciseData: {
       type: Array,
-      default: [1]
+      default: []
     },
     showButtons: {
       type: Boolean,
@@ -81,6 +70,10 @@ export default {
     showWeek: {
       type: Boolean,
       default: false
+    },
+    isFetchingED:{
+      type: Boolean,
+      default: true
     },
     chartId: {
       type: String,
@@ -114,6 +107,7 @@ export default {
 
   data() {
     return {
+      dataAvailable: false,
       chartDataWeek: {
         labels: this.exerciseData.map(item => item.date).slice(-7),
         datasets: [ { 
@@ -132,14 +126,20 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
       }
-    }
-
-  
+    }  
   },
 
   methods: {
     toggleShowWeek() {
       this.$emit('toggle-show-week', !this.showWeek)
+    }
+  },
+
+  watch: {
+    isFetchingED(newValue, oldValue) {
+      console.log(oldValue)
+      console.log(newValue)
+      this.dataAvailable = true
     }
   },
 
