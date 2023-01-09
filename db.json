@@ -9,13 +9,15 @@
           "height": 470,
           "width": 1120,
           "id": 1,
-          "widget": "BasalInsulinChart"
+          "widget": "BasalInsulinChart",
+          "showWeek": false
         },
         {
           "height": 470,
           "width": 1120,
           "id": 2,
-          "widget": "BolusInsulinChart"
+          "widget": "BolusInsulinChart",
+          "showWeek": false
         }
       ],
       "selected": false
@@ -23,16 +25,17 @@
     {
       "id": 2,
       "tabName": "Exercise Board",
-      "notes": "",
+      "notes": "Testing",
       "boards": [
         {
           "id": 1,
           "widget": "ExerciseChart",
           "height": 490,
-          "width": 1210
+          "width": 1210,
+          "showWeek": false
         }
       ],
-      "selected": true
+      "selected": false
     }
   ],
   "widgets": [
