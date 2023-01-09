@@ -74,6 +74,20 @@ export default {
 		},
 
 		async deleteTab(dTab) {
+			
+			const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
+
+			this.activeTab.selected = false
+
+			await fetch(`http://localhost:5000/tabs/${pSelectedTabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(this.activeTab),
+				})
+
 			if(dTab===undefined){
 				alert("Please select a tab to delete");
 			}
@@ -103,21 +117,30 @@ export default {
 				tabName: tName,
 				boards: [{"id": 1, widget: null, "height": 470, "width": 1120}],
 				notes: "",
-				selected: true
+				selected: false
 			}
 
 			if (tName==null || !tName.replace(/\s/g, '').length) {
 				alert("Tab name cannot be empty");
-				return
 			}
 
 			if (this.tabs.find(tab => tab.tabName === tName)) {
 				alert("Tab name needs to be unique");
-				return
 			}
 
 			else if (confirm ('Tab name cannot be changed after tab is created.')){
-				this.tabs.map((tab) => tab.selected = false)
+				const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
+
+				this.activeTab.selected = false
+
+				await fetch(`http://localhost:5000/tabs/${pSelectedTabID}`, 
+					{
+						method: 'PUT',
+						headers: {
+						'Content-type': 'application/json',
+						},
+						body: JSON.stringify(this.activeTab),
+					})
 
 				const res = await fetch('http://localhost:5000/tabs', 
 				{
@@ -127,7 +150,6 @@ export default {
 					},
 					body: JSON.stringify(newTab),
 				})
-				const data = await res.json()
 			}
 
 			this.tabs = await this.fetchTabs()

@@ -96,7 +96,8 @@ export default {
 		
 		.addForm {
 			position: absolute;
-			right: 0;
+			// right: 0;
+			margin-left: 80%;
 		}
 		.newTab{
 			background-color: var(--light);
