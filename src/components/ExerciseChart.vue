@@ -2,7 +2,7 @@ import { Bar } from 'vue-chartjs'
 
 <template>
   <div
-    v-if="this.showButtons === true">
+    v-if="showButtons">
     <button
       v-if="!showWeek"
       @click="toggleShowWeek">
@@ -23,7 +23,7 @@ import { Bar } from 'vue-chartjs'
   </div>
 
   <Bar
-    v-if="showWeek && showGraphs"
+    v-if="showWeek"
     :chart-options="chartOptions"
     :chart-data="chartDataWeek"
     :chart-id="chartId"
@@ -36,7 +36,7 @@ import { Bar } from 'vue-chartjs'
   />
 
   <Bar
-    v-if="!showWeek && showGraphs"
+    v-if="!showWeek"
     :exerciseData="exerciseData"
     :chart-options="chartOptions"
     :chart-data="chartDataAll"
@@ -62,8 +62,6 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-const showWeek = false
-
 export default {
   name: 'ExerciseChart',
 
@@ -76,15 +74,11 @@ export default {
       type: Array,
       default: [1]
     },
-    // average: {
-    //   type: Number,
-    //   default: this.exerciseData.slice(-7).average
-    // },
     showButtons: {
       type: Boolean,
       default: false
     },
-    showAverage: {
+    showWeek: {
       type: Boolean,
       default: false
     },
@@ -120,10 +114,6 @@ export default {
 
   data() {
     return {
-      showWeek: false, 
-      showGraphs: true,
-      // showAverage: false,
-      // average:this.exerciseData.map(item => item.ex).slice(-7).average,
       chartDataWeek: {
         labels: this.exerciseData.map(item => item.date).slice(-7),
         datasets: [ { 
@@ -149,16 +139,11 @@ export default {
 
   methods: {
     toggleShowWeek() {
-      // this.showAverage = false
-      this.showGraphs = true
-      this.showWeek = !this.showWeek
-      console.log(this.chartDataWeek)
-    },
-    toggleShowAverage() {
-      this.showGraphs = false
-      // this.showAverage = true
+      this.$emit('toggle-show-week', !this.showWeek)
     }
-  }
+  },
+
+  emits:['toggle-show-week']
 }
 </script>
 

@@ -30,6 +30,7 @@
                 :widget="boards[index].widget"
                 :parentTab="tabName"
                 :exerciseData="exerciseData"
+                :showWeek="board.showWeek"
                 :style="{ height: `${board.height}px`, width: `${board.width}px`}"
                 @delete-board="deleteBoard(board.id)"
                 @reload-board="$emit('reload-tab')">

@@ -74,7 +74,7 @@ export default {
 		},
 
 		async deleteTab(dTab) {
-			
+
 			const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
 
 			this.activeTab.selected = false
@@ -165,11 +165,11 @@ export default {
 			const updatedTab = this.tabs[index]
 
 			if (updatedTab.boards.length === 0) {
-				updatedTab.boards.push({ "id": 1, "widget": null, "height": 470, "width": 1120})
+				updatedTab.boards.push({ "id": 1, "widget": null, "height": 470, "width": 1120, "showWeek": false})
 			}
 
 			else {
-				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null, "height": 470, "width": 1120})
+				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null, "height": 470, "width": 1120, "showWeek": false})
 			}
 
 			const tabID = updatedTab.id
@@ -184,14 +184,14 @@ export default {
 				})
 
 			res.status === 200
-				? alert ('Board added sucessfully. Please refresh the page if it doesn\'t show up')
+				? location.reload()
 				: alert ('Error adding board. Please try again')
 
 			this.tabs = await this.fetchTabs()
 		},
 
-		async reLoadTabs() {
-			this.tabs = await this.fetchTabs()
+		reLoadTabs() {
+			location.reload()
 		},
 
 		async fetchTabs() {
@@ -236,8 +236,6 @@ export default {
 		this.widgets = await this.fetchWidgets()
 
 		this.exerciseData = await this.fetchExerciseData()
-
-		console.log(this.exerciseData)
 	},
 }
 </script>

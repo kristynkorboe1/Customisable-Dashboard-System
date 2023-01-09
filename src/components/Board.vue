@@ -27,17 +27,19 @@
             :showButton="true"
             v-if="this.widget === 'ExerciseChart'"
             :name="ExerciseChart"
-            :draggable="true">
+            :draggable="false">
             <ExerciseChart 
                 :showButtons="true"
-                :exerciseData="exerciseData"/>
+                :exerciseData="exerciseData"
+                :showWeek="showWeek"
+                @toggle-show-week="toggleShowWeek"/>
         </Widget>
 
         <Widget
             :showButton="true"
             v-if="this.widget === 'BasalInsulinChart'"
             :name="BasalInsulinChart"
-            :draggable="true">
+            :draggable="false">
             <BasalInsulinChart />
         </Widget>
 
@@ -45,7 +47,7 @@
             :showButton="true"
             v-if="this.widget === 'BolusInsulinChart'"
             :name="BolusInsulinChart"
-            :draggable="true"
+            :draggable="false"
             >
             <BolusInsulinChart />
         </Widget>
@@ -66,7 +68,8 @@ export default {
         id: 0,
         width: 1120,
         height: 470,
-        exerciseData: []
+        exerciseData: [],
+        showWeek: false
     },
 
     data() {
@@ -137,6 +140,29 @@ export default {
 				: alert ('Error saving new board size. Please try again.')
 
             // $emit('reload-board')
+        },
+
+        async toggleShowWeek(newValue) {
+
+            const result = await fetch('http://localhost:5000/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.parentTab)
+		    const tabID = tab.id
+            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
+            tab.boards[boardIndex].showWeek = newValue
+            
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(tab),
+				})
+
+            console.log(newValue)
+            console.log(this.showWeek)
+            location.reload()
         }
     },
     emits: ['delete-board', 'reload-board']
