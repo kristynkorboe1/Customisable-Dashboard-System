@@ -5,7 +5,6 @@
 			<TabsTest 
 				:tabs="tabs"
 				:activeTab="activeTab"
-				:widgets="widgets"
 				:exerciseData="exerciseData"
 				:isFetchingED="isFetchingED"
 				@select-tab="selectTab"
@@ -211,12 +210,6 @@ export default {
 			return data
 		},
 
-		async fetchWidgets() {
-			const res = await fetch('http://localhost:5000/widgets')
-			const data = await res.json()
-			return data
-        },
-
 		async fetchExerciseData() {
 			const res = await fetch('http://localhost:5000/dailyEx')
 			const data = await res.json()
@@ -234,8 +227,6 @@ export default {
 		else {
 			this.activeTab = this.tabs.find((tab) => tab.selected === true)
 		}
-
-		this.widgets = await this.fetchWidgets()
 
 		this.exerciseData = await this.fetchExerciseData()
 		this.isFetchingED = false

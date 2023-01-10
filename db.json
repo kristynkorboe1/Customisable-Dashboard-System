@@ -20,12 +20,12 @@
           "showWeek": false
         }
       ],
-      "selected": false
+      "selected": true
     },
     {
       "id": 2,
       "tabName": "Exercise Board",
-      "notes": "Testing",
+      "notes": "",
       "boards": [
         {
           "id": 1,
@@ -42,21 +42,7 @@
           "showWeek": false
         }
       ],
-      "selected": true
-    }
-  ],
-  "widgets": [
-    {
-      "id": 1,
-      "name": "ExerciseChart"
-    },
-    {
-      "id": 2,
-      "name": "BasalInsulinChart"
-    },
-    {
-      "id": 3,
-      "name": "BolusInsulinChart"
+      "selected": false
     }
   ],
   "dailyEx": [

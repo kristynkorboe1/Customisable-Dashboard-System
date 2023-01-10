@@ -48,7 +48,6 @@
 			:tabName="tab.tabName"
 			:notes="tab.notes"
 			:boards="tab.boards"
-			:widgets="widgets"
 			:exerciseData="exerciseData"
 			:isFetchingED="isFetchingED"
 			@add-board-click="$emit('add-board', tab.tabName)"

@@ -48,7 +48,7 @@ import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 import json from "../Data/BarChartData.json"
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-const showWeek = false
+
 export default {
   name: 'ExerciseChart',
   components: { Bar },
