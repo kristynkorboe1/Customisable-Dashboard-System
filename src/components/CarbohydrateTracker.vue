@@ -8,7 +8,8 @@
 			<small>Today's carbohydrate intake (g)</small>
 		</div>
 
-		<form @submit.prevent="addCarbIntake">
+		<form 
+			@submit.prevent="addCarbIntake">
 			<input 
 				type="number"
 				step="0.1"
@@ -48,7 +49,6 @@
 
 <script setup>
 import { ref, shallowRef, computed, watch, nextTick } from 'vue'
-
 import Chart from 'chart.js/auto'
 
 const carbIntakes = ref([])

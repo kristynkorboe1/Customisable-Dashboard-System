@@ -22,6 +22,18 @@
             Add new board
         </button>
 
+        <button
+            v-if="!showHour"
+            @click="toggleShowHour">
+            Show past hour for all timeseries
+        </button>
+
+        <button
+            v-if="showHour"
+            @click="toggleShowHour">
+            Show all available data for all timeseries
+        </button>
+
         <main class="flexbox">
             <Board 
                 v-for="(board, index) in boards"
@@ -32,6 +44,8 @@
                 :exerciseData="exerciseData"
                 :isFetchingED="isFetchingED"
                 :showWeek="board.showWeek"
+                :insulinData="InsulinData"
+                :showHour="showHour"
                 :style="{ height: `${board.height}px`, width: `${board.width}px`}"
                 @delete-board="deleteBoard(board.id)"
                 @reload-board="$emit('reload-tab')">
@@ -52,16 +66,20 @@ export default {
         widgets: [],
         exerciseData: [],
         notes: '',
-        isFetchingED: true
+        isFetchingED: true,
     },
+
     data() {
 		return {
-			newNotes:""
+			newNotes:"",
+            showHour: false
 		}
 	},
+
     components: {
         Board,
     },
+
     methods: {
         async deleteBoard(boardID) {	
             const result = await fetch('http://localhost:5000/tabs')
@@ -107,8 +125,11 @@ export default {
             location.reload()
 
             // $emit('reload-tab')
+        },
+        toggleShowHour() {
+            this.showHour = !this.showHour
+            console.log(this.showHour)
         }
-
     },
     emits: ['add-board-click', 'reload-tab']
 }

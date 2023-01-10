@@ -110,6 +110,7 @@ export default {
     }
   
   },
+  
   methods: {
     toggleShowWeek() {
       this.showWeek = !this.showWeek

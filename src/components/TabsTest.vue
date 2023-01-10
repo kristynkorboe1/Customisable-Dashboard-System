@@ -49,6 +49,7 @@
 			:notes="tab.notes"
 			:boards="tab.boards"
 			:exerciseData="exerciseData"
+			:insulinData="InsulinData"
 			:isFetchingED="isFetchingED"
 			@add-board-click="$emit('add-board', tab.tabName)"
 			@reload-tab="$emit('reload-tabs')">
@@ -65,7 +66,8 @@ export default {
 		activeTab: {},
 		widgets: [],
 		exerciseData: [],
-		isFetchingED: true
+		isFetchingED: true,
+		insulinData: []
 	},
 	components: {
 		Tab
@@ -86,8 +88,8 @@ export default {
 		
 		.addForm {
 			position: absolute;
-			// right: 0;
-			margin-left: 80%;
+			right: 0;
+			// margin-left: 80%;
 		}
 		.newTab{
 			background-color: var(--light);
