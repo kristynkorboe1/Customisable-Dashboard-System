@@ -7,6 +7,7 @@
 				:activeTab="activeTab"
 				:exerciseData="exerciseData"
 				:isFetchingED="isFetchingED"
+				:insulinData="insulinData"
 				@select-tab="selectTab"
 				@delete-tab="deleteTab"
 				@add-tab="addTab"
@@ -36,7 +37,8 @@ export default {
 			widgets: [],
 			activeTab: {},
 			exerciseData: [],
-			isFetchingED: true
+			isFetchingED: true,
+			insulinData: []
 		}
 	},
 	methods: {
@@ -215,6 +217,12 @@ export default {
 			const data = await res.json()
 			return data
         },
+
+		async fetchInsulinData() {
+			const res = await fetch('http://localhost:5000/insulinData')
+			const data = await res.json()
+			return data
+        },
 	},
 
 	async created() {	
@@ -230,6 +238,8 @@ export default {
 
 		this.exerciseData = await this.fetchExerciseData()
 		this.isFetchingED = false
+
+		this.insulinData = await this.fetchInsulinData
 	},
 }
 </script>
@@ -238,7 +248,7 @@ export default {
 :root {
 	--primary: #4ad2de;
 	--dark: #1e293b;
-	--dark-alt: #334155;
+	--dark-alt: #394d6a;
 	--light: #f1f5f9;
 	--sidebar-width: 250px;
 }
