@@ -23,14 +23,14 @@
         </button>
 
         <button
-            v-if="!showHour"
-            @click="toggleShowHour">
+            v-if="!this.showHour"
+            @click="updateTabShowHour">
             Show past hour for all timeseries
         </button>
 
         <button
-            v-if="showHour"
-            @click="toggleShowHour">
+            v-if="this.showHour"
+            @click="updateTabShowHour">
             Show all available data for all timeseries
         </button>
 
@@ -67,12 +67,13 @@ export default {
         exerciseData: [],
         notes: '',
         isFetchingED: true,
+        insulinData:[],
+        showHour: null
     },
 
     data() {
 		return {
-			newNotes:"",
-            showHour: false
+			newNotes:""
 		}
 	},
 
@@ -81,10 +82,15 @@ export default {
     },
 
     methods: {
-        async deleteBoard(boardID) {	
+        async fetchTab() {
             const result = await fetch('http://localhost:5000/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.tabName)
+            return tab
+        },
+
+        async deleteBoard(boardID) {	
+            const tab = await this.fetchTab()
 		    const tabID = tab.id
             const boardIndex = tab.boards.findIndex(board => board.id === boardID)
             tab.boards.splice(boardIndex, 1)
@@ -107,9 +113,7 @@ export default {
         },
 
         async saveNotes() {
-            const result = await fetch('http://localhost:5000/tabs')
-            const data = await result.json()
-            const tab = data.find(tab => tab.tabName === this.tabName)
+            const tab = await this.fetchTab()
 		    const tabID = tab.id
             tab.notes = this.newNotes
 
@@ -126,10 +130,26 @@ export default {
 
             // $emit('reload-tab')
         },
-        toggleShowHour() {
-            this.showHour = !this.showHour
-            console.log(this.showHour)
-        }
+
+        async updateTabShowHour() {
+            const tab = await this.fetchTab()
+            const showHourPrev = tab.showHour
+            tab.showHour = !showHourPrev
+		    const tabID = tab.id
+
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(tab),
+				})
+
+            location.reload()
+        },
+
+
     },
     emits: ['add-board-click', 'reload-tab']
 }

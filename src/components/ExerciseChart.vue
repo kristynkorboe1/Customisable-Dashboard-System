@@ -17,22 +17,8 @@ import { Bar } from 'vue-chartjs'
     </div>
 
     <Bar
-      v-if="showWeek"
       :chart-options="chartOptions"
-      :chart-data="chartDataWeek"
-      :chart-id="chartId"
-      :dataset-id-key="datasetIdKey"
-      :plugins="plugins"
-      :css-classes="cssClasses"
-      :styles="styles"
-      :width="width"
-      :height="height"
-    />
-
-    <Bar
-      v-if="!showWeek"
-      :chart-options="chartOptions"
-      :chart-data="chartDataAll"
+      :chart-data="showWeek? chartDataWeek : chartDataAll"
       :chart-id="chartId"
       :dataset-id-key="datasetIdKey"
       :plugins="plugins"
@@ -110,7 +96,7 @@ export default {
     }
   
   },
-  
+
   methods: {
     toggleShowWeek() {
       this.showWeek = !this.showWeek

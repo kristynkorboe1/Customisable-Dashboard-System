@@ -1,15 +1,16 @@
 <template>
   <apexchart 
-    height="300" 
+    height="350" 
     type="line" 
     :options="options" 
-    :series="series">
+    :series="showHour? seriesHour : series">
   </apexchart>
+
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
-import json from "../Data/InsulinData.json";
+import json from "../Data/insulinData.json";
 
 export default {
   name: 'BolusInsulinChart',
@@ -19,7 +20,8 @@ export default {
   },
 
   props: {
-    slice: 0
+    insulinData: [],
+    showHour: false
   },
   
   data () {
@@ -40,7 +42,7 @@ export default {
             }
           },
           xaxis: {
-            categories: json.insulinData.map(item => item.time).slice(this.slice) 
+            categories: json.insulinData.map(item => item.time) 
           },
           yaxis:{
             min: 0,
@@ -58,8 +60,12 @@ export default {
         },
         series: [{
           name: 'Bolus insulin [U]',
-          data: json.insulinData.map(item => item.bolus).slice(this.slice)
-        }]
+          data: json.insulinData.map(item => item.bolus)
+        }],
+        seriesHour: [{
+          name: 'Bolus insulin [U]',
+          data: json.insulinData.map(item => item.bolus).slice(-13)
+        }],
       }
   }
 }

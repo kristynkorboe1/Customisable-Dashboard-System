@@ -51,6 +51,7 @@
 			:exerciseData="exerciseData"
 			:insulinData="InsulinData"
 			:isFetchingED="isFetchingED"
+			:showHour="tab.showHour"
 			@add-board-click="$emit('add-board', tab.tabName)"
 			@reload-tab="$emit('reload-tabs')">
 		</tab>

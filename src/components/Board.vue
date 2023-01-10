@@ -40,19 +40,21 @@
             :showButton="true"
             v-if="this.widget === 'BasalInsulinChart'"
             :name="BasalInsulinChart"
-            :slice="showHour? -13 : 0"
             :draggable="false">
-            <BasalInsulinChart />
+            <BasalInsulinChart 
+                :insulinData="insulinData"
+                :showHour="showHour"/>
         </Widget>
 
         <Widget
             :showButton="true"
             v-if="this.widget === 'BolusInsulinChart'"
             :name="BolusInsulinChart"
-            :slice="showHour? -13 : 0"
             :draggable="false"
             >
-            <BolusInsulinChart />
+            <BolusInsulinChart 
+                :insulinData="insulinData"
+                :showHour="showHour"/>
         </Widget>
 
     </div>
@@ -73,8 +75,9 @@ export default {
         height: 470,
         exerciseData: [],
         showWeek: false,
+        isFetchingED: true,
         showHour: false,
-        isFetchingED: true
+        insulinData: []
     },
 
     data() {

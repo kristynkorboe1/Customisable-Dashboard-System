@@ -3,24 +3,23 @@
     {
       "id": 1,
       "tabName": "Insulin Timeseries",
-      "notes": "This board contains your insulin data. Add new boards below and drag in widgets from the sidebar! You can edit this text to add personalised notes.",
+      "notes": "This board contains your insulin data. Add new boards below and drag in widgets from the sidebar! You can edit this text to add personalized notes.",
       "boards": [
         {
-          "height": 470,
-          "width": 1120,
+          "height": 418,
+          "width": 1136,
           "id": 1,
-          "widget": "BasalInsulinChart",
-          "showWeek": false
+          "widget": "BasalInsulinChart"
         },
         {
-          "height": 470,
-          "width": 1120,
+          "height": 418,
+          "width": 1136,
           "id": 2,
-          "widget": "BolusInsulinChart",
-          "showWeek": false
+          "widget": "BolusInsulinChart"
         }
       ],
-      "selected": true
+      "selected": true,
+      "showHour": false
     },
     {
       "id": 2,
@@ -30,73 +29,12 @@
         {
           "id": 1,
           "widget": "ExerciseChart",
-          "height": 518,
-          "width": 552,
-          "showWeek": false
-        },
-        {
-          "id": 2,
-          "widget": "ExerciseChart",
-          "height": 520,
-          "width": 597,
+          "height": 491,
+          "width": 1201,
           "showWeek": false
         }
       ],
       "selected": false
-    }
-  ],
-  "dailyEx": [
-    {
-      "date": "Jan 1",
-      "ex": 61
-    },
-    {
-      "date": "Jan 2",
-      "ex": 10
-    },
-    {
-      "date": "Jan 3",
-      "ex": 30
-    },
-    {
-      "date": "Jan 4",
-      "ex": 10
-    },
-    {
-      "date": "Jan 5",
-      "ex": 55
-    },
-    {
-      "date": "Jan 6",
-      "ex": 39
-    },
-    {
-      "date": "Jan 7",
-      "ex": 45
-    },
-    {
-      "date": "Jan 8",
-      "ex": 32
-    },
-    {
-      "date": "Jan 9",
-      "ex": 23
-    },
-    {
-      "date": "Jan 10",
-      "ex": 9
-    },
-    {
-      "date": "Jan 11",
-      "ex": 19
-    },
-    {
-      "date": "Jan 12",
-      "ex": 24
-    },
-    {
-      "date": "Jan 13",
-      "ex": 30
     }
   ]
 }
