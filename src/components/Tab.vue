@@ -44,6 +44,7 @@
                 :exerciseData="exerciseData"
                 :isFetchingED="isFetchingED"
                 :showWeek="board.showWeek"
+                :dailyCarbIntake="board.dailyCarbIntake"
                 :insulinData="InsulinData"
                 :showHour="showHour"
                 :style="{ height: `${board.height}px`, width: `${board.width}px`}"

@@ -35,10 +35,7 @@ export default {
 		return {
 			tabs: [],
 			widgets: [],
-			activeTab: {},
-			exerciseData: [],
-			isFetchingED: true,
-			insulinData: []
+			activeTab: {}
 		}
 	},
 	methods: {
@@ -120,7 +117,8 @@ export default {
 				tabName: tName,
 				boards: [{"id": 1, widget: null, "height": 470, "width": 1120}],
 				notes: "",
-				selected: false
+				selected: false,
+				showHour: false
 			}
 
 			if (tName==null || !tName.replace(/\s/g, '').length) {
@@ -168,11 +166,11 @@ export default {
 			const updatedTab = this.tabs[index]
 
 			if (updatedTab.boards.length === 0) {
-				updatedTab.boards.push({ "id": 1, "widget": null, "height": 470, "width": 1120, "showWeek": false})
+				updatedTab.boards.push({ "id": 1, "widget": null, "height": 470, "width": 1120})
 			}
 
 			else {
-				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null, "height": 470, "width": 1120, "showWeek": false})
+				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null, "height": 470, "width": 1120})
 			}
 
 			const tabID = updatedTab.id
@@ -211,18 +209,6 @@ export default {
 			const data = await res.json()
 			return data
 		},
-
-		async fetchExerciseData() {
-			const res = await fetch('http://localhost:5000/dailyEx')
-			const data = await res.json()
-			return data
-        },
-
-		async fetchInsulinData() {
-			const res = await fetch('http://localhost:5000/insulinData')
-			const data = await res.json()
-			return data
-        },
 	},
 
 	async created() {	
@@ -235,11 +221,6 @@ export default {
 		else {
 			this.activeTab = this.tabs.find((tab) => tab.selected === true)
 		}
-
-		this.exerciseData = await this.fetchExerciseData()
-		this.isFetchingED = false
-
-		this.insulinData = await this.fetchInsulinData
 	},
 }
 </script>

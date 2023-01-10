@@ -18,7 +18,7 @@
           "widget": "BolusInsulinChart"
         }
       ],
-      "selected": true,
+      "selected": false,
       "showHour": false
     },
     {
@@ -35,6 +35,28 @@
         }
       ],
       "selected": false
+    },
+    {
+      "tabName": "test",
+      "boards": [
+        {
+          "id": 1,
+          "widget": "BolusInsulinChart",
+          "height": 396,
+          "width": 1122
+        },
+        {
+          "id": 2,
+          "widget": "CarbohydrateTracker",
+          "height": 451,
+          "width": 454,
+          "dailyCarbIntake": 78
+        }
+      ],
+      "notes": "",
+      "selected": true,
+      "showHour": true,
+      "id": 3
     }
   ]
 }

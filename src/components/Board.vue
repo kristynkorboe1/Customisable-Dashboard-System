@@ -57,6 +57,16 @@
                 :showHour="showHour"/>
         </Widget>
 
+        <Widget
+            v-if="this.widget === 'CarbohydrateTracker'"
+            :name="CarbohydrateTracker"
+            :draggable="false"
+            >
+            <CarbohydrateTracker
+                @update-daily-carb-intake="updateDailyCarbIntake"
+                :dailyCarbIntake="dailyCarbIntake"/>
+        </Widget>
+
     </div>
 </template>
 
@@ -65,6 +75,7 @@ import Widget from '../components/Widget.vue'
 import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
+import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 
 export default {
     props: {
@@ -77,7 +88,8 @@ export default {
         showWeek: false,
         isFetchingED: true,
         showHour: false,
-        insulinData: []
+        insulinData: [],
+        dailyCarbIntake: 0
     },
 
     data() {
@@ -90,7 +102,8 @@ export default {
         Widget, 
         ExerciseChart, 
         BasalInsulinChart, 
-        BolusInsulinChart
+        BolusInsulinChart,
+        CarbohydrateTracker
     },
 
     methods: {
@@ -109,7 +122,11 @@ export default {
             tab.boards[boardIndex].widget = this.newWidget
 
             if(this.newWidget === "ExerciseChart") {
-                
+                tab.boards[boardIndex].widget.showWeek = false
+            }
+
+            if(this.newWidget === "CarbohydrateTracker") {
+                tab.boards[boardIndex].widget.dailyCarbIntake = 0
             }
 
 			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
@@ -175,8 +192,31 @@ export default {
             console.log(newValue)
             console.log(this.showWeek)
             location.reload()
+        },
+
+        async updateDailyCarbIntake(carbInput) {
+
+            console.log(carbInput)
+
+            const result = await fetch('http://localhost:5000/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.parentTab)
+		    const tabID = tab.id
+            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
+            tab.boards[boardIndex].dailyCarbIntake = carbInput
+            
+			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+				{
+					method: 'PUT',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify(tab),
+				})
+            location.reload()
         }
     },
+
     emits: ['delete-board', 'reload-board']
 }
 </script>

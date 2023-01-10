@@ -20,7 +20,7 @@
                     <span class="material-symbols-outlined">
                         fitness_center
                     </span>
-                    <h3>Exercise Data</h3>
+                    <h3>Physical Activity Data</h3>
                 </Widget>
 
                 <Widget
@@ -43,6 +43,16 @@
                     <h4>Bolus Insulin Timeseries</h4>
                 </Widget>
 
+                <Widget
+                    :id=4
+                    :draggable="true"
+                    :name="CarbohydrateTracker">
+                    <span class="material-symbols-outlined">
+                        dinner_dining
+                    </span>
+                    <h4>CarbohydrateTracker</h4>
+                </Widget>
+
         </div>
     </aside>
 </template>
@@ -54,6 +64,7 @@ import Widget from '../components/Widget.vue'
 import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
+import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 
 const is_expanded = ref(false)
 
@@ -64,7 +75,7 @@ const ToggleMenu = () => {
 
 <script>
   export default {
-    components: { Board, Widget, ExerciseChart, BasalInsulinChart, BolusInsulinChart },
+    components: { Board, Widget, ExerciseChart, BasalInsulinChart, BolusInsulinChart, CarbohydrateTracker },
     props: {
         value: {
             type: String,

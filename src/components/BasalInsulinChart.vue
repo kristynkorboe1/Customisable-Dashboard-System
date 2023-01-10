@@ -28,7 +28,7 @@ export default {
       return {
         options: {
           title: {
-            text: 'Basal insulin [U]',
+            text: 'Basal insulin [mU/min]',
             align: 'left',
           },
           chart: {
@@ -59,11 +59,11 @@ export default {
           }
         },
         series: [{
-          name: 'Basal insulin [U]',
+          name: 'Basal insulin [mU/min]',
           data: json.insulinData.map(item => item.basal)
         }],
         seriesHour: [{
-          name: 'Basal insulin [U]',
+          name: 'Basal insulin [mU/min]',
           data: json.insulinData.map(item => item.basal).slice(-13)
         }],
       }
