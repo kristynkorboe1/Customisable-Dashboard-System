@@ -1,0 +1,24 @@
+{
+    "avgDailyEx": [
+      {
+        "month": "January",
+        "avgEx": 21
+      },
+      {
+        "month": "February",
+        "avgEx": 10
+      },
+      {
+        "month": "March",
+        "avgEx": 30
+      },
+      {
+        "month": "April",
+        "avgEx": 10
+      },
+      {
+        "month": "May",
+        "avgEx": 9
+      }
+    ]
+}

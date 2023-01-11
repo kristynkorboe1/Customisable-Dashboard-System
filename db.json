@@ -42,20 +42,21 @@
         {
           "id": 1,
           "widget": "BolusInsulinChart",
-          "height": 396,
-          "width": 1122
+          "height": 410,
+          "width": 690
         },
         {
           "id": 2,
           "widget": "CarbohydrateTracker",
-          "height": 451,
-          "width": 454,
-          "dailyCarbIntake": 78
+          "height": 471,
+          "width": 510,
+          "dailyCarbIntake": 45,
+          "date": "11-1-2023"
         }
       ],
       "notes": "",
       "selected": true,
-      "showHour": true,
+      "showHour": false,
       "id": 3
     }
   ]

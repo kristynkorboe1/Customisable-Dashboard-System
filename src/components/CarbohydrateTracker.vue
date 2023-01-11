@@ -7,7 +7,10 @@
 			class="currentRed">
 			<span>{{ dailyCarbIntake }}</span>
 			<small>
-				Today's carbohydrate intake (g).
+				Carbohydrate intake (g).
+				{{ date }}
+			</small>
+			<small>
 				Remember to keep your daily carbohydrate intake under 143g.
 			</small>
 		</div>
@@ -16,7 +19,10 @@
 			v-if="dailyCarbIntake<145"
 			class="current">
 			<span>{{ dailyCarbIntake }}</span>
-			<small>Today's carbohydrate intake (g)</small>
+			<small>
+				Carbohydrate intake (g)
+				{{ date }}
+			</small>
 		</div>
 
 		<form 
@@ -39,7 +45,8 @@
 		name: 'CarbohydrateTracker',
 
 		props: {
-			dailyCarbIntake: 0
+			dailyCarbIntake: 0,
+			date: new Date()
 		},
 
 		data() {

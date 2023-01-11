@@ -64,7 +64,8 @@
             >
             <CarbohydrateTracker
                 @update-daily-carb-intake="updateDailyCarbIntake"
-                :dailyCarbIntake="dailyCarbIntake"/>
+                :dailyCarbIntake="dailyCarbIntake"
+                :date="date"/>
         </Widget>
 
     </div>
@@ -89,12 +90,14 @@ export default {
         isFetchingED: true,
         showHour: false,
         insulinData: [],
-        dailyCarbIntake: 0
+        dailyCarbIntake: 0,
+        date: new Date()
     },
 
     data() {
 		return {
 			newWidget: ""
+
 		}
 	},
 
@@ -126,7 +129,13 @@ export default {
             }
 
             if(this.newWidget === "CarbohydrateTracker") {
-                tab.boards[boardIndex].widget.dailyCarbIntake = 0
+                tab.boards[boardIndex].dailyCarbIntake = 0;
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+                const dateFormatted  = [day, month, year].join('-');
+                tab.boards[boardIndex].date = dateFormatted
             }
 
 			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
@@ -204,6 +213,13 @@ export default {
 		    const tabID = tab.id
             const boardIndex = tab.boards.findIndex(board => board.id === this.id)
             tab.boards[boardIndex].dailyCarbIntake = carbInput
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const dateFormatted  = [day, month, year].join('-')
+
+            tab.boards[boardIndex].date = dateFormatted
             
 			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
 				{
