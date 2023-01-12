@@ -1,11 +1,10 @@
 import { Bar } from 'vue-chartjs'
 
 <template>
-  <div v-if="dataAvailable">
     <div
-      v-if="showButtons">
+      v-if="showButtons && dataLoaded">
       <button
-        v-if="!showWeek"
+        v-if="!showWeek && dataLoaded"
         @click="toggleShowWeek">
         Show past week only
       </button>
@@ -18,9 +17,8 @@ import { Bar } from 'vue-chartjs'
     </div>
 
     <Bar
-      v-if="showWeek"
       :chart-options="chartOptions"
-      :chart-data="chartDataWeek"
+      :chart-data="showWeek? chartDataWeek : chartData"
       :chart-id="chartId"
       :dataset-id-key="datasetIdKey"
       :plugins="plugins"
@@ -29,51 +27,21 @@ import { Bar } from 'vue-chartjs'
       :width="width"
       :height="height"
     />
-
-    <Bar
-      v-if="!showWeek"
-      :chart-options="chartOptions"
-      :chart-data="chartDataAll"
-      :chart-id="chartId"
-      :dataset-id-key="datasetIdKey"
-      :plugins="plugins"
-      :css-classes="cssClasses"
-      :styles="styles"
-      :width="width"
-      :height="height"
-    />
-  </div>
 </template>
 
 <script>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-
+import PatientDataService from '../PatientDataService'
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
   name: 'ExerciseChart',
-
-  components: { 
-    Bar
-  },
-
+  components: { Bar },
   props: {
-    exerciseData: {
-      type: Array,
-      default: []
-    },
     showButtons: {
       type: Boolean,
       default: false
-    },
-    showWeek: {
-      type: Boolean,
-      default: false
-    },
-    isFetchingED:{
-      type: Boolean,
-      default: true
     },
     chartId: {
       type: String,
@@ -104,21 +72,24 @@ export default {
       default: () => {}
     }
   },
-
   data() {
     return {
-      dataAvailable: false,
+      physicalActivityDataWeek: [],
+      physicalActivityData: [],
+      error: '',
+      dataLoaded: false,
+      showWeek: false, 
       chartDataWeek: {
-        labels: this.exerciseData.map(item => item.date).slice(-7),
+        labels: [],
         datasets: [ { 
-          data: this.exerciseData.map(item => item.ex).slice(-7),
+          data: [],
           label: 'Daily Exercise Time (min)',
         } ]
       },
-      chartDataAll: {
-          labels: this.exerciseData.map(item => item.date),
+      chartData: {
+          labels: [],
           datasets: [ { 
-            data: this.exerciseData.map(item => item.ex),
+            data: [],
             label: 'Daily Exercise Time (min)',
           } ]
         },
@@ -126,24 +97,34 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
       }
-    }  
+    }
+  
+  },
+
+  async created() {
+    try {
+      const physicalActivityDataWeek = await PatientDataService.getPhysicalActivityDataWeek();
+      this.chartDataWeek.labels = physicalActivityDataWeek.map(item => item.date)
+      this.chartDataWeek.datasets[0].data = physicalActivityDataWeek.map(item => item.ex)
+
+      const physicalActivityData = await PatientDataService.getPhysicalActivityData();
+      this.chartData.labels = physicalActivityData.map(item => item.date)
+      this.chartData.datasets[0].data = physicalActivityData.map(item => item.ex)
+      
+      this.dataLoaded = true;
+    
+      console.log(this.dataLoaded)
+    }
+    catch(err) {
+      this.error = err
+    }
   },
 
   methods: {
     toggleShowWeek() {
-      this.$emit('toggle-show-week', !this.showWeek)
+      this.showWeek = !this.showWeek
     }
-  },
-
-  watch: {
-    isFetchingED(newValue, oldValue) {
-      console.log(oldValue)
-      console.log(newValue)
-      this.dataAvailable = true
-    }
-  },
-
-  emits:['toggle-show-week']
+  }
 }
 </script>
 
