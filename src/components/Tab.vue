@@ -23,14 +23,14 @@
         </button>
 
         <button
-            v-if="!this.showHour"
-            @click="updateTabShowHour">
-            Show past hour for all timeseries
+            v-if="!this.showDay"
+            @click="updateTabShowDay">
+            Show past day for all timeseries
         </button>
 
         <button
-            v-if="this.showHour"
-            @click="updateTabShowHour">
+            v-if="this.showDay"
+            @click="updateTabShowDay">
             Show all available data for all timeseries
         </button>
 
@@ -45,7 +45,7 @@
                 :dailyCarbIntake="board.dailyCarbIntake"
                 :date="board.date"
                 :insulinData="InsulinData"
-                :showHour="showHour"
+                :showDay="showDay"
                 :style="{ height: `${board.height}px`, width: `${board.width}px`}"
                 @delete-board="deleteBoard(board.id)"
                 @reload-board="$emit('reload-tab')">
@@ -66,7 +66,7 @@ export default {
         widgets: [],
         notes: '',
         insulinData:[],
-        showHour: null
+        showDay: null
     },
 
     data() {
@@ -129,9 +129,9 @@ export default {
             }
         },
 
-        async updateTabShowHour() {
+        async updateTabShowDay() {
             const tab = await this.fetchTab()
-            const showHourPrev = tab.showHour
+            const showDayPrev = tab.showDay
 		    const tabID = tab._id
 
 			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
@@ -140,7 +140,7 @@ export default {
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify({ showHour: !showHourPrev}),
+					body: JSON.stringify({ showDay: !showDayPrev}),
 				})
 
             res.status === 200

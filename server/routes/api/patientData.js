@@ -48,7 +48,7 @@ async function loadGlucoseDataCollection() {
 router.get('/basalInsulin', async (req, res) => {
     try {
         const basalInsulinData = await loadBasalInsulinDataCollection();
-        res.status(200).send(await basalInsulinData.find({}).toArray());
+        res.status(200).send(await basalInsulinData.find({}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).json({ error: 'Could not retrive basal insulin data'})
@@ -59,7 +59,7 @@ router.get('/basalInsulin', async (req, res) => {
 router.get('/bolusInsulin', async (req, res) => {
     try {
         const bolusInsulinData = await loadBolusInsulinDataCollection();
-        res.status(200).send(await bolusInsulinData.find({}).toArray());
+        res.status(200).send(await bolusInsulinData.find({}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).json({ error: 'Could not retrive bolus insulin data'})
@@ -70,7 +70,7 @@ router.get('/bolusInsulin', async (req, res) => {
 router.get('/physicalActivity', async (req, res) => {
     try {
         const physicalActivityData = await loadPhysicalActivityDataCollection();
-        res.status(200).send(await physicalActivityData.find({}).toArray());
+        res.status(200).send(await physicalActivityData.find({}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).json({ error: 'Could not retrive physical activity data'})
@@ -81,7 +81,7 @@ router.get('/physicalActivity', async (req, res) => {
 router.get('/carbohydrate', async (req, res) => {
     try {
         const carbohydrateData = await loadCarbohydrateDataCollection();
-        res.status(200).send(await carbohydrateData.find({}).toArray());
+        res.status(200).send(await carbohydrateData.find({}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).send({ error: 'Could not retrive carbohydrate data'})
@@ -92,7 +92,7 @@ router.get('/carbohydrate', async (req, res) => {
 router.get('/glucose', async (req, res) => {
     try {
         const glucoseData = await loadGlucoseDataCollection();
-        res.status(200).send(await glucoseData.find({}).toArray());
+        res.status(200).send(await glucoseData.find({}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).send({ error: 'Could not retrive glucose data'})
@@ -235,7 +235,7 @@ router.get('/physicalActivity/pastWeek', async (req, res) => {
         const physicalActivityData = await loadPhysicalActivityDataCollection();
         res.status(200)
             .send(await physicalActivityData
-                .find({time: {$gte: lastWeekDate}}).toArray());
+                .find({time: {$gte: lastWeekDate}}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).json({ error: 'Could not retrive physical activity data for the past week'})
@@ -249,7 +249,7 @@ router.get('/carbohydrate/pastWeek', async (req, res) => {
         const carbohydrateData = await loadCarbohydrateDataCollection();
         res.status(200)
             .send(await carbohydrateData
-                .find({time: {$gte: lastWeekDate}}).toArray());
+                .find({time: {$gte: lastWeekDate}}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).json({ error: 'Could not retrive carbohydrate data for the past week'})
@@ -263,27 +263,40 @@ router.get('/glucose/past2Weeks', async (req, res) => {
         const glucoseData = await loadGlucoseDataCollection();
         res.status(200)
             .send(await glucoseData
-                .find({time: {$gte: startDate}}).toArray());
+                .find({time: {$gte: startDate}}).sort({"time": 1}).toArray());
     }
     catch(err) {
         res.status(500).json({ error: 'Could not retrive glucose data for the past week'})
     }
 });
 
+//Get basal insulin data from past 24 hours
+router.get('/basalInsulin/pastDay', async (req, res) => {
+    try {
+        const lastWeekDate = new Date(Date.now() - 24 * 60 * 60 * 1000)
+        const basalInsulinData = await loadBasalInsulinDataCollection();
+        res.status(200)
+            .send(await basalInsulinData
+                .find({time: {$gte: lastWeekDate}}).sort({"time": 1}).toArray());
+    }
+    catch(err) {
+        res.status(500).json({ error: 'Could not retrive basalInsulin data for the past week'})
+    }
+});
 
-//Delete insulin data
-// router.delete('/:id', async (req, res) => {
-//     try{
-//         const insulinData = await loadInsulinDataCollection();
-//         await insulinData.deleteOne({_id: new mongodb.ObjectId(req.params.id)})
-//         res.status(200).send();
-//     }
-//     catch(err){
-//         res.send({message: err})
-//     }
-// });
-
-
+//Get bolus insulin data from past 24 hours
+router.get('/bolusInsulin/pastDay', async (req, res) => {
+    try {
+        const lastWeekDate = new Date(Date.now() - 24 * 60 * 60 * 1000)
+        const bolusInsulinData = await loadBolusInsulinDataCollection();
+        res.status(200)
+            .send(await bolusInsulinData
+                .find({time: {$gte: lastWeekDate}}).sort({"time": 1}).toArray());
+    }
+    catch(err) {
+        res.status(500).json({ error: 'Could not retrive basalInsulin data for the past week'})
+    }
+});
 
 
 //DASHBOARD CONFIGURATION
@@ -305,18 +318,6 @@ router.get('/tabs', async (req, res) => {
         res.status(500).json({ error: 'Could not retrive dashboard configuration data'})
     }
 });
-
-//Get tab by id
-// router.get('/tabs/:id', async (req, res) => {
-//     try{
-//         const fetchId = req.params.id
-//         const tabs = await loadTabsCollection();
-//         res.status(200).send(await tabs.findById(req.params.id));
-//     }
-//     catch(err){
-//         res.status(500).send({message: err})
-//     }
-// })
 
 //Add tab
 router.post('/tabs', async (req,res) => {

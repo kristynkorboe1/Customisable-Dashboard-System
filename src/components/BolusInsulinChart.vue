@@ -1,16 +1,19 @@
 <template>
-  <apexchart 
-    height="350" 
-    type="line" 
-    :options="options" 
-    :series="showHour? seriesHour : series">
-  </apexchart>
-
+  <div v-if="error!=''">{{ error }}</div>
+  <div
+    v-if="dataLoaded">
+    <apexchart 
+      height="350" 
+      type="line" 
+      :options="options" 
+      :series="showDay? seriesDay : series">
+    </apexchart>
+  </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
-import json from "../Data/insulinData.json";
+import PatientDataService from '../PatientDataService'
 
 export default {
   name: 'BolusInsulinChart',
@@ -21,11 +24,13 @@ export default {
 
   props: {
     insulinData: [],
-    showHour: false
+    showDay: false
   },
   
   data () {
       return {
+        error: '',
+        dataLoaded: false,
         options: {
           title: {
             text: 'Bolus insulin [U]',
@@ -42,16 +47,11 @@ export default {
             }
           },
           xaxis: {
-            categories: json.insulinData.map(item => item.time) 
-          },
-          yaxis:{
-            min: 0,
-            max: Math.ceil(Math.max.apply(Math, (json.insulinData.map(item => item.bolus)))),
-            tickAmount: Math.ceil(Math.max.apply(Math, (json.insulinData.map(item => item.bolus))))
+            categories: []
           },
           stroke: {
             show: true,
-            width: 2     
+            width: 1    
           },
           dataLabels: {
             enabled: false,
@@ -60,13 +60,28 @@ export default {
         },
         series: [{
           name: 'Bolus insulin [U]',
-          data: json.insulinData.map(item => item.bolus)
+          data: []
         }],
-        seriesHour: [{
+        seriesDay: [{
           name: 'Bolus insulin [U]',
-          data: json.insulinData.map(item => item.bolus).slice(-13)
+          data: []
         }],
       }
-  }
+  },
+
+  async created() {
+    try {
+      const bolusInsulinData = await PatientDataService.getBolusInsulinData();
+      const bolusInsulinDataDay = await PatientDataService.getBolusInsulinDataDay();
+      this.options.xaxis.categories = bolusInsulinData.map(item => item.time);
+      this.series[0].data = bolusInsulinData.map(item => item.bolusInsulin);
+      this.seriesDay[0].data = bolusInsulinDataDay.map(item => item.bolusInsulin);
+
+      this.dataLoaded = true;
+    }
+    catch(err) {
+      this.error = "Unable to fetch bolus insulin data. Please try again"
+    }
+  },
 }
 </script>

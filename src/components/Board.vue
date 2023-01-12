@@ -35,24 +35,30 @@
         </Widget>
 
         <Widget
-            :showButton="true"
             v-if="this.widget === 'BasalInsulinChart'"
             :name="BasalInsulinChart"
             :draggable="false">
             <BasalInsulinChart 
                 :insulinData="insulinData"
-                :showHour="showHour"/>
+                :showDay="showDay"/>
         </Widget>
 
         <Widget
-            :showButton="true"
             v-if="this.widget === 'BolusInsulinChart'"
             :name="BolusInsulinChart"
             :draggable="false"
             >
             <BolusInsulinChart 
-                :insulinData="insulinData"
-                :showHour="showHour"/>
+                :showDay="showDay"/>
+        </Widget>
+
+        <Widget
+            v-if="this.widget === 'GlucoseChart'"
+            :name="GlucoseChart"
+            :draggable="false"
+            >
+            <GlucoseChart 
+                :showDay="showDay"/>
         </Widget>
 
         <Widget
@@ -74,6 +80,7 @@ import Widget from '../components/Widget.vue'
 import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
+import GlucoseChart from '../components/GlucoseChart.vue'
 import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 
 export default {
@@ -84,7 +91,7 @@ export default {
         width: 1120,
         height: 470,
         showWeek: false,
-        showHour: false,
+        showDay: false,
         insulinData: [],
         dailyCarbIntake: 0,
         date: new Date()
@@ -101,7 +108,8 @@ export default {
         ExerciseChart, 
         BasalInsulinChart, 
         BolusInsulinChart,
-        CarbohydrateTracker
+        CarbohydrateTracker,
+        GlucoseChart
     },
 
     methods: {

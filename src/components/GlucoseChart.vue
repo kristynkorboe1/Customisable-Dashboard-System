@@ -16,7 +16,7 @@ import VueApexCharts from "vue3-apexcharts";
 import PatientDataService from '../PatientDataService'
 
 export default {
-  name: 'BasalInsulinChart',
+  name: 'GlucoseChart',
 
   components: {
     apexchart: VueApexCharts
@@ -33,11 +33,11 @@ export default {
         dataLoaded: false,
         options: {
           title: {
-            text: 'Basal insulin [mU/min]',
+            text: 'Glucose concentration [mmol/L]',
             align: 'left',
           },
           chart: {
-            id: 'basal-insulin'
+            id: 'glucose'
           },
           colors: ['#4ad2de'],
           markers: {
@@ -59,11 +59,11 @@ export default {
           }
         },
         series: [{
-          name: 'Basal insulin [mU/min]',
+          name: 'Glucose concentration [mmol/L]',
           data: []
         }],
         seriesDay: [{
-          name: 'Basal insulin [mU/min]',
+          name: 'Glucose concentration [mmol/L]',
           data: []
         }],
       }
@@ -71,16 +71,16 @@ export default {
 
   async created() {
     try {
-      const basalInsulinData = await PatientDataService.getBasalInsulinData();
-      const basalInsulinDataDay = await PatientDataService.getBasalInsulinDataDay();
-      this.options.xaxis.categories = basalInsulinData.map(item => item.time);
-      this.series[0].data = basalInsulinData.map(item => item.basalInsulin);
-      this.seriesDay[0].data = basalInsulinDataDay.map(item => item.basalInsulin);
+      const glucoseData = await PatientDataService.getglucoseData();
+      const glucoseDataDay = await PatientDataService.getglucoseDataDay();
+      this.options.xaxis.categories = glucoseData.map(item => item.time);
+      this.series[0].data = glucoseData.map(item => item.glucoseMeasurement);
+      this.seriesDay[0].data = glucoseDataDay.map(item => item.glucoseMeasurement);
 
       this.dataLoaded = true;
     }
     catch(err) {
-      this.error = "Unable to fetch basal insulin data. Please try again"
+      this.error = "Unable to fetch glucose data. Please try again"
     }
   },
 }

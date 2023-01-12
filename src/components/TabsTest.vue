@@ -49,7 +49,7 @@
 			:notes="tab.notes"
 			:boards="tab.boards"
 			:insulinData="InsulinData"
-			:showHour="tab.showHour"
+			:showDay="tab.showDay"
 			@add-board-click="$emit('add-board', tab.tabName)"
 			@reload-tab="$emit('reload-tabs')">
 		</tab>

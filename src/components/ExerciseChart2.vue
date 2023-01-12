@@ -1,32 +1,34 @@
 import { Bar } from 'vue-chartjs'
 
 <template>
-    <div
-      v-if="showButtons && dataLoaded">
-      <button
-        v-if="!showWeek && dataLoaded"
-        @click="toggleShowWeek">
-        Show past week only
-      </button>
+    <div v-if="dataLoaded">
+      <div
+        v-if="showButtons">
+        <button
+          v-if="!showWeek"
+          @click="toggleShowWeek">
+          Show past week only
+        </button>
 
-      <button
-        v-if="showWeek"
-        @click="toggleShowWeek">
-        Show all available data
-      </button>
-    </div>
+        <button
+          v-if="showWeek"
+          @click="toggleShowWeek">
+          Show all available data
+        </button>
+      </div>
 
-    <Bar
-      :chart-options="chartOptions"
-      :chart-data="showWeek? chartDataWeek : chartData"
-      :chart-id="chartId"
-      :dataset-id-key="datasetIdKey"
-      :plugins="plugins"
-      :css-classes="cssClasses"
-      :styles="styles"
-      :width="width"
-      :height="height"
-    />
+      <Bar
+        :chart-options="chartOptions"
+        :chart-data="showWeek? chartDataWeek : chartData"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="width"
+        :height="height"
+      />
+    </div> 
 </template>
 
 <script>

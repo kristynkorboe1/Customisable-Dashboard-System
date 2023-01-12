@@ -1,38 +1,41 @@
 import { Bar } from 'vue-chartjs'
 
 <template>
-    <div
-      v-if="showButtons">
-      <button
-        v-if="!showWeek"
-        @click="toggleShowWeek">
-        Show past week only
-      </button>
+    <div v-if="error!=''">{{ error }}</div>
+    <div v-if="dataLoaded">
+      <div
+        v-if="showButtons">
+        <button
+          v-if="!showWeek"
+          @click="toggleShowWeek">
+          Show past week only
+        </button>
 
-      <button
-        v-if="showWeek"
-        @click="toggleShowWeek">
-        Show all available data
-      </button>
-    </div>
+        <button
+          v-if="showWeek"
+          @click="toggleShowWeek">
+          Show all available data
+        </button>
+      </div>
 
-    <Bar
-      :chart-options="chartOptions"
-      :chart-data="showWeek? chartDataWeek : chartDataAll"
-      :chart-id="chartId"
-      :dataset-id-key="datasetIdKey"
-      :plugins="plugins"
-      :css-classes="cssClasses"
-      :styles="styles"
-      :width="width"
-      :height="height"
-    />
+      <Bar
+        :chart-options="chartOptions"
+        :chart-data="showWeek? chartDataWeek : chartData"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="width"
+        :height="height"
+      />
+    </div> 
 </template>
 
 <script>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import json from "../Data/BarChartData.json"
+import PatientDataService from '../PatientDataService'
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
@@ -74,19 +77,21 @@ export default {
   },
   data() {
     return {
+      error: '',
+      dataLoaded: false,
       showWeek: false, 
       chartDataWeek: {
-        labels: json.avgDailyEx.map(item => item.date).slice(-7),
+        labels: [],
         datasets: [ { 
-          data: json.avgDailyEx.map(item => item.ex).slice(-7),
+          data: [],
           label: 'Daily Exercise Time (min)',
         } ]
       },
-      chartDataAll: {
-          labels: json.avgDailyEx.map(item => item.date),
+      chartData: {
+          labels: [],
           datasets: [ { 
-            data: json.avgDailyEx.map(item => item.ex),
-            label: 'Average Daily Exercise Time (min)',
+            data: [],
+            label: 'Daily Exercise Time (min)',
           } ]
         },
       chartOptions: {
@@ -95,6 +100,23 @@ export default {
       }
     }
   
+  },
+
+  async created() {
+    try {
+      const physicalActivityDataWeek = await PatientDataService.getPhysicalActivityDataWeek();
+      this.chartDataWeek.labels = physicalActivityDataWeek.map(item => item.time)
+      this.chartDataWeek.datasets[0].data = physicalActivityDataWeek.map(item => item.physicalActivityMin)
+
+      const physicalActivityData = await PatientDataService.getPhysicalActivityData();
+      this.chartData.labels = physicalActivityData.map(item => item.time)
+      this.chartData.datasets[0].data = physicalActivityData.map(item => item.physicalActivityMin)
+      
+      this.dataLoaded = true;
+    }
+    catch(err) {
+      this.error = "Unable to fetch physical activity data. Please try again"
+    }
   },
 
   methods: {

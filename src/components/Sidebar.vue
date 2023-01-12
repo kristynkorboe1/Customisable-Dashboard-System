@@ -46,6 +46,16 @@
                 <Widget
                     :id=4
                     :draggable="true"
+                    :name="GlucoseChart">
+                    <span class="material-symbols-outlined">
+                        show_chart
+                    </span>
+                    <h4>Glucose Timeseries</h4>
+                </Widget>
+
+                <Widget
+                    :id=5
+                    :draggable="true"
                     :name="CarbohydrateTracker">
                     <span class="material-symbols-outlined">
                         dinner_dining
@@ -64,6 +74,7 @@ import Widget from '../components/Widget.vue'
 import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
+import GlucoseChart from '../components/GlucoseChart.vue'
 import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 
 const is_expanded = ref(false)
