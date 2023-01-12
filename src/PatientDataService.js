@@ -134,4 +134,18 @@ class patientDataService {
             value
         })
     }
+
+    static setCarbohydrateDataToday(id, value) {
+        return axios.patch(`http://localhost:8080/api/patientData/carbohydrate/${id}`, {
+            value
+        })
+    }
+
+    static setPhysicalActivityDataToday(id, value) {
+        return axios.patch(`http://localhost:8080/api/patientData/physicalActivity/${id}`, {
+            value
+        })
+    }
 }
+
+export default patientDataService;
