@@ -113,7 +113,7 @@ router.post('/basalInsulin', async (req,res) => {
 
         await basalInsulinData.insertOne({
             time: dateTime,
-            basalInsulinValue: req.body.basalInsulinValue
+            basalInsulin: req.body.basalInsulin
         });
         res.status(201).send()
     }   
@@ -136,7 +136,7 @@ router.post('/bolusInsulin', async (req,res) => {
 
         await bolusInsulinData.insertOne({
             time: dateTime,
-            bolusInsulinValue: req.body.bolusInsulinValue
+            bolusInsulin: req.body.bolusInsulin
         });
         res.status(201).send()
     }   
@@ -150,10 +150,6 @@ router.post('/physicalActivity', async (req,res) => {
     try {
         const physicalActivityData = await loadPhysicalActivityDataCollection();
         const currentDate = new Date(); 
-        // const date = 
-        //     currentDate.getDate() + "/"
-        //     + (currentDate.getMonth()+1)  + "/" 
-        //     + currentDate.getFullYear()
 
         await physicalActivityData.insertOne({
             time: currentDate,
@@ -171,10 +167,6 @@ router.post('/carbohydrate', async (req,res) => {
     try {
         const carbohydrateData = await loadCarbohydrateDataCollection();
         const currentDate = new Date(); 
-        // const date = 
-        //     currentDate.getDate() + "/"
-        //     + (currentDate.getMonth()+1)  + "/" 
-        //     + currentDate.getFullYear()
 
         await carbohydrateData.insertOne({
             time: currentDate,
@@ -201,7 +193,7 @@ router.post('/glucose', async (req,res) => {
 
         await glucoseData.insertOne({
             time: dateTime,
-            glucoseGrams: req.body.glucoseGrams
+            glucoseMeasurement: req.body.glucoseMeasurement
         });
         res.status(201).send()
     }   
@@ -265,13 +257,13 @@ router.get('/carbohydrate/pastWeek', async (req, res) => {
 });
 
 //Get TIR data - two weeks of glucose data
-router.get('/glucose/pastWeek', async (req, res) => {
+router.get('/glucose/past2Weeks', async (req, res) => {
     try {
-        const lastWeekDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+        const startDate = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)
         const glucoseData = await loadGlucoseDataCollection();
         res.status(200)
             .send(await glucoseData
-                .find({time: {$gte: lastWeekDate}}).toArray());
+                .find({time: {$gte: startDate}}).toArray());
     }
     catch(err) {
         res.status(500).json({ error: 'Could not retrive glucose data for the past week'})
