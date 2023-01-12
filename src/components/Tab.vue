@@ -81,7 +81,7 @@ export default {
 
     methods: {
         async fetchTab() {
-            const result = await fetch('http://localhost:5000/tabs')
+            const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.tabName)
             return tab
@@ -89,21 +89,22 @@ export default {
 
         async deleteBoard(boardID) {	
             const tab = await this.fetchTab()
-		    const tabID = tab.id
+		    const tabID = tab._id
             const boardIndex = tab.boards.findIndex(board => board.id === boardID)
             tab.boards.splice(boardIndex, 1)
-            this.boards.splice(boardIndex, 1)
 
-			await fetch(`http://localhost:5000/tabs/${tabID}`, 
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(tab),
+					body: JSON.stringify({ boards: tab.boards }),
 				})
-        
-            $emit('reload-tab')
+            
+            res.status === 200
+				? this.boards.splice(boardIndex, 1)
+				: alert ('Error deleting board. Please try again')
 		},
 
         onInput(e) {
@@ -112,39 +113,39 @@ export default {
 
         async saveNotes() {
             const tab = await this.fetchTab()
-		    const tabID = tab.id
-            tab.notes = this.newNotes
+		    const tabID = tab._id
 
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(tab),
+					body: JSON.stringify({ notes: this.newNotes}),
 				})
-
-            location.reload()
-
-            // $emit('reload-tab')
+            
+            if(res.status !== 200) {
+                alert ('Error saving notes. Please try again')
+            }
         },
 
         async updateTabShowHour() {
             const tab = await this.fetchTab()
             const showHourPrev = tab.showHour
-            tab.showHour = !showHourPrev
-		    const tabID = tab.id
+		    const tabID = tab._id
 
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(tab),
+					body: JSON.stringify({ showHour: !showHourPrev}),
 				})
 
-            location.reload()
+            res.status === 200
+                ? location.reload()
+                : alert ('Error showing requested data. Please try again')
         },
 
 

@@ -34,7 +34,7 @@
 
 			<input	
 				type="submit"
-				value="Add carbohydrate intake" />
+				value="Enter today's input" />
 		</form>
 
 	</main>

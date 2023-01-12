@@ -31,7 +31,7 @@
             <ExerciseChart 
                 :showButtons="true"
                 :showWeek="showWeek"
-                @toggle-show-week="toggleShowWeek"/>
+                @toggle-show-week="toggleShowWeek(!showWeek)"/>
         </Widget>
 
         <Widget
@@ -93,7 +93,6 @@ export default {
     data() {
 		return {
 			newWidget: ""
-
 		}
 	},
 
@@ -113,119 +112,157 @@ export default {
         },
 
         async setWidget(){
-            const result = await fetch('http://localhost:5000/tabs')
+            const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.parentTab)
-		    const tabID = tab.id
-            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
-            tab.boards[boardIndex].widget = this.newWidget
+		    const tabID = tab._id
+            const updatedBoards = tab.boards
+            const updatedBoard = updatedBoards.find(board => board.id === this.id)
 
             if(this.newWidget === "ExerciseChart") {
-                tab.boards[boardIndex].widget.showWeek = false
+                updatedBoard.showWeek = false
+                updatedBoard.widget = this.newWidget
+
+                updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+
+                const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
+				{
+					method: 'PATCH',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify({ boards: updatedBoards }),
+				})
+
+                res.status === 200
+                    ? location.reload()
+                    : alert ('Error adding widget. Please try again')
             }
 
-            if(this.newWidget === "CarbohydrateTracker") {
-                tab.boards[boardIndex].dailyCarbIntake = 0;
+            else if(this.newWidget === "CarbohydrateTracker") {
                 const date = new Date();
                 const year = date.getFullYear();
                 const month = date.getMonth() + 1;
                 const day = date.getDate();
                 const dateFormatted  = [day, month, year].join('-');
-                tab.boards[boardIndex].date = dateFormatted
-            }
+                updatedBoard.dailyCarbIntake = 0
+                updatedBoard.date = dateFormatted
+                updatedBoard.widget = this.newWidget
 
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+                updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+
+                const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(tab),
+					body: JSON.stringify({ boards: updatedBoards }),
 				})
 
-            res.status === 200
-				? location.reload()
-				: alert ('Error adding widget. Please try again')
+                res.status === 200
+                    ? location.reload()
+                    : alert ('Error adding widget. Please try again')
+            }
 
-            // $emit('reload-board')
+            else {
+                updatedBoard.widget = this.newWidget
+
+                updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+
+                const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
+				{
+					method: 'PATCH',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify({ boards: updatedBoards }),
+				})
+
+                res.status === 200
+                    ? location.reload()
+                    : alert ('Error adding widget. Please try again')
+            }
         },
 
         async setBoardSize() {
 
-            const result = await fetch('http://localhost:5000/tabs')
+            const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.parentTab)
-		    const tabID = tab.id
-            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
-            tab.boards[boardIndex].height = document.activeElement.parentElement.parentElement.clientHeight
-            tab.boards[boardIndex].width = document.activeElement.parentElement.parentElement.clientWidth
+		    const tabID = tab._id
+            const updatedBoards = tab.boards
+            const updatedBoard = updatedBoards.find(board => board.id === this.id)
+            updatedBoard.height = document.activeElement.parentElement.parentElement.clientHeight
+            updatedBoard.width = document.activeElement.parentElement.parentElement.clientWidth
 
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+            updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(tab),
+					body: JSON.stringify({ boards: updatedBoards}),
 				})
 
             res.status === 200
 				? location.reload()
 				: alert ('Error saving new board size. Please try again.')
-
-            // $emit('reload-board')
         },
 
         async toggleShowWeek(newValue) {
 
-            const result = await fetch('http://localhost:5000/tabs')
+            const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.parentTab)
-		    const tabID = tab.id
-            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
-            tab.boards[boardIndex].showWeek = newValue
+		    const tabID = tab._id
+            const updatedBoards = tab.boards
+            const updatedBoard = updatedBoards.find(board => board.id === this.id)
+            updatedBoard.showWeek = newValue
+
+            updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
             
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(tab),
+					body: JSON.stringify({ boards: updatedBoards}),
 				})
-
-            console.log(newValue)
-            console.log(this.showWeek)
-            location.reload()
         },
 
         async updateDailyCarbIntake(carbInput) {
 
-            console.log(carbInput)
-
-            const result = await fetch('http://localhost:5000/tabs')
+            const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.parentTab)
-		    const tabID = tab.id
-            const boardIndex = tab.boards.findIndex(board => board.id === this.id)
-            tab.boards[boardIndex].dailyCarbIntake = carbInput
+		    const tabID = tab._id
+            const updatedBoards = tab.boards
+            const updatedBoard = updatedBoards.find(board => board.id === this.id)
+            updatedBoard.dailyCarbIntake = carbInput
             const date = new Date();
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
             const day = date.getDate();
             const dateFormatted  = [day, month, year].join('-')
+            updatedBoard.date = dateFormatted
 
-            tab.boards[boardIndex].date = dateFormatted
+            updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
             
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(tab),
+					body: JSON.stringify({ boards: updatedBoards}),
 				})
-            location.reload()
+            res.status === 200
+				? location.reload()
+				: alert ('Error updating carbohydrate intake. Please try again.')
         }
     },
 

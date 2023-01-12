@@ -1,7 +1,5 @@
-{
-  "tabs": [
+ [
     {
-      "id": 1,
       "tabName": "Insulin Timeseries",
       "notes": "This board contains your insulin data. Add new boards below and drag in widgets from the sidebar! You can edit this text to add personalized notes.",
       "boards": [
@@ -18,11 +16,10 @@
           "widget": "BolusInsulinChart"
         }
       ],
-      "selected": false,
+      "selected": true,
       "showHour": false
     },
     {
-      "id": 2,
       "tabName": "Exercise Board",
       "notes": "",
       "boards": [
@@ -55,9 +52,7 @@
         }
       ],
       "notes": "",
-      "selected": true,
-      "showHour": false,
-      "id": 3
+      "selected": false,
+      "showHour": false
     }
   ]
-}

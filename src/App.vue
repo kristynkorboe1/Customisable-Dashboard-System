@@ -38,32 +38,33 @@ export default {
 		async selectTab(selectedTab) {
 
 			this.tabs = await this.fetchTabs()
-			
-			const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
+			const pSelectedTabID = this.tabs.find((tab) => tab.tabName === this.activeTab.tabName)._id
 
-			this.activeTab.selected = false
+			if(pSelectedTabID !== null) {
+				this.activeTab.selected = false
 
-			await fetch(`http://localhost:5000/tabs/${pSelectedTabID}`, 
+				await fetch(`http://localhost:8080/api/patientData/tabs/${pSelectedTabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(this.activeTab),
+					body: JSON.stringify({ selected: false }),
 				})
+			}
 			
 			this.activeTab=selectedTab
 			this.activeTab.selected=true
 
-			const selectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
+			const selectedTabID = this.tabs.find((tab) => tab.tabName === this.activeTab.tabName)._id
 
-			await fetch(`http://localhost:5000/tabs/${selectedTabID}`, 
+			await fetch(`http://localhost:8080/api/patientData/tabs/${selectedTabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(this.activeTab),
+					body: JSON.stringify({ selected: true }),
 				})
 			
 			this.tabs = await this.fetchTabs()
@@ -71,18 +72,7 @@ export default {
 
 		async deleteTab(dTab) {
 
-			const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
-
-			this.activeTab.selected = false
-
-			await fetch(`http://localhost:5000/tabs/${pSelectedTabID}`, 
-				{
-					method: 'PUT',
-					headers: {
-					'Content-type': 'application/json',
-					},
-					body: JSON.stringify(this.activeTab),
-				})
+			await this.selectTab(this.tabs[0])
 
 			if(dTab===undefined){
 				alert("Please select a tab to delete");
@@ -90,14 +80,14 @@ export default {
 			else if (confirm ('This action cannot be undone. Are you sure you would like to delete this tab?')){
 
 				const tab = this.tabs.find(tab => tab.tabName === dTab)
-				const id = tab.id
+				const id = tab._id
 				
-				const res = await fetch(`http://localhost:5000/tabs/${id}`, 
+				const res = await fetch(`http://localhost:8080/api/patientData/tabs/${id}`, 
 				{
 					method: 'DELETE'
 				})
 
-				res.status === 200
+				res.status === 204
 					? (this.tab = this.tabs.filter(tab => tab.tabName !== dTab))
 					: alert ('Error deleting tab. Please try again')
 
@@ -113,7 +103,7 @@ export default {
 				tabName: tName,
 				boards: [{"id": 1, widget: null, "height": 470, "width": 1120}],
 				notes: "",
-				selected: false,
+				selected: true,
 				showHour: false
 			}
 
@@ -126,20 +116,8 @@ export default {
 			}
 
 			else if (confirm ('Tab name cannot be changed after tab is created.')){
-				const pSelectedTabID = this.tabs.findIndex((tab) => tab.tabName === this.activeTab.tabName) + 1
 
-				this.activeTab.selected = false
-
-				await fetch(`http://localhost:5000/tabs/${pSelectedTabID}`, 
-					{
-						method: 'PUT',
-						headers: {
-						'Content-type': 'application/json',
-						},
-						body: JSON.stringify(this.activeTab),
-					})
-
-				const res = await fetch('http://localhost:5000/tabs', 
+				const res = await fetch('http://localhost:8080/api/patientData/tabs', 
 				{
 					method: 'POST',
 					headers: {
@@ -147,11 +125,14 @@ export default {
 					},
 					body: JSON.stringify(newTab),
 				})
+
+				res.status === 201
+					? this.tabs = await this.fetchTabs()
+					: alert ('Error adding tab. Please try again')
 			}
 
-			this.tabs = await this.fetchTabs()
-			this.selectTab(newTab)
-			this.activeTab = newTab
+
+			await this.selectTab(this.tabs[this.tabs.length -1])
 		},
 
 		async addBoard(tName) {
@@ -159,25 +140,25 @@ export default {
 			this.tabs = await this.fetchTabs()
 
 			const index = this.tabs.findIndex(tab => tab.tabName === tName)
-			const updatedTab = this.tabs[index]
+			const updatedBoards = this.tabs[index].boards
 
-			if (updatedTab.boards.length === 0) {
-				updatedTab.boards.push({ "id": 1, "widget": null, "height": 470, "width": 1120})
+			if (updatedBoards.length === 0) {
+				updatedBoards.push({ "id": 1, "widget": null, "height": 470, "width": 1120})
 			}
 
 			else {
-				updatedTab.boards.push({ "id": updatedTab.boards[updatedTab.boards.length-1].id + 1, "widget": null, "height": 470, "width": 1120})
+				updatedBoards.push({ "id": updatedBoards[updatedBoards.length-1].id + 1, "widget": null, "height": 470, "width": 1120})
 			}
 
-			const tabID = updatedTab.id
+			const tabID = this.tabs[index]._id
 
-			const res = await fetch(`http://localhost:5000/tabs/${tabID}`, 
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
 				{
-					method: 'PUT',
+					method: 'PATCH',
 					headers: {
 					'Content-type': 'application/json',
 					},
-					body: JSON.stringify(updatedTab),
+					body: JSON.stringify({boards: updatedBoards}),
 				})
 
 			res.status === 200
@@ -187,12 +168,12 @@ export default {
 			this.tabs = await this.fetchTabs()
 		},
 
-		reLoadTabs() {
-			location.reload()
-		},
+		// reLoadTabs() {
+		// 	location.reload()
+		// },
 
 		async fetchTabs() {
-			const res = await fetch('http://localhost:5000/tabs')
+			const res = await fetch('http://localhost:8080/api/patientData/tabs')
 			const data = await res.json()
 			return data
 		},
@@ -201,7 +182,7 @@ export default {
 			const tab = this.tabs.find(tab => tab.tabName === tabName)
 			const id = tab.id
 
-			const res = await fetch(`http://localhost:5000/tabs/${id}`)
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${id}`)
 			const data = await res.json()
 			return data
 		},
@@ -209,13 +190,11 @@ export default {
 
 	async created() {	
 		this.tabs = await this.fetchTabs()
-	
-		if(this.tabs.find((tab) => tab.selected === true) === undefined) {
-			this.selectTab(this.tabs[0])
-		}
+		this.activeTab = this.tabs.find((tab) => tab.selected === true)
 
-		else {
-			this.activeTab = this.tabs.find((tab) => tab.selected === true)
+		if(this.activeTab === undefined) {
+			this.activeTab = this.tabs[0]
+			this.selectTab(this.tabs[0])
 		}
 	},
 }

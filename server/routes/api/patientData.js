@@ -283,4 +283,81 @@ router.get('/glucose/past2Weeks', async (req, res) => {
 //     }
 // });
 
+
+
+
+//DASHBOARD CONFIGURATION
+async function loadTabsCollection() {
+    const client = await mongodb.MongoClient.connect('mongodb+srv://dbuser:y2J4VJdzSu53eJUV@cluster0.luieljo.mongodb.net/test', {
+        useNewUrlParser: true
+    })
+
+    return client.db('customisableDashboardSystem').collection('tabs')
+}
+
+//Get all tabs
+router.get('/tabs', async (req, res) => {
+    try {
+        const tabs = await loadTabsCollection();
+        res.status(200).send(await tabs.find({}).toArray());
+    }
+    catch(err) {
+        res.status(500).json({ error: 'Could not retrive dashboard configuration data'})
+    }
+});
+
+//Get tab by id
+// router.get('/tabs/:id', async (req, res) => {
+//     try{
+//         const fetchId = req.params.id
+//         const tabs = await loadTabsCollection();
+//         res.status(200).send(await tabs.findById(req.params.id));
+//     }
+//     catch(err){
+//         res.status(500).send({message: err})
+//     }
+// })
+
+//Add tab
+router.post('/tabs', async (req,res) => {
+    try {
+        const tabs = await loadTabsCollection();
+        await tabs.insertOne({
+            tabName: req.body.tabName,
+            notes: req.body.notes,
+            boards: req.body.boards,
+            selected: req.body.selected
+        });
+        res.status(201).send()
+    }   
+    catch(err) {
+        res.status(500).send({message: err})
+    } 
+});
+
+//Update tab
+router.patch('/tabs/:id', async (req, res) => {
+    try{
+        const updatedValue = req.body
+        const tabs = await loadTabsCollection();
+        await tabs.updateOne({_id: new mongodb.ObjectId(req.params.id)}, {$set: updatedValue})
+        res.status(200).send();
+    }
+    catch(err){
+        res.status(500).send({message: err})
+    }
+})
+
+//Delete tab
+router.delete('/tabs/:id', async (req, res) => {
+    try{
+        const tabs = await loadTabsCollection();
+        await tabs.deleteOne({_id: new mongodb.ObjectId(req.params.id)})
+        res.status(204).send();
+    }
+    catch(err){
+        res.send({message: err})
+    }
+});
+
 module.exports = router;
