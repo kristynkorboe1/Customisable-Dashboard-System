@@ -273,30 +273,46 @@ router.get('/glucose/past2Weeks', async (req, res) => {
 //Get basal insulin data from past 24 hours
 router.get('/basalInsulin/pastDay', async (req, res) => {
     try {
-        const lastWeekDate = new Date(Date.now() - 24 * 60 * 60 * 1000)
+        const startDate = new Date(Date.now() - 24 * 60 * 60 * 1000)
         const basalInsulinData = await loadBasalInsulinDataCollection();
         res.status(200)
             .send(await basalInsulinData
-                .find({time: {$gte: lastWeekDate}}).sort({"time": 1}).toArray());
+                .find({time: {$gte: startDate}}).sort({"time": 1}).toArray());
     }
     catch(err) {
-        res.status(500).json({ error: 'Could not retrive basalInsulin data for the past week'})
+        res.status(500).json({ error: 'Could not retrive basal insulin data for the past week'})
     }
 });
 
 //Get bolus insulin data from past 24 hours
 router.get('/bolusInsulin/pastDay', async (req, res) => {
     try {
-        const lastWeekDate = new Date(Date.now() - 24 * 60 * 60 * 1000)
+        const startDate = new Date(Date.now() - 24 * 60 * 60 * 1000)
         const bolusInsulinData = await loadBolusInsulinDataCollection();
         res.status(200)
             .send(await bolusInsulinData
-                .find({time: {$gte: lastWeekDate}}).sort({"time": 1}).toArray());
+                .find({time: {$gte: startDate}}).sort({"time": 1}).toArray());
     }
     catch(err) {
-        res.status(500).json({ error: 'Could not retrive basalInsulin data for the past week'})
+        res.status(500).json({ error: 'Could not retrive bolus insulin data for the past week'})
     }
 });
+
+//Get glucose data from past 24 hours
+router.get('/glucose/pastDay', async (req, res) => {
+    try {
+        const startDate = new Date(Date.now() - 24 * 60 * 60 * 1000)
+        const glucoseData = await loadGlucoseDataCollection();
+        res.status(200)
+            .send(await glucoseData
+                .find({time: {$gte: startDate}}).sort({"time": 1}).toArray());
+    }
+    catch(err) {
+        res.status(500).json({ error: 'Could not retrive glucose data for the past week'})
+    }
+});
+
+
 
 
 //DASHBOARD CONFIGURATION

@@ -37,7 +37,7 @@ export default {
             align: 'left',
           },
           chart: {
-            id: 'glucose'
+            id: 'bolus-insulin'
           },
           colors: ['#4ad2de'],
           markers: {
@@ -71,8 +71,8 @@ export default {
 
   async created() {
     try {
-      const glucoseData = await PatientDataService.getglucoseData();
-      const glucoseDataDay = await PatientDataService.getglucoseDataDay();
+      const glucoseData = await PatientDataService.getGlucoseData();
+      const glucoseDataDay = await PatientDataService.getGlucoseDataDay();
       this.options.xaxis.categories = glucoseData.map(item => item.time);
       this.series[0].data = glucoseData.map(item => item.glucoseMeasurement);
       this.seriesDay[0].data = glucoseDataDay.map(item => item.glucoseMeasurement);
@@ -80,7 +80,7 @@ export default {
       this.dataLoaded = true;
     }
     catch(err) {
-      this.error = "Unable to fetch glucose data. Please try again"
+      this.error = "Unable to fetch bolus insulin data. Please try again"
     }
   },
 }

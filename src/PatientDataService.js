@@ -131,6 +131,19 @@ class patientDataService {
         });
     }
 
+    static getGlucoseDataDay() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await axios.get('http://localhost:8080/api/patientData/glucose/pastDay');
+                const data = res.data;
+                resolve(data)
+            }
+            catch(err) {
+                reject(err);
+            }
+        });
+    }
+
     static addBasalInsulinData(value) {
         return axios.post('http://localhost:8080/api/patientData/basalInsulin', {
             value
