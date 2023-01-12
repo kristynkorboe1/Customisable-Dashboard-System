@@ -48,9 +48,7 @@
 			:tabName="tab.tabName"
 			:notes="tab.notes"
 			:boards="tab.boards"
-			:exerciseData="exerciseData"
 			:insulinData="InsulinData"
-			:isFetchingED="isFetchingED"
 			:showHour="tab.showHour"
 			@add-board-click="$emit('add-board', tab.tabName)"
 			@reload-tab="$emit('reload-tabs')">
@@ -66,8 +64,6 @@ export default {
 		tabs: [],
 		activeTab: {},
 		widgets: [],
-		exerciseData: [],
-		isFetchingED: true,
 		insulinData: []
 	},
 	components: {

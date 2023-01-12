@@ -41,8 +41,6 @@
                 :key="index"
                 :widget="boards[index].widget"
                 :parentTab="tabName"
-                :exerciseData="exerciseData"
-                :isFetchingED="isFetchingED"
                 :showWeek="board.showWeek"
                 :dailyCarbIntake="board.dailyCarbIntake"
                 :date="board.date"
@@ -66,9 +64,7 @@ export default {
         tabName: '',
         boards: [],
         widgets: [],
-        exerciseData: [],
         notes: '',
-        isFetchingED: true,
         insulinData:[],
         showHour: null
     },

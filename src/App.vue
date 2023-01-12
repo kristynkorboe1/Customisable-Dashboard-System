@@ -5,8 +5,6 @@
 			<TabsTest 
 				:tabs="tabs"
 				:activeTab="activeTab"
-				:exerciseData="exerciseData"
-				:isFetchingED="isFetchingED"
 				:insulinData="insulinData"
 				@select-tab="selectTab"
 				@delete-tab="deleteTab"
@@ -14,9 +12,6 @@
 				@add-board="addBoard"
 				@reload-tabs="reLoadTabs"
 				/>
-			<!-- <keep-alive>
-				<router-view />
-			</keep-alive> -->
 		</div>
 	</div>
 </template>
@@ -24,17 +19,18 @@
 <script>
 import Sidebar from './components/Sidebar.vue'
 import TabsTest from './components/TabsTest.vue'
+import ExerciseChart from './components/ExerciseChart.vue'
 
 export default {
 	name: 'App',
 	components: {
 		Sidebar,
-		TabsTest
+		TabsTest,
+		ExerciseChart
 	},
 	data() {
 		return {
 			tabs: [],
-			widgets: [],
 			activeTab: {}
 		}
 	},

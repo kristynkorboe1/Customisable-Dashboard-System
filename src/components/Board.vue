@@ -30,9 +30,7 @@
             :draggable="false">
             <ExerciseChart 
                 :showButtons="true"
-                :exerciseData="exerciseData"
                 :showWeek="showWeek"
-                :isFetchingED="isFetchingED"
                 @toggle-show-week="toggleShowWeek"/>
         </Widget>
 
@@ -85,9 +83,7 @@ export default {
         id: 0,
         width: 1120,
         height: 470,
-        exerciseData: [],
         showWeek: false,
-        isFetchingED: true,
         showHour: false,
         insulinData: [],
         dailyCarbIntake: 0,
