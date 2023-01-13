@@ -8,7 +8,7 @@ import { Bar } from 'vue-chartjs'
         <button
           v-if="!showWeek"
           @click="toggleShowWeek">
-          Show past week only
+          Show last 7 exercise days
         </button>
 
         <button

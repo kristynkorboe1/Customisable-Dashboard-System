@@ -149,10 +149,9 @@ export default {
 
             else if(this.newWidget === "CarbohydrateTracker") {
                 const date = new Date();
-                const year = date.getFullYear();
-                const month = date.getMonth() + 1;
-                const day = date.getDate();
-                const dateFormatted  = [day, month, year].join('-');
+                const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
+                    + ('0' + (date.getMonth()+1)).slice(-2) + '-'
+                    + date.getFullYear();
                 updatedBoard.dailyCarbIntake = 0
                 updatedBoard.date = dateFormatted
                 updatedBoard.widget = this.newWidget
@@ -252,10 +251,9 @@ export default {
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
             updatedBoard.dailyCarbIntake = carbInput
             const date = new Date();
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            const dateFormatted  = [day, month, year].join('-')
+            const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
+                + ('0' + (date.getMonth()+1)).slice(-2) + '-'
+                + date.getFullYear();
             updatedBoard.date = dateFormatted
 
             updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)

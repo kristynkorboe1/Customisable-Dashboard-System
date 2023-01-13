@@ -41,12 +41,13 @@
 </template>
 
 <script>
+import PatientDataService from '../PatientDataService';
 	export default {
 		name: 'CarbohydrateTracker',
 
 		props: {
 			dailyCarbIntake: 0,
-			date: new Date()
+			date: ""
 		},
 
 		data() {
@@ -56,8 +57,21 @@
 		},
 
 		methods: {
-			addCarbIntake(carbInput) {
+			async addCarbIntake(carbInput) {
 				this.carbInputD = carbInput
+				const carbohydrateData = await PatientDataService.getCarbohydrateData();
+				const [year, month, day] = carbohydrateData[carbohydrateData.length - 1].time.slice(0,10).split('-');
+                const dateFormatted  = [day, month, year].join('-');
+
+				if(dateFormatted !== this.date) {
+					PatientDataService.addCarbohydrateData(carbInput)
+				}
+
+				else {
+					PatientDataService.setCarbohydrateDataToday(carbInput)
+				}
+
+
 				this.$emit ('update-daily-carb-intake', this.carbInputD)
 			}
 		},

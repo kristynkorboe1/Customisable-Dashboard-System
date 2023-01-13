@@ -164,25 +164,30 @@ class patientDataService {
 
     static addPhysicalActivityData(value) {
         return axios.post('http://localhost:8080/api/patientData/physicalActivity', {
-            value
+            physicalActivityMin: value
         })
     }
 
     static addCarbohydrateData(value) {
         return axios.post('http://localhost:8080/api/patientData/carbohydrate', {
-            value
+            carbohydrateGrams: value
         })
     }
 
-    static setCarbohydrateDataToday(id, value) {
-        return axios.patch(`http://localhost:8080/api/patientData/carbohydrate/${id}`, {
-            value
+    static async setCarbohydrateDataToday(value) {
+        const carbohydrateData = await this.getCarbohydrateData();
+        const id = carbohydrateData[carbohydrateData.length - 1]._id;
+        return axios.patch(`http://localhost:8080/api/patientData/carbohydrate/${id}`, 
+        {
+            carbohydrateGrams: value
         })
     }
 
-    static setPhysicalActivityDataToday(id, value) {
+    static setPhysicalActivityDataToday(date, value) {
+        const physicalActivityData = this.getPhysicalActivityData();
+        const id = physicalActivityData[physicalActivityData.length -1]._id;
         return axios.patch(`http://localhost:8080/api/patientData/physicalActivity/${id}`, {
-            value
+            physicalActivityMin: value
         })
     }
 }
