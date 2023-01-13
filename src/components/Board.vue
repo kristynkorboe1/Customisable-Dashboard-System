@@ -80,6 +80,14 @@
             <PhysicalActivitySummary/>
         </Widget>
 
+        <Widget
+            v-if="this.widget === 'CarbohydrateSummary'"
+            :name="CarbohydrateSummary"
+            :draggable="false"
+            >
+            <CarbohydrateSummary/>
+        </Widget>
+
     </div>
 </template>
 
@@ -91,6 +99,7 @@ import GlucoseChart from '../components/GlucoseChart.vue'
 import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 import ExerciseTracker from '../components/ExerciseTracker.vue'
 import PhysicalActivitySummary from '../components/PhysicalActivitySummary.vue'
+import CarbohydrateSummary from '../components/CarbohydrateSummary.vue'
 
 export default {
     props: {
@@ -120,7 +129,8 @@ export default {
         CarbohydrateTracker,
         GlucoseChart,
         ExerciseTracker,
-        PhysicalActivitySummary
+        PhysicalActivitySummary,
+        CarbohydrateSummary
     },
 
     methods: {

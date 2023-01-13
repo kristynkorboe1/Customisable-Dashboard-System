@@ -7,3 +7,8 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 # Bachelor-Project
 # Customisable-Dashboard-System
+
+Start application: npm run dev
+Run backend: npm run startNodemon
+
+MondoDB Compass connection string: mongodb+srv://dbuser:y2J4VJdzSu53eJUV@cluster0.luieljo.mongodb.net/test

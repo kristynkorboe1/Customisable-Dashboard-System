@@ -166,10 +166,6 @@ export default {
 			this.tabs = await this.fetchTabs()
 		},
 
-		// reLoadTabs() {
-		// 	location.reload()
-		// },
-
 		async fetchTabs() {
 			const res = await fetch('http://localhost:8080/api/patientData/tabs')
 			const data = await res.json()
