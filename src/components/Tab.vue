@@ -43,6 +43,7 @@
                 :parentTab="tabName"
                 :showWeek="board.showWeek"
                 :dailyCarbIntake="board.dailyCarbIntake"
+                :dailyExercise="board.dailyExercise"
                 :date="board.date"
                 :insulinData="InsulinData"
                 :showDay="showDay"

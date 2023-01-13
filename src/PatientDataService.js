@@ -183,8 +183,8 @@ class patientDataService {
         })
     }
 
-    static setPhysicalActivityDataToday(date, value) {
-        const physicalActivityData = this.getPhysicalActivityData();
+    static async setPhysicalActivityDataToday(value) {
+        const physicalActivityData = await this.getPhysicalActivityData();
         const id = physicalActivityData[physicalActivityData.length -1]._id;
         return axios.patch(`http://localhost:8080/api/patientData/physicalActivity/${id}`, {
             physicalActivityMin: value

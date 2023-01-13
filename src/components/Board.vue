@@ -72,6 +72,17 @@
                 :date="date"/>
         </Widget>
 
+        <Widget
+            v-if="this.widget === 'ExerciseTracker'"
+            :name="ExerciseTracker"
+            :draggable="false"
+            >
+            <ExerciseTracker
+                @update-daily-exercise="updateDailyExercise"
+                :dailyExercise="dailyExercise"
+                :date="date"/>
+        </Widget>
+
     </div>
 </template>
 
@@ -82,6 +93,7 @@ import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
 import GlucoseChart from '../components/GlucoseChart.vue'
 import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
+import ExerciseTracker from '../components/ExerciseTracker.vue'
 
 export default {
     props: {
@@ -94,6 +106,7 @@ export default {
         showDay: false,
         insulinData: [],
         dailyCarbIntake: 0,
+        dailyExercise: 0,
         date: new Date()
     },
 
@@ -109,7 +122,8 @@ export default {
         BasalInsulinChart, 
         BolusInsulinChart,
         CarbohydrateTracker,
-        GlucoseChart
+        GlucoseChart,
+        ExerciseTracker
     },
 
     methods: {
@@ -153,6 +167,31 @@ export default {
                     + ('0' + (date.getMonth()+1)).slice(-2) + '-'
                     + date.getFullYear();
                 updatedBoard.dailyCarbIntake = 0
+                updatedBoard.date = dateFormatted
+                updatedBoard.widget = this.newWidget
+
+                updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+
+                const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
+				{
+					method: 'PATCH',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify({ boards: updatedBoards }),
+				})
+
+                res.status === 200
+                    ? location.reload()
+                    : alert ('Error adding widget. Please try again')
+            }
+
+            else if(this.newWidget === "ExerciseTracker") {
+                const date = new Date();
+                const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
+                    + ('0' + (date.getMonth()+1)).slice(-2) + '-'
+                    + date.getFullYear();
+                updatedBoard.dailyExercise = 0
                 updatedBoard.date = dateFormatted
                 updatedBoard.widget = this.newWidget
 
@@ -269,6 +308,36 @@ export default {
             res.status === 200
 				? location.reload()
 				: alert ('Error updating carbohydrate intake. Please try again.')
+        },
+
+        async updateDailyExercise(exerciseInput) {
+
+            const result = await fetch('http://localhost:8080/api/patientData/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.parentTab)
+		    const tabID = tab._id
+            const updatedBoards = tab.boards
+            const updatedBoard = updatedBoards.find(board => board.id === this.id)
+            updatedBoard.dailyExercise = exerciseInput
+            const date = new Date();
+            const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
+                + ('0' + (date.getMonth()+1)).slice(-2) + '-'
+                + date.getFullYear();
+            updatedBoard.date = dateFormatted
+
+            updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+            
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
+				{
+					method: 'PATCH',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify({ boards: updatedBoards}),
+				})
+            res.status === 200
+				? location.reload()
+				: alert ('Error updating exercise time. Please try again.')
         }
     },
 
