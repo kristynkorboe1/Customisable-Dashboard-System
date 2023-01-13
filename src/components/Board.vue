@@ -24,17 +24,6 @@
         </div>
 
         <Widget
-            :showButton="true"
-            v-if="this.widget === 'ExerciseChart'"
-            :name="ExerciseChart"
-            :draggable="false">
-            <ExerciseChart 
-                :showButtons="true"
-                :showWeek="showWeek"
-                @toggle-show-week="toggleShowWeek(!showWeek)"/>
-        </Widget>
-
-        <Widget
             v-if="this.widget === 'BasalInsulinChart'"
             :name="BasalInsulinChart"
             :draggable="false">
@@ -83,17 +72,25 @@
                 :date="date"/>
         </Widget>
 
+        <Widget
+            v-if="this.widget === 'PhysicalActivitySummary'"
+            :name="PhysicalActivitySummary"
+            :draggable="false"
+            >
+            <PhysicalActivitySummary/>
+        </Widget>
+
     </div>
 </template>
 
 <script>
 import Widget from '../components/Widget.vue'
-import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
 import GlucoseChart from '../components/GlucoseChart.vue'
 import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 import ExerciseTracker from '../components/ExerciseTracker.vue'
+import PhysicalActivitySummary from '../components/PhysicalActivitySummary.vue'
 
 export default {
     props: {
@@ -117,13 +114,13 @@ export default {
 	},
 
     components: {
-        Widget, 
-        ExerciseChart, 
+        Widget,
         BasalInsulinChart, 
         BolusInsulinChart,
         CarbohydrateTracker,
         GlucoseChart,
-        ExerciseTracker
+        ExerciseTracker,
+        PhysicalActivitySummary
     },
 
     methods: {

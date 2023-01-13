@@ -16,16 +16,6 @@
                 <Widget
                     :id=1
                     :draggable="true"
-                    :name="ExerciseChart">
-                    <span class="material-symbols-outlined">
-                        fitness_center
-                    </span>
-                    <h3>Physical Activity Data</h3>
-                </Widget>
-
-                <Widget
-                    :id=2
-                    :draggable="true"
                     :name="BasalInsulinChart">
                     <span class="material-symbols-outlined">
                         show_chart
@@ -34,7 +24,7 @@
                 </Widget>
 
                 <Widget
-                    :id=3
+                    :id=2
                     :draggable="true"
                     :name="BolusInsulinChart">
                     <span class="material-symbols-outlined">
@@ -44,7 +34,7 @@
                 </Widget>
 
                 <Widget
-                    :id=4
+                    :id=3
                     :draggable="true"
                     :name="GlucoseChart">
                     <span class="material-symbols-outlined">
@@ -54,7 +44,7 @@
                 </Widget>
 
                 <Widget
-                    :id=5
+                    :id=4
                     :draggable="true"
                     :name="CarbohydrateTracker">
                     <span class="material-symbols-outlined">
@@ -64,13 +54,23 @@
                 </Widget>
 
                 <Widget
-                    :id=6
+                    :id=5
                     :draggable="true"
                     :name="ExerciseTracker">
                     <span class="material-symbols-outlined">
                         fitness_center
                     </span>
                     <h4>Exercise Tracker</h4>
+                </Widget>
+
+                <Widget
+                    :id=6
+                    :draggable="true"
+                    :name="PhysicalActivitySummary">
+                    <span class="material-symbols-outlined">
+                        fitness_center
+                    </span>
+                    <h4>Physical Activity Summary</h4>
                 </Widget>
 
         </div>
@@ -81,12 +81,12 @@
 import { ref } from 'vue'
 import Board from '../components/Board.vue'
 import Widget from '../components/Widget.vue'
-import ExerciseChart from './ExerciseChart.vue'
 import BasalInsulinChart from '../components/BasalInsulinChart.vue'
 import BolusInsulinChart from '../components/BolusInsulinChart.vue'
 import GlucoseChart from '../components/GlucoseChart.vue'
 import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 import ExerciseTracker from '../components/ExerciseTracker.vue'
+import PhysicalActivitySummary from '../components/PhysicalActivitySummary.vue'
 
 const is_expanded = ref(false)
 
@@ -99,13 +99,13 @@ const ToggleMenu = () => {
   export default {
     components: { 
         Board, 
-        Widget, 
-        ExerciseChart, 
+        Widget,  
         BasalInsulinChart, 
         BolusInsulinChart, 
         CarbohydrateTracker, 
         GlucoseChart, 
-        ExerciseTracker },
+        ExerciseTracker,
+        PhysicalActivitySummary },
     props: {
         value: {
             type: String,

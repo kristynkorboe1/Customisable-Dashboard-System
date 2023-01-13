@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<h4>exercise Tracker</h4>
+		<h4>Exercise Tracker</h4>
 
 		<div 
 			v-if="dailyExercise<60"
