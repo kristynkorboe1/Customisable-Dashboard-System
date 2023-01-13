@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<h3>Physical Activity Summary</h3>
+		<h3>This Week's Physical Activity Summary</h3>
         <div v-if="error!=''">{{ error }}</div>
 
         <div class="main" v-if="dataLoaded">
@@ -75,8 +75,10 @@
 <script>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 import PatientDataService from '../PatientDataService';
-	export default {
+	
+    export default {
 		name: 'PhysicalActivitySummary',
         components: {Bar},
 		props: {
@@ -148,10 +150,8 @@ import PatientDataService from '../PatientDataService';
                 this.chartData.datasets[0].data = exerciseData.map(item => item.physicalActivityMin);
 
                 this.averageExercise = exerciseDataWeek.map(item => item.physicalActivityMin).reduce((acc,v,i,a)=>(acc+v/a.length),0);
-                console.log(this.averageExercise)
-
+                
                 this.dataLoaded = true;
-                console.log(this.dataLoaded);
             }
             catch(err) {
                 console.log(err)

@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<h4>Exercise Tracker</h4>
+		<h4>Daily Physical Activity Tracker</h4>
 
 		<div 
 			v-if="dailyExercise<60"
@@ -34,7 +34,7 @@
 
 			<input	
 				type="submit"
-				value="Enter today's input" />
+				value="Enter exercise time (min)" />
 		</form>
 
 	</main>
@@ -103,8 +103,8 @@ h4 {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 220px;
-	height: 220px;
+	width: 200px;
+	height: 200px;
 	
 	text-align: center;
 	background-color: white;

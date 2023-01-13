@@ -60,7 +60,7 @@
                     <span class="material-symbols-outlined">
                         fitness_center
                     </span>
-                    <h4>Exercise Tracker</h4>
+                    <h4>Physical Activity Tracker</h4>
                 </Widget>
 
                 <Widget

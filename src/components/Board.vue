@@ -138,27 +138,7 @@ export default {
             const updatedBoards = tab.boards
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
 
-            if(this.newWidget === "ExerciseChart") {
-                updatedBoard.showWeek = false
-                updatedBoard.widget = this.newWidget
-
-                updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
-
-                const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
-				{
-					method: 'PATCH',
-					headers: {
-					'Content-type': 'application/json',
-					},
-					body: JSON.stringify({ boards: updatedBoards }),
-				})
-
-                res.status === 200
-                    ? location.reload()
-                    : alert ('Error adding widget. Please try again')
-            }
-
-            else if(this.newWidget === "CarbohydrateTracker") {
+            if(this.newWidget === "CarbohydrateTracker") {
                 const date = new Date();
                 const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
                     + ('0' + (date.getMonth()+1)).slice(-2) + '-'
@@ -338,7 +318,7 @@ export default {
         }
     },
 
-    emits: ['delete-board', 'reload-board']
+    emits: ['delete-board']
 }
 </script>
 

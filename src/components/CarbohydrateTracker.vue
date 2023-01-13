@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<h4>Carbohydrate Tracker</h4>
+		<h4>Daily Carbohydrate Intake Tracker</h4>
 
 		<div 
 			v-if="dailyCarbIntake>145"
@@ -34,7 +34,7 @@
 
 			<input	
 				type="submit"
-				value="Enter today's input" />
+				value="Enter carbohydrate intake (g)" />
 		</form>
 
 	</main>

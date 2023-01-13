@@ -19,14 +19,12 @@
 <script>
 import Sidebar from './components/Sidebar.vue'
 import TabsTest from './components/TabsTest.vue'
-import ExerciseChart from './components/ExerciseChart.vue'
 
 export default {
 	name: 'App',
 	components: {
 		Sidebar,
-		TabsTest,
-		ExerciseChart
+		TabsTest
 	},
 	data() {
 		return {
