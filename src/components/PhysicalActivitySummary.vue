@@ -4,55 +4,70 @@
         <div v-if="error!=''">{{ error }}</div>
 
         <div class="main" v-if="dataLoaded">
-            <div 
-                v-if="averageExercise<60"
-                class="currentRed">
-                <span>{{ averageExercise }}</span>
-                <small>
-                    Average Exercise time this week (min)
-                </small>
-                <small>{{ date }}</small>
-                <small>
-                    Remember to aim for at least 60 min of exercise daily.
-                </small>
-            </div>
-
-            <div 
-                v-if="averageExercise>60"
-                class="current">
-                <span>{{ averageExercise }}</span>
-                <small>
-                    Average Exercise time this week (min)
-                    {{ date }}
-                </small>
-            </div>
-
-        <div>
             <button
-            v-if="!showWeek"
-            @click="this.showWeek = true">
-            Show last 7 days
+                v-if="!showAverage"
+                @click="this.showAverage = true">
+                Show average for the week
             </button>
 
             <button
-            v-if="showWeek"
-            @click="this.showWeek = false">
-            Show all available exercise data
+                v-if="showAverage"
+                @click="this.showAverage = false">
+                Show all data for the week
             </button>
-        </div>
 
-        <Bar
-            :chart-options="chartOptions"
-            :chart-data="showWeek? chartDataWeek : chartData"
-            :chart-id="chartId"
-            :dataset-id-key="datasetIdKey"
-            :plugins="plugins"
-            :css-classes="cssClasses"
-            :styles="styles"
-            :width="width"
-            :height="height"
-        />
+            <div v-if="showAverage">
+                <div 
+                    v-if="averageExercise<60"
+                    class="currentRed">
+                    <span>{{ averageExercise }}</span>
+                    <small>
+                        Average Exercise time this week (min)
+                    </small>
+                    <small>{{ date }}</small>
+                    <small>
+                        Remember to aim for at least 60 min of exercise daily.
+                    </small>
+                </div>
 
+                <div 
+                    v-if="averageExercise>60"
+                    class="current">
+                    <span>{{ averageExercise }}</span>
+                    <small>
+                        Average Exercise time this week (min)
+                        {{ date }}
+                    </small>
+                </div>
+            </div>
+
+            <div v-if="!showAverage">
+                <div>
+                    <button
+                    v-if="!showWeek"
+                    @click="this.showWeek = true">
+                    Show last 7 days
+                    </button>
+
+                    <button
+                    v-if="showWeek"
+                    @click="this.showWeek = false">
+                    Show all available exercise data
+                    </button>
+                </div>
+
+                <Bar
+                    :chart-options="chartOptions"
+                    :chart-data="showWeek? chartDataWeek : chartData"
+                    :chart-id="chartId"
+                    :dataset-id-key="datasetIdKey"
+                    :plugins="plugins"
+                    :css-classes="cssClasses"
+                    :styles="styles"
+                    :width="width"
+                    :height="height"
+                />
+            </div>
         </div>
 	</main>
 </template>
@@ -75,11 +90,11 @@ import PatientDataService from '../PatientDataService';
             },
             width: {
                 type: Number,
-                default: 200
+                default: 300
             },
             height: {
                 type: Number,
-                default: 100
+                default: 300
             },
             cssClasses: {
                 default: '',
@@ -99,7 +114,8 @@ import PatientDataService from '../PatientDataService';
             return {
                 averageExercise: 0,
                 dataLoaded: false,
-                showWeek: true, 
+                showWeek: true,
+                showAverage: true, 
                 chartDataWeek: {
                     labels: [],
                     datasets: [ { 
@@ -159,7 +175,7 @@ main {
 	padding: 1.5rem;
 }
 h3 {
-	font-size: 1.5rem;
+	font-size: 2rem;
 	text-align: center;
 	margin-bottom: 2rem;
 }
@@ -168,8 +184,8 @@ h3 {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 180px;
-	height: 180px;
+	width: 250px;
+	height: 250px;
 	
 	text-align: center;
 	background-color: white;
@@ -189,7 +205,7 @@ h3 {
 
 .current span, .currentRed span {
 	display: block;
-	font-size: 1rem;
+	font-size: 2rem;
 	font-weight: bold;
 	margin-bottom: 0.5rem;
 }
