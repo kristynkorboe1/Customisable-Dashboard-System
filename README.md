@@ -10,5 +10,6 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 Start application: npm run dev
 Run backend: npm run startNodemon
+http://localhost:8080/api/patientData
 
 MondoDB Compass connection string: mongodb+srv://dbuser:y2J4VJdzSu53eJUV@cluster0.luieljo.mongodb.net/test

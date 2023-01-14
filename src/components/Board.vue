@@ -268,14 +268,16 @@ export default {
         },
 
         async updateDailyCarbIntake(carbInput) {
-
+            const dose = carbInput/10
             const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.parentTab)
 		    const tabID = tab._id
             const updatedBoards = tab.boards
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
-            updatedBoard.dailyCarbIntake = carbInput
+            const prevIntake = updatedBoard.dailyCarbIntake
+            updatedBoard.dailyCarbIntake = prevIntake + carbInput
+            
             const date = new Date();
             const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
                 + ('0' + (date.getMonth()+1)).slice(-2) + '-'
@@ -292,9 +294,12 @@ export default {
 					},
 					body: JSON.stringify({ boards: updatedBoards}),
 				})
-            res.status === 200
+
+            if(confirm('Remember to take your rapid-acting insulin 15 minutes before you eat. Dose: ' + dose + '. Click okay to update total intake.')){
+                res.status === 200
 				? location.reload()
 				: alert ('Error updating carbohydrate intake. Please try again.')
+            }
         },
 
         async updateDailyExercise(exerciseInput) {

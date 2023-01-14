@@ -149,7 +149,7 @@ import PatientDataService from '../PatientDataService';
                 this.chartData.labels = exerciseData.map(item => item.time.slice(0,10));
                 this.chartData.datasets[0].data = exerciseData.map(item => item.physicalActivityMin);
 
-                this.averageExercise = exerciseDataWeek.map(item => item.physicalActivityMin).reduce((acc,v,i,a)=>(acc+v/a.length),0);
+                this.averageExercise = exerciseDataWeek.map(item => item.physicalActivityMin).reduce((acc,v,i,a)=>(acc+v/a.length),0).toFixed(0);
                 
                 this.dataLoaded = true;
             }

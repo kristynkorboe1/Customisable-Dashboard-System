@@ -7,7 +7,7 @@
 			class="currentRed">
 			<span>{{ dailyCarbIntake }}</span>
 			<small>
-				Carbohydrate intake (g).
+				Total carbohydrate intake (g).
 				{{ date }}
 			</small>
 			<small>
@@ -20,7 +20,7 @@
 			class="current">
 			<span>{{ dailyCarbIntake }}</span>
 			<small>
-				Carbohydrate intake (g)
+				Total carbohydrate intake (g)
 				{{ date }}
 			</small>
 		</div>
@@ -29,13 +29,18 @@
 			@submit.prevent="addCarbIntake(carbInput)">
 			<input 
 				type="number"
-				step="0.5"
+				step="0.1"
 				v-model="carbInput" />
 
 			<input	
 				type="submit"
-				value="Enter carbohydrate intake (g)" />
+				value="Enter carbohydrate intake per meal (g)" />
 		</form>
+
+		<!-- <div v-if="showRequiredInsulin">
+			<p>Remember to take your rapid-acting insulin 15 minutes before you eat.</p>
+			<p>Dose: {{ insulinDose }}</p>
+		</div> -->
 
 	</main>
 </template>
@@ -52,12 +57,15 @@ import PatientDataService from '../PatientDataService';
 
 		data() {
 			return {
-				carbInputD: this.dailyCarbIntake
+				carbInputD: this.dailyCarbIntake,
+				insulinDose: 0,
+				// showRequiredInsulin: false
 			}
 		},
 
 		methods: {
 			async addCarbIntake(carbInput) {
+				const prevIntake = this.carbInputD
 				this.carbInputD = carbInput
 				const carbohydrateData = await PatientDataService.getCarbohydrateData();
 				const [year, month, day] = carbohydrateData[carbohydrateData.length - 1].time.slice(0,10).split('-');
@@ -68,9 +76,11 @@ import PatientDataService from '../PatientDataService';
 				}
 
 				else {
-					PatientDataService.setCarbohydrateDataToday(carbInput)
+					PatientDataService.setCarbohydrateDataToday(carbInput + prevIntake)
 				}
-
+				
+				// this.insulinDose = carbInput/10;
+				// this.showRequiredInsulin = true;
 
 				this.$emit ('update-daily-carb-intake', this.carbInputD)
 			}

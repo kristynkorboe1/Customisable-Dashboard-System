@@ -149,7 +149,7 @@ import PatientDataService from '../PatientDataService';
                 this.chartData.labels = carbohydrate.map(item => item.time.slice(0,10));
                 this.chartData.datasets[0].data = carbohydrate.map(item => item.carbohydrateGrams);
 
-                this.averageCarbIntake = carbohydrateWeek.map(item => item.carbohydrateGrams).reduce((acc,v,i,a)=>(acc+v/a.length),0);
+                this.averageCarbIntake = carbohydrateWeek.map(item => item.carbohydrateGrams).reduce((acc,v,i,a)=>(acc+v/a.length),0).toFixed(1);
                 
                 this.dataLoaded = true;
             }
