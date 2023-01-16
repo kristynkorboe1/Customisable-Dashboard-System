@@ -11,9 +11,21 @@
 
         <h2>Widgets</h2>
 
+        <select 
+            v-model="filter">
+            <option filter="All" disabled selected>Filter by widget type</option>
+            <option 
+                v-for="(widgetType, index) in widgetTypes" 
+                :key="index"
+                filter="widgetType">
+                {{widgetType}}
+            </option>
+        </select>
+
         <div class="menu">
 
                 <Widget
+                    v-if="filter === 'Insulin' || filter === 'All'"
                     :id=1
                     :draggable="true"
                     :name="BasalInsulinChart">
@@ -24,6 +36,7 @@
                 </Widget>
 
                 <Widget
+                    v-if="filter === 'Insulin' || filter === 'All'"
                     :id=2
                     :draggable="true"
                     :name="BolusInsulinChart">
@@ -34,6 +47,7 @@
                 </Widget>
 
                 <Widget
+                v-if="filter === 'Glucose' || filter === 'All'"
                     :id=3
                     :draggable="true"
                     :name="GlucoseChart">
@@ -44,6 +58,7 @@
                 </Widget>
 
                 <Widget
+                    v-if="filter === 'Meals' || filter === 'All'"
                     :id=4
                     :draggable="true"
                     :name="CarbohydrateTracker">
@@ -54,6 +69,7 @@
                 </Widget>
 
                 <Widget
+                    v-if="filter === 'Physical Activity' || filter === 'All'"
                     :id=5
                     :draggable="true"
                     :name="ExerciseTracker">
@@ -64,6 +80,7 @@
                 </Widget>
 
                 <Widget
+                    v-if="filter === 'Physical Activity' || filter === 'All'"
                     :id=6
                     :draggable="true"
                     :name="PhysicalActivitySummary">
@@ -74,11 +91,12 @@
                 </Widget>
 
                 <Widget
+                    v-if="filter === 'Meals' || filter === 'All'"
                     :id=7
                     :draggable="true"
                     :name="CarbohydrateSummary">
                     <span class="material-symbols-outlined">
-                        fitness_center
+                        dinner_dining
                     </span>
                     <h4>Carbohydrate Summary</h4>
                 </Widget>
@@ -123,6 +141,12 @@ const ToggleMenu = () => {
             type: String,
             required: true,
             default: ""
+        }
+    },
+    data() {
+        return {
+            widgetTypes: ["All", "Physical Activity", "Meals", "Insulin", "Glucose"],
+            filter: "All"
         }
     }
   }
