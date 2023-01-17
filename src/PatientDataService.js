@@ -158,7 +158,7 @@ class patientDataService {
 
     static addGlucoseData(value) {
         return axios.post('http://localhost:8080/api/patientData/glucose', {
-            value
+            glucoseMeasurement: value
         })
     }
 

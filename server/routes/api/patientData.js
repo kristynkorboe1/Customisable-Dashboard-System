@@ -183,16 +183,9 @@ router.post('/carbohydrate', async (req,res) => {
 router.post('/glucose', async (req,res) => {
     try {
         const glucoseData = await loadGlucoseDataCollection();
-        const currentDate = new Date(); 
-        const dateTime = 
-            currentDate.getDate() + "/"
-            + (currentDate.getMonth()+1)  + "/" 
-            + currentDate.getFullYear() + " "  
-            + currentDate.getHours() + ":"  
-            + currentDate.getMinutes() + ":"
 
         await glucoseData.insertOne({
-            time: dateTime,
+            time: new Date(),
             glucoseMeasurement: req.body.glucoseMeasurement
         });
         res.status(201).send()

@@ -101,6 +101,17 @@
                     <h4>Carbohydrate Summary</h4>
                 </Widget>
 
+                <Widget
+                    v-if="filter === 'Glucose' || filter === 'All'"
+                    :id=8
+                    :draggable="true"
+                    :name="GlucoseTracker">
+                    <span class="material-symbols-outlined">
+                        sugar
+                    </span>
+                    <h4>Glucose Tracker</h4>
+                </Widget>
+
         </div>
     </aside>
 </template>
@@ -116,6 +127,7 @@ import CarbohydrateTracker from '../components/CarbohydrateTracker.vue'
 import ExerciseTracker from '../components/ExerciseTracker.vue'
 import PhysicalActivitySummary from '../components/PhysicalActivitySummary.vue'
 import CarbohydrateSummary from '../components/CarbohydrateSummary.vue'
+import GlucoseTracker from '../components/GlucoseTracker.vue'
 
 const is_expanded = ref(false)
 
@@ -135,7 +147,8 @@ const ToggleMenu = () => {
         GlucoseChart, 
         ExerciseTracker,
         PhysicalActivitySummary,
-        CarbohydrateSummary },
+        CarbohydrateSummary,
+        GlucoseTracker },
     props: {
         value: {
             type: String,
