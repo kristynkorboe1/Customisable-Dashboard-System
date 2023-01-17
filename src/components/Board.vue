@@ -99,6 +99,17 @@
                 :date="date"/>
         </Widget>
 
+        <Widget
+            v-if="this.widget === 'BolusInsulinTracker'"
+            :name="BolusInsulinTracker"
+            :draggable="false"
+            >
+            <BolusInsulinTracker
+                @update-bolus-insulin="updateBolusInsulin"
+                :bolusInsulin="bolusInsulin"
+                :date="date"/>
+        </Widget>
+
     </div>
 </template>
 
@@ -112,6 +123,7 @@ import ExerciseTracker from '../components/ExerciseTracker.vue'
 import PhysicalActivitySummary from '../components/PhysicalActivitySummary.vue'
 import CarbohydrateSummary from '../components/CarbohydrateSummary.vue'
 import GlucoseTracker from '../components/GlucoseTracker.vue'
+import BolusInsulinTracker from '../components/BolusInsulinTracker.vue'
 
 export default {
     props: {
@@ -126,6 +138,7 @@ export default {
         dailyCarbIntake: 0,
         dailyExercise: 0,
         glucoseMeasurement: 0,
+        bolusInsulin: 0,
         date: new Date()
     },
 
@@ -144,7 +157,8 @@ export default {
         ExerciseTracker,
         PhysicalActivitySummary,
         CarbohydrateSummary,
-        GlucoseTracker
+        GlucoseTracker,
+        BolusInsulinTracker
     },
 
     methods: {
@@ -218,6 +232,31 @@ export default {
                     + ('0' + (date.getMonth()+1)).slice(-2) + '-'
                     + date.getFullYear();
                 updatedBoard.glucoseMeasurement = 0
+                updatedBoard.date = dateFormatted
+                updatedBoard.widget = this.newWidget
+
+                updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+
+                const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
+				{
+					method: 'PATCH',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify({ boards: updatedBoards }),
+				})
+
+                res.status === 200
+                    ? location.reload()
+                    : alert ('Error adding widget. Please try again')
+            }
+
+            else if(this.newWidget === "BolusInsulinTracker") {
+                const date = new Date();
+                const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
+                    + ('0' + (date.getMonth()+1)).slice(-2) + '-'
+                    + date.getFullYear();
+                updatedBoard.bolusInsulin = 0
                 updatedBoard.date = dateFormatted
                 updatedBoard.widget = this.newWidget
 
@@ -371,7 +410,7 @@ export default {
 				: alert ('Error updating exercise time. Please try again.')
         },
 
-        async updateGlucoseMeasurement(glucoseMeasurement) {
+        async updateGlucoseMeasurement(glucoseInput) {
 
             const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
@@ -379,7 +418,7 @@ export default {
 		    const tabID = tab._id
             const updatedBoards = tab.boards
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
-            updatedBoard.glucoseMeasurement = glucoseMeasurement
+            updatedBoard.glucoseMeasurement = glucoseInput
             const date = new Date();
             const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
                 + ('0' + (date.getMonth()+1)).slice(-2) + '-'
@@ -399,6 +438,36 @@ export default {
             res.status === 200
 				? location.reload()
 				: alert ('Error updating glucose level. Please try again.')
+        },
+
+        async updateBolusInsulin(bolusInput) {
+
+            const result = await fetch('http://localhost:8080/api/patientData/tabs')
+            const data = await result.json()
+            const tab = data.find(tab => tab.tabName === this.parentTab)
+		    const tabID = tab._id
+            const updatedBoards = tab.boards
+            const updatedBoard = updatedBoards.find(board => board.id === this.id)
+            updatedBoard.bolusInsulin = bolusInput
+            const date = new Date();
+            const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
+                + ('0' + (date.getMonth()+1)).slice(-2) + '-'
+                + date.getFullYear();
+            updatedBoard.date = dateFormatted
+
+            updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
+            
+			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
+				{
+					method: 'PATCH',
+					headers: {
+					'Content-type': 'application/json',
+					},
+					body: JSON.stringify({ boards: updatedBoards}),
+				})
+            res.status === 200
+				? location.reload()
+				: alert ('Error updating bolus insulin. Please try again.')
         }
     },
 

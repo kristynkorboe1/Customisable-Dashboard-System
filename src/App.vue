@@ -3,7 +3,7 @@
 		<Sidebar />
 		<div v-if="error!==''">{{ error }}</div>
 		<div v-if="error===''">
-			<TabsTest 
+			<Tabs 
 				:tabs="tabs"
 				:activeTab="activeTab"
 				:insulinData="insulinData"
@@ -19,13 +19,13 @@
 
 <script>
 import Sidebar from './components/Sidebar.vue'
-import TabsTest from './components/TabsTest.vue'
+import Tabs from './components/Tabs.vue'
 
 export default {
 	name: 'App',
 	components: {
 		Sidebar,
-		TabsTest
+		Tabs
 	},
 	data() {
 		return {

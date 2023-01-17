@@ -1,82 +1,59 @@
 <template>
 	<main>
-		<h4>Daily Physical Activity Tracker</h4>
+		<h4>Bolus Insulin Tracker</h4>
 
-		<div 
-			v-if="dailyExercise<60"
-			class="currentRed">
-			<span>{{ dailyExercise }}</span>
-			<small>
-				Exercise time (min)
-			</small>
-            <small>{{ date }}</small>
-			<small>
-				Remember to aim for at least 60 min of exercise daily.
-			</small>
-		</div>
-
-		<div 
-			v-if="dailyExercise>60"
+		<div
 			class="current">
-			<span>{{ dailyExercise }}</span>
+			<span>{{ bolusInsulin }}</span>
 			<small>
-				Exercise time (min)
+				Bolus Insulin (U).
+			</small>
+			<small>
 				{{ date }}
 			</small>
 		</div>
 
 		<form 
-			@submit.prevent="addExercise(exerciseInput)">
+			@submit.prevent="addBolusInsulin(bolusInput)">
 			<input 
 				type="number"
-				step="0.5"
-				v-model="exerciseInput" />
+				step="0.1"
+				v-model="bolusInput" />
 
 			<input	
 				type="submit"
-				value="Enter exercise time (min)" />
+				value="Enter bolus insulin (U)" />
 		</form>
-
 	</main>
 </template>
 
 <script>
 import PatientDataService from '../PatientDataService';
 	export default {
-		name: 'ExerciseTracker',
+		name: 'BolusInsulinTracker',
 
 		props: {
-			dailyExercise: 0,
+			bolusInsulin: 0,
 			date: ""
 		},
 
 		data() {
 			return {
-				exerciseInputD: this.dailyExercise
+				bolusInputD: this.bolusInsulin
 			}
 		},
 
 		methods: {
-			async addExercise(exerciseInput) {
-				this.exerciseInputD = exerciseInput
-				const exerciseData = await PatientDataService.getPhysicalActivityData();
-				const [year, month, day] = exerciseData[exerciseData.length - 1].time.slice(0,10).split('-');
-                const dateFormatted  = [day, month, year].join('-');
+			async addBolusInsulin(bolusInput) {
+				this.bolusInputD = bolusInput
 
-				if(dateFormatted !== this.date) {
-					PatientDataService.addPhysicalActivityData(exerciseInput)
-				}
+				PatientDataService.addBolusInsulinData(this.bolusInputD);
 
-				else {
-					PatientDataService.setPhysicalActivityDataToday(exerciseInput)
-				}
-
-
-				this.$emit ('update-daily-exercise', this.exerciseInputD)
+				this.$emit ('update-bolus-insulin', this.bolusInputD)
 			}
 		},
 
-		emits: ['update-daily-exercise']
+		emits: ['update-bolus-insulin']
 	}
 </script>
 
@@ -98,13 +75,13 @@ h4 {
 	text-align: center;
 	margin-bottom: 2rem;
 }
-.current, .currentRed {
+.current {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 220px;
-	height: 220px;
+	width: 200px;
+	height: 200px;
 	
 	text-align: center;
 	background-color: white;
@@ -114,21 +91,17 @@ h4 {
 	margin: 0 auto 2rem;
 }
 
-.currentRed {
-	border: 5px solid #9e0606;
-}
-
 .current {
 	border: 5px solid #4ad2de;
 }
 
-.current span, .currentRed span {
+.current span{
 	display: block;
 	font-size: 2em;
 	font-weight: bold;
 	margin-bottom: 0.5rem;
 }
-.current small, .currentRed small {
+.current small{
 	color: #888;
 	font-style: italic;
 }

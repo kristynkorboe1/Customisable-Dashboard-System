@@ -45,6 +45,7 @@
                 :dailyCarbIntake="board.dailyCarbIntake"
                 :dailyExercise="board.dailyExercise"
                 :glucoseMeasurement="board.glucoseMeasurement"
+                :bolusInsulin="board.bolusInsulin"
                 :date="board.date"
                 :insulinData="InsulinData"
                 :showDay="showDay"

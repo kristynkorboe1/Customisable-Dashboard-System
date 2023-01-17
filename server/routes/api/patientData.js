@@ -104,15 +104,9 @@ router.post('/basalInsulin', async (req,res) => {
     try {
         const basalInsulinData = await loadBasalInsulinDataCollection();
         const currentDate = new Date(); 
-        const dateTime = 
-            currentDate.getDate() + "/"
-            + (currentDate.getMonth()+1)  + "/" 
-            + currentDate.getFullYear() + " "  
-            + currentDate.getHours() + ":"  
-            + currentDate.getMinutes() + ":"
 
         await basalInsulinData.insertOne({
-            time: dateTime,
+            time: currentDate,
             basalInsulin: req.body.basalInsulin
         });
         res.status(201).send()
@@ -127,15 +121,9 @@ router.post('/bolusInsulin', async (req,res) => {
     try {
         const bolusInsulinData = await loadBolusInsulinDataCollection();
         const currentDate = new Date(); 
-        const dateTime = 
-            currentDate.getDate() + "/"
-            + (currentDate.getMonth()+1)  + "/" 
-            + currentDate.getFullYear() + " "  
-            + currentDate.getHours() + ":"  
-            + currentDate.getMinutes() + ":"
 
         await bolusInsulinData.insertOne({
-            time: dateTime,
+            time: currentDate,
             bolusInsulin: req.body.bolusInsulin
         });
         res.status(201).send()

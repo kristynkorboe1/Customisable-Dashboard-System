@@ -146,13 +146,13 @@ class patientDataService {
 
     static addBasalInsulinData(value) {
         return axios.post('http://localhost:8080/api/patientData/basalInsulin', {
-            value
+            basalInsulin: value
         })
     }
 
     static addBolusInsulinData(value) {
         return axios.post('http://localhost:8080/api/patientData/bolusInsulin', {
-            value
+            bolusInsulin: value
         })
     }
 
