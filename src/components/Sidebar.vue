@@ -114,7 +114,7 @@
 
                 <Widget
                     v-if="filter === 'Insulin' || filter === 'All'"
-                    :id=8
+                    :id=9
                     :draggable="true"
                     :name="BolusInsulinTracker">
                     <span class="material-symbols-outlined">
