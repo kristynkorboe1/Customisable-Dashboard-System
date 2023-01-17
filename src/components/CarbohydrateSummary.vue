@@ -143,7 +143,6 @@ import PatientDataService from '../PatientDataService';
                 const carbohydrateWeek = await PatientDataService.getCarbohydrateDataWeek();
                 this.chartDataWeek.labels = carbohydrateWeek.map(item => item.time.slice(0,10));
                 this.chartDataWeek.datasets[0].data = carbohydrateWeek.map(item => item.carbohydrateGrams);
-                console.log(this.chartDataWeek.datasets[0])
                 
                 const carbohydrate = await PatientDataService.getCarbohydrateData();
                 this.chartData.labels = carbohydrate.map(item => item.time.slice(0,10));

@@ -1,7 +1,8 @@
 <template>
 	<div class="app">
 		<Sidebar />
-		<div>
+		<div v-if="error!==''">{{ error }}</div>
+		<div v-if="error===''">
 			<TabsTest 
 				:tabs="tabs"
 				:activeTab="activeTab"
@@ -29,7 +30,8 @@ export default {
 	data() {
 		return {
 			tabs: [],
-			activeTab: {}
+			activeTab: {},
+			error: ''
 		}
 	},
 	methods: {
@@ -183,12 +185,17 @@ export default {
 	},
 
 	async created() {	
-		this.tabs = await this.fetchTabs()
-		this.activeTab = this.tabs.find((tab) => tab.selected === true)
+		try {
+			this.tabs = await this.fetchTabs()
+			this.activeTab = this.tabs.find((tab) => tab.selected === true)
 
-		if(this.activeTab === undefined) {
-			this.activeTab = this.tabs[0]
-			this.selectTab(this.tabs[0])
+			if(this.activeTab === undefined) {
+				this.activeTab = this.tabs[0]
+				this.selectTab(this.tabs[0])
+		}
+		}
+		catch(err){
+			this.error = "Unable to fetch tabs. Please try again"
 		}
 	},
 }

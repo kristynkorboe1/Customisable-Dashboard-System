@@ -11,18 +11,18 @@
 
         <h2>Widgets</h2>
 
-        <select 
-            v-model="filter">
-            <option filter="All" disabled selected>Filter by widget type</option>
-            <option 
-                v-for="(widgetType, index) in widgetTypes" 
-                :key="index"
-                filter="widgetType">
-                {{widgetType}}
-            </option>
-        </select>
-
         <div class="menu">
+
+                <select 
+                    v-model="filter">
+                    <option filter="All" disabled selected>Filter by widget type</option>
+                    <option 
+                        v-for="(widgetType, index) in widgetTypes" 
+                        :key="index"
+                        filter="widgetType">
+                        {{widgetType}}
+                    </option>
+                </select>
 
                 <Widget
                     v-if="filter === 'Insulin' || filter === 'All'"
@@ -233,6 +233,7 @@ aside {
         background-color: var(--light);
         border-radius: 4px;
         padding: 2px;
+        margin-top: 1.5rem;
     }
 
     .barChart {
