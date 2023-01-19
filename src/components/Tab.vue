@@ -47,7 +47,6 @@
                 :glucoseMeasurement="board.glucoseMeasurement"
                 :bolusInsulin="board.bolusInsulin"
                 :date="board.date"
-                :insulinData="InsulinData"
                 :showDay="showDay"
                 :style="{ height: `${board.height}px`, width: `${board.width}px`}"
                 @delete-board="deleteBoard(board.id)"
@@ -66,9 +65,7 @@ export default {
     props: {
         tabName: '',
         boards: [],
-        widgets: [],
         notes: '',
-        insulinData:[],
         showDay: null
     },
 

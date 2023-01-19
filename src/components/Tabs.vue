@@ -42,7 +42,18 @@
 				</button>
 		</div>
 
-		<tab
+		<keep-alive>
+			<component :is="activeComponent"
+				:tabName="activeTab.tabName"
+				:notes="activeTab.notes"
+				:boards="activeTab.boards"
+				:insulinData="InsulinData"
+				:showDay="activeTab.showDay"
+				@add-board-click="$emit('add-board', activeTab.tabName)"
+				@reload-tab="$emit('reload-tabs')"/>
+		</keep-alive>
+
+		<!-- <tab
 			v-for="(tab, index) in [activeTab]" 
 			:key="index"
 			:tabName="tab.tabName"
@@ -52,7 +63,7 @@
 			:showDay="tab.showDay"
 			@add-board-click="$emit('add-board', tab.tabName)"
 			@reload-tab="$emit('reload-tabs')">
-		</tab>
+		</tab> -->
 	</div>
 </template>
 
@@ -69,11 +80,21 @@ export default {
 	components: {
 		Tab
 	},
+	data() {
+		return{
+			activeComponent: 'Tab'
+		}
+	},
 	emits: ['select-tab', 
 			'delete-tab', 
 			'add-tab', 
 			'add-board',
 			'reload-tabs'],
+
+	async created() {
+		await this.activeTab
+		console.log(this.activeTab)
+	}
 }	
 </script>
 

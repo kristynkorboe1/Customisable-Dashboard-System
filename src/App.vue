@@ -4,9 +4,9 @@
 		<div v-if="error!==''">{{ error }}</div>
 		<div v-if="error===''">
 			<Tabs 
+				v-if="dataLoaded"
 				:tabs="tabs"
 				:activeTab="activeTab"
-				:insulinData="insulinData"
 				@select-tab="selectTab"
 				@delete-tab="deleteTab"
 				@add-tab="addTab"
@@ -31,7 +31,8 @@ export default {
 		return {
 			tabs: [],
 			activeTab: {},
-			error: ''
+			error: '',
+			dataLoaded: false
 		}
 	},
 	methods: {
@@ -192,7 +193,8 @@ export default {
 			if(this.activeTab === undefined) {
 				this.activeTab = this.tabs[0]
 				this.selectTab(this.tabs[0])
-		}
+			}
+			this.dataLoaded=true
 		}
 		catch(err){
 			this.error = "Unable to fetch tabs. Please try again"
