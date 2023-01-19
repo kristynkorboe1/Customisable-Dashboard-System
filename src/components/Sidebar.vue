@@ -164,11 +164,17 @@ const ToggleMenu = () => {
         BolusInsulinTracker
     },
     props: {
-        value: {
-            type: String,
-            required: true,
-            default: ""
-        }
+        widgets: [
+            BasalInsulinChart, 
+            BolusInsulinChart, 
+            CarbohydrateTracker, 
+            GlucoseChart, 
+            ExerciseTracker,
+            PhysicalActivitySummary,
+            CarbohydrateSummary,
+            GlucoseTracker,
+            BolusInsulinTracker
+        ]
     },
     data() {
         return {

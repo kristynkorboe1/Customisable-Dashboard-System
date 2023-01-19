@@ -66,7 +66,7 @@ export default {
         tabName: '',
         boards: [],
         notes: '',
-        showDay: null
+        showDay: false
     },
 
     data() {

@@ -28,7 +28,6 @@
             :name="BasalInsulinChart"
             :draggable="false">
             <BasalInsulinChart 
-                :insulinData="insulinData"
                 :showDay="showDay"/>
         </Widget>
 
@@ -133,22 +132,14 @@ export default {
         id: 0,
         width: 1120,
         height: 470,
-        showWeek: false,
         showDay: false,
-        insulinData: [],
         dailyCarbIntake: 0,
         dailyExercise: 0,
         glucoseMeasurement: 0,
         bolusInsulin: 0,
         date: new Date()
     },
-
-    data() {
-		return {
-			newWidget: ""
-		}
-	},
-
+    
     components: {
         Widget,
         BasalInsulinChart, 
@@ -166,11 +157,10 @@ export default {
     methods: {
         drop(e) {
             const widget_name = e.dataTransfer.getData('widget_name');
-            this.newWidget = widget_name
-            this.setWidget()
+            this.setWidget(widget_name)
         },
 
-        async setWidget(){
+        async setWidget(widget){
             const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.parentTab)
@@ -178,13 +168,13 @@ export default {
             const updatedBoards = tab.boards
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
 
-            if(this.newWidget === "CarbohydrateTracker") {
+            if(widget === "CarbohydrateTracker") {
                 const carbohydrateData = await PatientDataService.getCarbohydrateData()
                 const [year, month, day] = carbohydrateData[carbohydrateData.length - 1].time.slice(0,10).split('-');
                 const dateFormatted  = [day, month, year].join('-');
                 updatedBoard.dailyCarbIntake = carbohydrateData[carbohydrateData.length - 1].carbohydrateGrams
                 updatedBoard.date = dateFormatted
-                updatedBoard.widget = this.newWidget
+                updatedBoard.widget = widget
 
                 updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
 
@@ -202,13 +192,13 @@ export default {
                     : alert ('Error adding widget. Please try again')
             }
 
-            else if(this.newWidget === "ExerciseTracker") {
+            else if(widget === "ExerciseTracker") {
                 const exerciseData = await PatientDataService.getPhysicalActivityData()
                 const [year, month, day] = exerciseData[exerciseData.length - 1].time.slice(0,10).split('-');
                 const dateFormatted  = [day, month, year].join('-');
                 updatedBoard.dailyExercise = exerciseData[exerciseData.length - 1].physicalActivityMin
                 updatedBoard.date = dateFormatted
-                updatedBoard.widget = this.newWidget
+                updatedBoard.widget = widget
 
                 updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
 
@@ -226,14 +216,14 @@ export default {
                     : alert ('Error adding widget. Please try again')
             }
 
-            else if(this.newWidget === "GlucoseTracker") {
+            else if(widget === "GlucoseTracker") {
                 const date = new Date();
                 const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
                     + ('0' + (date.getMonth()+1)).slice(-2) + '-'
                     + date.getFullYear();
                 updatedBoard.glucoseMeasurement = 0
                 updatedBoard.date = dateFormatted
-                updatedBoard.widget = this.newWidget
+                updatedBoard.widget = widget
 
                 updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
 
@@ -251,14 +241,14 @@ export default {
                     : alert ('Error adding widget. Please try again')
             }
 
-            else if(this.newWidget === "BolusInsulinTracker") {
+            else if(widget === "BolusInsulinTracker") {
                 const date = new Date();
                 const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
                     + ('0' + (date.getMonth()+1)).slice(-2) + '-'
                     + date.getFullYear();
                 updatedBoard.bolusInsulin = 0
                 updatedBoard.date = dateFormatted
-                updatedBoard.widget = this.newWidget
+                updatedBoard.widget = widget
 
                 updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
 
@@ -277,7 +267,7 @@ export default {
             }
 
             else {
-                updatedBoard.widget = this.newWidget
+                updatedBoard.widget = widget
 
                 updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
 

@@ -1,8 +1,8 @@
 <template>
     <div
+        class="widget"
         :id="id"
         :name="name"
-        class="widget"
         :draggable="draggable"
         @dragstart="dragStart"
         @dragover.stop>

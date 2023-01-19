@@ -42,28 +42,14 @@
 				</button>
 		</div>
 
-		<!-- <keep-alive> -->
+		<keep-alive>
 			<component :is="activeComponent"
 				:tabName="activeTab.tabName"
 				:notes="activeTab.notes"
 				:boards="activeTab.boards"
-				:insulinData="InsulinData"
 				:showDay="activeTab.showDay"
-				@add-board-click="$emit('add-board', activeTab.tabName)"
-				@reload-tab="$emit('reload-tabs')"/>
-		<!-- </keep-alive> -->
-
-		<!-- <tab
-			v-for="(tab, index) in [activeTab]" 
-			:key="index"
-			:tabName="tab.tabName"
-			:notes="tab.notes"
-			:boards="tab.boards"
-			:insulinData="InsulinData"
-			:showDay="tab.showDay"
-			@add-board-click="$emit('add-board', tab.tabName)"
-			@reload-tab="$emit('reload-tabs')">
-		</tab> -->
+				@add-board-click="$emit('add-board', activeTab.tabName)"/>
+		</keep-alive>
 	</div>
 </template>
 
@@ -73,9 +59,7 @@ export default {
 	name: 'Tabs',
 	props: {
 		tabs: [],
-		activeTab: {},
-		widgets: [],
-		insulinData: []
+		activeTab: {}
 	},
 	components: {
 		Tab
@@ -88,8 +72,7 @@ export default {
 	emits: ['select-tab', 
 			'delete-tab', 
 			'add-tab', 
-			'add-board',
-			'reload-tabs'],
+			'add-board']
 }	
 </script>
 
@@ -102,7 +85,6 @@ export default {
 		.addForm {
 			position: absolute;
 			right: 0;
-			// margin-left: 80%;
 		}
 		.newTab{
 			background-color: var(--light);

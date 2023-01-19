@@ -23,7 +23,6 @@ export default {
   },
 
   props: {
-    insulinData: [],
     showDay: false
   },
   
@@ -37,7 +36,7 @@ export default {
             align: 'left',
           },
           chart: {
-            id: 'bolus-insulin'
+            id: 'glucose'
           },
           colors: ['#4ad2de'],
           markers: {

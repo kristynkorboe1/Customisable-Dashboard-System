@@ -23,7 +23,6 @@ export default {
   },
 
   props: {
-    insulinData: [],
     showDay: false
   },
   
