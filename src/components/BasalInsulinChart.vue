@@ -73,7 +73,12 @@ export default {
     try {
       const basalInsulinData = await PatientDataService.getBasalInsulinData();
       const basalInsulinDataDay = await PatientDataService.getBasalInsulinDataDay();
-      this.options.xaxis.categories = basalInsulinData.map(item => item.time.slice(0,19));
+      if(this.showDay) {
+        this.options.xaxis.categories = basalInsulinDataDay.map(item => item.time.slice(0,19));
+      }
+      else {
+        this.options.xaxis.categories = basalInsulinData.map(item => item.time.slice(0,19));
+      }
       this.series[0].data = basalInsulinData.map(item => item.basalInsulin);
       this.seriesDay[0].data = basalInsulinDataDay.map(item => item.basalInsulin);
 

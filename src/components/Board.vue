@@ -373,7 +373,7 @@ export default {
 					body: JSON.stringify({ boards: updatedBoards}),
 				})
 
-            if(confirm('If you don\'t have a continuous infusion running, remember to take your rapid-acting insulin 15 minutes before you eat. Dose: ' + dose + '. Click okay to update your daily total.')){
+            if(confirm('If you don\'t have a continuous infusion running, remember to take your rapid-acting insulin 15 minutes before you eat. Dose: ' + dose + 'U. Click okay to update your daily total.')){
                 res.status === 200
 				? location.reload()
 				: alert ('Error updating carbohydrate intake. Please try again.')

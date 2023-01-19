@@ -261,7 +261,7 @@ router.get('/basalInsulin/pastDay', async (req, res) => {
                 .find({time: {$gte: startDate}}).sort({"time": 1}).toArray());
     }
     catch(err) {
-        res.status(500).json({ error: 'Could not retrive basal insulin data for the past week'})
+        res.status(500).json({ error: 'Could not retrive basal insulin data for the past day'})
     }
 });
 
@@ -275,7 +275,7 @@ router.get('/bolusInsulin/pastDay', async (req, res) => {
                 .find({time: {$gte: startDate}}).sort({"time": 1}).toArray());
     }
     catch(err) {
-        res.status(500).json({ error: 'Could not retrive bolus insulin data for the past week'})
+        res.status(500).json({ error: 'Could not retrive bolus insulin data for the past day'})
     }
 });
 

@@ -42,7 +42,7 @@
 				</button>
 		</div>
 
-		<keep-alive>
+		<!-- <keep-alive> -->
 			<component :is="activeComponent"
 				:tabName="activeTab.tabName"
 				:notes="activeTab.notes"
@@ -51,7 +51,7 @@
 				:showDay="activeTab.showDay"
 				@add-board-click="$emit('add-board', activeTab.tabName)"
 				@reload-tab="$emit('reload-tabs')"/>
-		</keep-alive>
+		<!-- </keep-alive> -->
 
 		<!-- <tab
 			v-for="(tab, index) in [activeTab]" 
@@ -90,11 +90,6 @@ export default {
 			'add-tab', 
 			'add-board',
 			'reload-tabs'],
-
-	async created() {
-		await this.activeTab
-		console.log(this.activeTab)
-	}
 }	
 </script>
 

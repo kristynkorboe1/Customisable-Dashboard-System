@@ -73,7 +73,12 @@ export default {
     try {
       const glucoseData = await PatientDataService.getGlucoseData();
       const glucoseDataDay = await PatientDataService.getGlucoseDataDay();
-      this.options.xaxis.categories = glucoseData.map(item => item.time.slice(0,19));
+      if(this.showDay) {
+        this.options.xaxis.categories = glucoseDataDay.map(item => item.time.slice(0,19));
+      }
+      else {
+        this.options.xaxis.categories = glucoseData.map(item => item.time.slice(0,19));
+      }
       this.series[0].data = glucoseData.map(item => item.glucoseMeasurement);
       this.seriesDay[0].data = glucoseDataDay.map(item => item.glucoseMeasurement);
 
