@@ -124,6 +124,7 @@ import PhysicalActivitySummary from '../components/PhysicalActivitySummary.vue'
 import CarbohydrateSummary from '../components/CarbohydrateSummary.vue'
 import GlucoseTracker from '../components/GlucoseTracker.vue'
 import BolusInsulinTracker from '../components/BolusInsulinTracker.vue'
+import PatientDataService from '../PatientDataService'
 
 export default {
     props: {
@@ -158,7 +159,8 @@ export default {
         PhysicalActivitySummary,
         CarbohydrateSummary,
         GlucoseTracker,
-        BolusInsulinTracker
+        BolusInsulinTracker,
+        PatientDataService 
     },
 
     methods: {
@@ -177,11 +179,10 @@ export default {
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
 
             if(this.newWidget === "CarbohydrateTracker") {
-                const date = new Date();
-                const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
-                    + ('0' + (date.getMonth()+1)).slice(-2) + '-'
-                    + date.getFullYear();
-                updatedBoard.dailyCarbIntake = 0
+                const carbohydrateData = await PatientDataService.getCarbohydrateData()
+                const [year, month, day] = carbohydrateData[carbohydrateData.length - 1].time.slice(0,10).split('-');
+                const dateFormatted  = [day, month, year].join('-');
+                updatedBoard.dailyCarbIntake = carbohydrateData[carbohydrateData.length - 1].carbohydrateGrams
                 updatedBoard.date = dateFormatted
                 updatedBoard.widget = this.newWidget
 
@@ -202,11 +203,10 @@ export default {
             }
 
             else if(this.newWidget === "ExerciseTracker") {
-                const date = new Date();
-                const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
-                    + ('0' + (date.getMonth()+1)).slice(-2) + '-'
-                    + date.getFullYear();
-                updatedBoard.dailyExercise = 0
+                const exerciseData = await PatientDataService.getPhysicalActivityData()
+                const [year, month, day] = exerciseData[exerciseData.length - 1].time.slice(0,10).split('-');
+                const dateFormatted  = [day, month, year].join('-');
+                updatedBoard.dailyExercise = exerciseData[exerciseData.length - 1].physicalActivityMin
                 updatedBoard.date = dateFormatted
                 updatedBoard.widget = this.newWidget
 
@@ -318,31 +318,10 @@ export default {
 					body: JSON.stringify({ boards: updatedBoards}),
 				})
 
-            res.status === 200
-				? location.reload()
-				: alert ('Error saving new board size. Please try again.')
-        },
+            if(res.status !== 200) {
+                alert ('Error saving new board size. Please try again.')
+            }
 
-        async toggleShowWeek(newValue) {
-
-            const result = await fetch('http://localhost:8080/api/patientData/tabs')
-            const data = await result.json()
-            const tab = data.find(tab => tab.tabName === this.parentTab)
-		    const tabID = tab._id
-            const updatedBoards = tab.boards
-            const updatedBoard = updatedBoards.find(board => board.id === this.id)
-            updatedBoard.showWeek = newValue
-
-            updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
-            
-			const res = await fetch(`http://localhost:8080/api/patientData/tabs/${tabID}`, 
-				{
-					method: 'PATCH',
-					headers: {
-					'Content-type': 'application/json',
-					},
-					body: JSON.stringify({ boards: updatedBoards}),
-				})
         },
 
         async updateDailyCarbIntake(carbInput) {
