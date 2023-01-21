@@ -391,7 +391,7 @@ export default {
             const date = new Date();
             const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
                 + ('0' + (date.getMonth()+1)).slice(-2) + '-'
-                + date.getFullYear();
+                + date.getFullYear() + ' ' + date.getHours() +':' + date.getMinutes();
             updatedBoard.date = dateFormatted
 
             updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
@@ -421,7 +421,7 @@ export default {
             const date = new Date();
             const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
                 + ('0' + (date.getMonth()+1)).slice(-2) + '-'
-                + date.getFullYear();
+                + date.getFullYear() + ' ' + date.getHours() +':' + date.getMinutes();
             updatedBoard.date = dateFormatted
 
             updatedBoards.map((board) => board.id === this.id ? updatedBoard : board)
