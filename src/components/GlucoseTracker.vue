@@ -62,19 +62,18 @@ import PatientDataService from '../PatientDataService';
 			date: ""
 		},
 
-		data() {
-			return {
-				glucoseInputD: this.glucoseMeasurement
-			}
-		},
-
 		methods: {
 			async addGlucoseMeasurement(glucoseInput) {
-				this.glucoseInputD = glucoseInput
 
-				PatientDataService.addGlucoseData(this.glucoseInputD);
+				try{
+					PatientDataService.addGlucoseData(glucoseInput)
+				}
 
-				this.$emit ('update-glucose-measurement', this.glucoseInputD)
+				catch(err){
+					alert("Could not store new glucose data")
+				}
+
+				this.$emit ('update-glucose-measurement', glucoseInput)
 			}
 		},
 

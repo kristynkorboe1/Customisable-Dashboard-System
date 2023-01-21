@@ -84,7 +84,7 @@ export default {
       this.dataLoaded = true;
     }
     catch(err) {
-      this.error = "Unable to fetch bolus insulin data. Please try again"
+      this.error = "Unable to fetch glucose data. Please try again"
     }
   },
 }

@@ -57,32 +57,39 @@ import PatientDataService from '../PatientDataService';
 
 		data() {
 			return {
-				carbInputD: this.dailyCarbIntake,
+				carbInputPrev: this.dailyCarbIntake,
 				insulinDose: 0,
-				// showRequiredInsulin: false
 			}
 		},
 
 		methods: {
 			async addCarbIntake(carbInput) {
-				const prevIntake = this.carbInputD
-				this.carbInputD = carbInput
+				const prevIntake = this.carbInputPrev
+				this.carbInputPrev = carbInput
 				const carbohydrateData = await PatientDataService.getCarbohydrateData();
 				const [year, month, day] = carbohydrateData[carbohydrateData.length - 1].time.slice(0,10).split('-');
-                const dateFormatted  = [day, month, year].join('-');
+                const prevDate  = [day, month, year].join('-');
 
-				if(dateFormatted !== this.date) {
-					PatientDataService.addCarbohydrateData(carbInput)
+				const date = new Date();
+				const dateToday = ('0' + date.getDate()).slice(-2) + '-'
+					+ ('0' + (date.getMonth()+1)).slice(-2) + '-'
+					+ date.getFullYear();
+
+				try{
+					if(prevDate !== dateToday) {
+						PatientDataService.addCarbohydrateData(carbInput)
+					}
+
+					else{
+						PatientDataService.setCarbohydrateDataToday(carbInput + prevIntake)
+					}
 				}
 
-				else {
-					PatientDataService.setCarbohydrateDataToday(carbInput + prevIntake)
+				catch(err){
+					alert("Could not store new carbohydrate intake")
 				}
-				
-				// this.insulinDose = carbInput/10;
-				// this.showRequiredInsulin = true;
 
-				this.$emit ('update-daily-carb-intake', this.carbInputD)
+				this.$emit ('update-daily-carb-intake', carbInput)
 			}
 		},
 

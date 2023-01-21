@@ -50,29 +50,34 @@ import PatientDataService from '../PatientDataService';
 			date: ""
 		},
 
-		data() {
-			return {
-				exerciseInputD: this.dailyExercise
-			}
-		},
-
 		methods: {
 			async addExercise(exerciseInput) {
-				this.exerciseInputD = exerciseInput
 				const exerciseData = await PatientDataService.getPhysicalActivityData();
 				const [year, month, day] = exerciseData[exerciseData.length - 1].time.slice(0,10).split('-');
-                const dateFormatted  = [day, month, year].join('-');
+                const prevDate  = [day, month, year].join('-');
 
-				if(dateFormatted !== this.date) {
-					PatientDataService.addPhysicalActivityData(exerciseInput)
+				const date = new Date();
+				const dateToday = ('0' + date.getDate()).slice(-2) + '-'
+					+ ('0' + (date.getMonth()+1)).slice(-2) + '-'
+					+ date.getFullYear();
+
+				console.log(dateToday)
+
+				try {
+					if(prevDate !== dateToday) {
+						PatientDataService.addPhysicalActivityData(exerciseInput)
+					}
+
+					else {
+						PatientDataService.setPhysicalActivityDataToday(exerciseInput)
+					}
 				}
 
-				else {
-					PatientDataService.setPhysicalActivityDataToday(exerciseInput)
+				catch(err){
+					alert("Could not store new exercise data")
 				}
 
-
-				this.$emit ('update-daily-exercise', this.exerciseInputD)
+				this.$emit ('update-daily-exercise', exerciseInput)
 			}
 		},
 

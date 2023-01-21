@@ -37,19 +37,18 @@ import PatientDataService from '../PatientDataService';
 			date: ""
 		},
 
-		data() {
-			return {
-				bolusInputD: this.bolusInsulin
-			}
-		},
-
 		methods: {
 			async addBolusInsulin(bolusInput) {
-				this.bolusInputD = bolusInput
+				
+				try{
+					PatientDataService.addBolusInsulinData(bolusInput)
+				}
 
-				PatientDataService.addBolusInsulinData(this.bolusInputD);
+				catch(err){
+					alert("Could not store new exercise data")
+				}
 
-				this.$emit ('update-bolus-insulin', this.bolusInputD)
+				this.$emit ('update-bolus-insulin', bolusInput)
 			}
 		},
 
