@@ -3,6 +3,11 @@ const mongodb = require('mongodb');
 
 const router = express.Router();
 
+function addHour(date) {
+    date.setTime(date.getTime() + 60 * 60 * 1000);
+    return date;
+  }
+
 async function loadBasalInsulinDataCollection() {
     const client = await mongodb.MongoClient.connect('mongodb+srv://dbuser:y2J4VJdzSu53eJUV@cluster0.luieljo.mongodb.net/test', {
         useNewUrlParser: true
@@ -103,7 +108,7 @@ router.get('/glucose', async (req, res) => {
 router.post('/basalInsulin', async (req,res) => {
     try {
         const basalInsulinData = await loadBasalInsulinDataCollection();
-        const currentDate = new Date(); 
+        const currentDate = addHour(new Date()); 
 
         await basalInsulinData.insertOne({
             time: currentDate,
@@ -120,7 +125,8 @@ router.post('/basalInsulin', async (req,res) => {
 router.post('/bolusInsulin', async (req,res) => {
     try {
         const bolusInsulinData = await loadBolusInsulinDataCollection();
-        const currentDate = new Date(); 
+
+        const currentDate = addHour(new Date()); 
 
         await bolusInsulinData.insertOne({
             time: currentDate,
@@ -137,7 +143,7 @@ router.post('/bolusInsulin', async (req,res) => {
 router.post('/physicalActivity', async (req,res) => {
     try {
         const physicalActivityData = await loadPhysicalActivityDataCollection();
-        const currentDate = new Date(); 
+        const currentDate = addHour(new Date()); 
 
         await physicalActivityData.insertOne({
             time: currentDate,
@@ -154,7 +160,7 @@ router.post('/physicalActivity', async (req,res) => {
 router.post('/carbohydrate', async (req,res) => {
     try {
         const carbohydrateData = await loadCarbohydrateDataCollection();
-        const currentDate = new Date(); 
+        const currentDate = addHour(new Date()); 
 
         await carbohydrateData.insertOne({
             time: currentDate,

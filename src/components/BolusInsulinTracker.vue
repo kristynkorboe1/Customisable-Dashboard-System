@@ -45,7 +45,7 @@ import PatientDataService from '../PatientDataService';
 				}
 
 				catch(err){
-					alert("Could not store new exercise data")
+					alert("Could not store new insulin data")
 				}
 
 				this.$emit ('update-bolus-insulin', bolusInput)

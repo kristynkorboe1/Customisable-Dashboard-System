@@ -322,8 +322,7 @@ export default {
 		    const tabID = tab._id
             const updatedBoards = tab.boards
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
-            const prevIntake = updatedBoard.dailyCarbIntake
-            updatedBoard.dailyCarbIntake = prevIntake + carbInput
+            updatedBoard.dailyCarbIntake = carbInput
             
             const date = new Date();
             const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'

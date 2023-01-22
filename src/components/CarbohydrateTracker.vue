@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<h4>Daily Carbohydrate Intake Tracker</h4>
+		<h4>Carbohydrate Intake Tracker</h4>
 
 		<div 
 			v-if="dailyCarbIntake>145"
@@ -8,6 +8,8 @@
 			<span>{{ dailyCarbIntake }}</span>
 			<small>
 				Total carbohydrate intake (g).
+			</small>
+			<small>
 				{{ date }}
 			</small>
 			<small>
@@ -21,6 +23,8 @@
 			<span>{{ dailyCarbIntake }}</span>
 			<small>
 				Total carbohydrate intake (g)
+			</small>
+			<small>
 				{{ date }}
 			</small>
 		</div>
@@ -77,19 +81,20 @@ import PatientDataService from '../PatientDataService';
 
 				try{
 					if(prevDate !== dateToday) {
+						console.log(prevDate, dateToday)
 						PatientDataService.addCarbohydrateData(carbInput)
+						this.$emit ('update-daily-carb-intake', carbInput)
 					}
 
 					else{
 						PatientDataService.setCarbohydrateDataToday(carbInput + prevIntake)
+						this.$emit ('update-daily-carb-intake', carbInput + prevIntake)
 					}
 				}
 
 				catch(err){
 					alert("Could not store new carbohydrate intake")
 				}
-
-				this.$emit ('update-daily-carb-intake', carbInput)
 			}
 		},
 
