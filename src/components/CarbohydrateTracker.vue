@@ -87,8 +87,8 @@ import PatientDataService from '../PatientDataService';
 					}
 
 					else{
-						PatientDataService.setCarbohydrateDataToday(carbInput + prevIntake)
-						this.$emit ('update-daily-carb-intake', carbInput + prevIntake)
+						PatientDataService.setCarbohydrateDataToday(carbInput + carbohydrateData[carbohydrateData.length - 1].carbohydrateGrams)
+						this.$emit ('update-daily-carb-intake', carbInput + carbohydrateData[carbohydrateData.length - 1].carbohydrateGrams)
 					}
 				}
 

@@ -170,9 +170,9 @@ export default {
 
             if(widget === "CarbohydrateTracker") {
                 const carbohydrateData = await PatientDataService.getCarbohydrateData()
-                const [year, month, day] = carbohydrateData[carbohydrateData.length - 1].time.slice(0,10).split('-');
+                const [year, month, day] = prevEntry.time.slice(0,10).split('-');
                 const dateFormatted  = [day, month, year].join('-');
-                updatedBoard.dailyCarbIntake = carbohydrateData[carbohydrateData.length - 1].carbohydrateGrams
+                updatedBoard.dailyCarbIntake = prevEntry.carbohydrateGrams
                 updatedBoard.date = dateFormatted
                 updatedBoard.widget = widget
 
@@ -315,14 +315,17 @@ export default {
         },
 
         async updateDailyCarbIntake(carbInput) {
-            const dose = carbInput/10
             const result = await fetch('http://localhost:8080/api/patientData/tabs')
             const data = await result.json()
             const tab = data.find(tab => tab.tabName === this.parentTab)
 		    const tabID = tab._id
             const updatedBoards = tab.boards
             const updatedBoard = updatedBoards.find(board => board.id === this.id)
+            const carbohydrateData = await PatientDataService.getCarbohydrateData();
+            const prevEntry = carbohydrateData[carbohydrateData.length - 1]
+            const prevIntake = prevEntry.carbohydrateGrams
             updatedBoard.dailyCarbIntake = carbInput
+            const dose = (carbInput-prevIntake)/10
             
             const date = new Date();
             const dateFormatted = ('0' + date.getDate()).slice(-2) + '-'
