@@ -12,6 +12,7 @@
     "startNodemon": "nodemon server/index.js"
   },
   "dependencies": {
+    "@playwright/test": "^1.30.0",
     "@types/chart.js": "^2.9.37",
     "apexcharts": "^3.36.3",
     "axios": "^1.2.2",

@@ -73,7 +73,7 @@ export default {
 
 		async deleteTab(dTab) {
 
-			await this.selectTab(this.tabs[0])
+			// await this.selectTab(this.tabs[0])
 
 			if(dTab===undefined){
 				alert("Please select a tab to delete");
@@ -96,6 +96,7 @@ export default {
 				this.activeTab.selected=false
 				this.activeTab=this.tabs[0]
 				this.activeTab.selected=true
+
 			}
 		},
 
@@ -112,7 +113,7 @@ export default {
 				alert("Tab name cannot be empty");
 			}
 
-			if (this.tabs.find(tab => tab.tabName === tName)) {
+			else if (this.tabs.find(tab => tab.tabName === tName)) {
 				alert("Tab name needs to be unique");
 			}
 
@@ -130,10 +131,10 @@ export default {
 				res.status === 201
 					? this.tabs = await this.fetchTabs()
 					: alert ('Error adding tab. Please try again')
+
+				await this.selectTab(this.tabs[this.tabs.length -1])
 			}
 
-
-			await this.selectTab(this.tabs[this.tabs.length -1])
 		},
 
 		async addBoard(tName) {

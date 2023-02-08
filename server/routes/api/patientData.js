@@ -360,7 +360,7 @@ router.delete('/tabs/:id', async (req, res) => {
         res.status(204).send();
     }
     catch(err){
-        res.send({message: err})
+        res.status(500).send({message: err})
     }
 });
 
