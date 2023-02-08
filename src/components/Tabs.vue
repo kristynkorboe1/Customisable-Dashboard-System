@@ -12,9 +12,11 @@
 			</div>
 			
 			<select
+				id="tabsSelect"
 				v-model="dTab">
 				<option value="" disabled selected>Select tab to delete</option>
 				<option 
+					id="tabsList"
 					v-for="(tab, index) in tabs"
 					:key="index">
 					{{ tab.tabName }}
@@ -32,10 +34,16 @@
 			<h2>Add new tabs</h2>
 				<form>
 					<label>Tab name: </label>
-					<input type="text" required v-model="tabName">
+					<input 
+						id="tabName"
+						type="text" 
+						required v-model="tabName">
 				</form>
 
-				<button class="newTab" @click="$emit('add-tab', tabName)">
+				<button 
+					id="newTab"
+					class="newTab" 
+					@click="$emit('add-tab', tabName)">
 					<span class="material-symbols-outlined">
 						add_box
 					</span>

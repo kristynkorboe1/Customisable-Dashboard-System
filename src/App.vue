@@ -1,9 +1,11 @@
 <template>
 	<div class="app">
 		<Sidebar />
-		<div v-if="error!==''">{{ error }}</div>
+		<div 
+			id="tabsError"
+			v-if="error!==''">{{ error }}</div>
 		<div v-if="error===''">
-			<Tabs 
+			<Tabs
 				v-if="dataLoaded"
 				:tabs="tabs"
 				:activeTab="activeTab"
